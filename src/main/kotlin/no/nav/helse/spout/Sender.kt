@@ -12,12 +12,11 @@ internal abstract class Sender(
 
     protected abstract fun send(fødselsnummer: String, melding: String): RecordMetadata
 
-    internal fun send(key: String, melding: ObjectNode): Pair<ObjectNode, ObjectNode> {
+    internal fun send(key: String, melding: ObjectNode, tidspunkt: LocalDateTime): Pair<ObjectNode, ObjectNode> {
         val id = UUID.randomUUID()
-        val opprettet = LocalDateTime.now()
-        melding.replace("system_participating_services", systemParticipatingServices(id, opprettet))
+        melding.replace("system_participating_services", systemParticipatingServices(id, tidspunkt))
         melding.put("@id", "$id")
-        melding.put("@opprettet", "$opprettet")
+        melding.put("@opprettet", "$tidspunkt")
         val metadata = send(key, melding.toString()).let { metadata ->
             objectMapper.createObjectNode()
                 .put("topic", metadata.topic())
@@ -30,12 +29,12 @@ internal abstract class Sender(
         return metadata to melding
     }
 
-    private fun systemParticipatingServices(id: UUID, opprettet: LocalDateTime) = objectMapper.createArrayNode()
+    private fun systemParticipatingServices(id: UUID, tidspunkt: LocalDateTime) = objectMapper.createArrayNode()
         .add(objectMapper.createObjectNode()
             .put("image", image)
             .put("service", "spout")
             .put("id", "$id")
-            .put("time", "$opprettet")
+            .put("time", "$tidspunkt")
             .put("instance", instance)
         )
 

@@ -8,6 +8,7 @@ import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import org.slf4j.LoggerFactory
+import java.time.LocalDateTime
 
 private val sikkerlogg = LoggerFactory.getLogger("tjenestekall")
 private val SEND = object {}.javaClass.getResource("/send.html")?.readText(Charsets.UTF_8) ?: throw IllegalStateException("Fant ikke send.html")
@@ -33,14 +34,22 @@ internal fun Route.spout(
 
         val parameters = call.receiveParameters()
         val fødselsnummer = parameters.hent("fodselsnummer")
+        val tidspunkt = LocalDateTime.now()
 
-        val json = objectMapper.readTree(parameters.hent("json")) as ObjectNode
+        val json = objectMapper.readTree(Template.resolve(
+            input = parameters.hent("json"),
+            navIdent = navIdent(call),
+            navn = navn(call),
+            epost = epost(call),
+            tidspunkt = tidspunkt
+        )) as ObjectNode
+
         json.put("@event_name", parameters.hent("event_name"))
         json.put("fødselsnummer", fødselsnummer)
         json.put("aktørId", parameters.hent("aktorId"))
         json.replace("@avsender", avsender)
 
-        val (metadata, melding) = sender.send(fødselsnummer, json)
+        val (metadata, melding) = sender.send(fødselsnummer, json, tidspunkt)
         sikkerlogg.info("Sendt melding fra Spout\nMelding:\n\t: $melding\nMetadata:\n\t $metadata")
 
         val html = KVITTERING
