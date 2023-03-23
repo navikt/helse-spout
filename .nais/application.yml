@@ -47,3 +47,6 @@ spec:
     pool: {{kafkaPool}}
   secureLogs:
     enabled: true
+  env:
+    - name: TBD_GROUP_ID
+      value: {{group}}

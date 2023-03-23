@@ -14,6 +14,9 @@ import java.net.URL
 
 private val sikkerlogg = LoggerFactory.getLogger("tjenestekall")
 private val String.env get() = checkNotNull(System.getenv(this)) { "Fant ikke environment variable $this" }
+private val ApplicationCall.NAVident get() =  principal<JWTPrincipal>()!!["NAVident"] ?: throw IllegalStateException("Fant ikke NAVident")
+private val ApplicationCall.navn get() =  principal<JWTPrincipal>()!!["name"] ?: throw IllegalStateException("Fant ikke NAVident")
+private val ApplicationCall.epost get() =  principal<JWTPrincipal>()!!["preferred_username"] ?: throw IllegalStateException("Fant ikke NAVident")
 
 fun main() {
     embeddedServer(CIO, port = 8080) {
@@ -22,7 +25,10 @@ fun main() {
                 val jwkProvider = JwkProviderBuilder(URL("AZURE_OPENID_CONFIG_JWKS_URI".env)).build()
                 verifier(jwkProvider, "AZURE_OPENID_CONFIG_ISSUER".env) {
                     withAudience("AZURE_APP_CLIENT_ID".env)
+                    withArrayClaim("groups", "TBD_GROUP_ID".env)
                     withClaimPresence("NAVident")
+                    withClaimPresence("preferred_username")
+                    withClaimPresence("name")
                 }
                 validate { credentials -> JWTPrincipal(credentials.payload) }
             }
@@ -33,8 +39,7 @@ fun main() {
             get("/isready") { call.respondText("READY!") }
             authenticate {
                 get("/melding") {
-                    val navIdent = call.principal<JWTPrincipal>()!!["NAVident"] ?: throw IllegalStateException("Fant ikke NAVident")
-                    sikkerlogg.info("$navIdent Sender melding")
+                    sikkerlogg.info("${call.navn} med epost ${call.epost} & ident ${call.NAVident} sender melding")
                     call.respond(HttpStatusCode.Accepted)
                 }
             }
