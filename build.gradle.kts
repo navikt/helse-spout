@@ -15,9 +15,19 @@ repositories {
 dependencies {
     implementation("ch.qos.logback:logback-classic:$logbackClassicVersion")
     implementation("net.logstash.logback:logstash-logback-encoder:$logbackEncoderVersion")
+
     implementation("io.ktor:ktor-server-core:$ktorVersion")
     implementation("io.ktor:ktor-server-cio:$ktorVersion")
+    implementation("io.ktor:ktor-server-cio:$ktorVersion")
     implementation("io.ktor:ktor-server-content-negotiation:$ktorVersion")
+    implementation("io.ktor:ktor-server-auth:$ktorVersion")
+    implementation("io.ktor:ktor-server-auth-jwt:$ktorVersion") {
+        exclude(group = "junit")
+    }
+    implementation("io.ktor:ktor-server-auth-jvm:2.2.4")
+    implementation("io.ktor:ktor-server-core-jvm:2.2.4")
+    implementation("io.ktor:ktor-server-auth-jwt-jvm:2.2.4")
+
     testImplementation("io.ktor:ktor-server-test-host:$ktorVersion")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit:$kotlinVersion")
 }
