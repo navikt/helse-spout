@@ -4,6 +4,7 @@ val ktorVersion = "2.2.4"
 val logbackClassicVersion = "1.4.6"
 val logbackEncoderVersion = "7.3"
 val jacksonVersion = "2.14.2"
+val kafkaVersion = "3.4.0"
 
 plugins {
     kotlin("jvm") version "1.8.10"
@@ -27,6 +28,8 @@ dependencies {
     implementation("io.ktor:ktor-server-core-jvm:2.2.4")
     implementation("io.ktor:ktor-server-auth-jwt-jvm:2.2.4")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin:$jacksonVersion")
+
+    implementation("org.apache.kafka:kafka-clients:$kafkaVersion")
 
     testImplementation("io.ktor:ktor-server-test-host:$ktorVersion")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit:$kotlinVersion")

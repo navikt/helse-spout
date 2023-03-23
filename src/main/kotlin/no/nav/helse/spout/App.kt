@@ -14,19 +14,16 @@ import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import org.slf4j.LoggerFactory
 import java.net.URL
-import java.time.LocalDateTime
-import java.util.UUID
 
 private val sikkerlogg = LoggerFactory.getLogger("tjenestekall")
-private val String.env get() = checkNotNull(System.getenv(this)) { "Fant ikke environment variable $this" }
+internal val String.env get() = checkNotNull(System.getenv(this)) { "Fant ikke environment variable $this" }
 private val ApplicationCall.NAVident get() =  principal<JWTPrincipal>()!!["NAVident"] ?: throw IllegalStateException("Fant ikke NAVident")
 private val ApplicationCall.navn get() =  principal<JWTPrincipal>()!!["name"] ?: throw IllegalStateException("Fant ikke NAVident")
 private val ApplicationCall.epost get() =  principal<JWTPrincipal>()!!["preferred_username"] ?: throw IllegalStateException("Fant ikke NAVident")
 
 private val SEND = object {}.javaClass.getResource("/send.html")?.readText(Charsets.UTF_8) ?: throw IllegalStateException("Fant ikke index.html")
 private val KVITTERING = object {}.javaClass.getResource("/kvittering.html")?.readText(Charsets.UTF_8) ?: throw IllegalStateException("Fant ikke index.html")
-private fun Parameters.hent(key: String) = checkNotNull(get(key)) { "Mangler $key" }
-
+private fun Parameters.hent(key: String) = checkNotNull(get(key)?.takeUnless { it.isBlank() }) { "Mangler $key" }
 private val objectMapper = jacksonObjectMapper()
 
 fun main() {
@@ -59,18 +56,22 @@ fun main() {
                         .put("epost", call.epost)
 
                     val parameters = call.receiveParameters()
+                    val fødselsnummer = parameters.hent("fodselsnummer")
 
                     val json = objectMapper.readTree(parameters.hent("json")) as ObjectNode
                     json.put("@event_name", parameters.hent("event_name"))
-                    json.put("fødselsnummer", parameters.hent("fodselsnummer"))
+                    json.put("fødselsnummer", fødselsnummer)
                     json.put("aktørId", parameters.hent("aktorId"))
-                    json.put("@id", "${UUID.randomUUID()}")
-                    json.put("@opprettet", "${LocalDateTime.now()}")
                     json.replace("@avsender", avsender)
 
-                    sikkerlogg.info("Melding sendt: $json")
+                    val (metadata, melding) = Kafka.send(fødselsnummer, json)
+                    sikkerlogg.info("Sendt melding fra Spout\nMelding:\t: $melding\nMetadata:\t $metadata")
 
-                    call.respondText(KVITTERING.replace("{{json}}", json.toPrettyString()), ContentType.Text.Html)
+                    val html = KVITTERING
+                        .replace("{{json}}", melding.toPrettyString())
+                        .replace("{{metadata}}", metadata.toPrettyString())
+
+                    call.respondText(html, ContentType.Text.Html)
                 }
             }
         }
