@@ -3,23 +3,47 @@
         <title>Spout</title>
         <meta charset="UTF-8">
         <style>
-            h1 {
-                color: lawngreen;
+            body {
+                font-family: Consolas,monaco,monospace;
+                font-size: 11px;
+            }
+            legend, a {
+                font-size: 14px;
+                font-weight: bold;
             }
             fieldset {
-                background-color: navajowhite;
+                background-color: lightblue;
+                border-style: solid;
+                border-width: 4px;
+            }
+            fieldset.nyttig {
+                border-color: red;
+            }
+            fieldset.metadata {
+                border-color: orange;
+            }
+            fieldset.json {
+                border-color: green;
+            }
+            h1 {
+                color: red;
             }
         </style>
     </head>
     <body>
-        <h1>Spout</h1>
-        <h2>kvittering</h2>
-        <fieldset>
-            <legend>Kafka metadata</legend>
+        <h1>Spout kvittering</h1>
+        <fieldset class="nyttig">
+            <legend>Nyttig :?</legend>
+            <br/>
+            <a href="{{kibana}}" target="_blank">Link til sikkerlogg for meldingen</a>
+            <br/><br/>
+        </fieldset>
+        <fieldset class="metadata">
+            <legend>Kafka metadata :-)</legend>
             <textarea readonly cols="150" rows="10" name="metadata">{{metadata}}</textarea>
         </fieldset>
-        <fieldset>
-            <legend>Sendt melding</legend>
+        <fieldset class="json">
+            <legend>Sendt melding :-O</legend>
             <textarea readonly cols="150" rows="30" name="json">{{json}}</textarea>
         </fieldset>
     </body>

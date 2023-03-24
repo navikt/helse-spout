@@ -32,6 +32,9 @@ internal fun Route.spout(
     }
 
     post("/melding") {
+        val id = UUID.randomUUID()
+        val tidspunkt = LocalDateTime.now()
+
         val (metadata, melding) = try {
             val navIdent = resolveNavIdent(call)
             val navn = resolveNavn(call)
@@ -43,7 +46,6 @@ internal fun Route.spout(
                 .put("epost", epost)
 
             val parameters = call.receiveParameters()
-            val tidspunkt = LocalDateTime.now()
             val input = parameters.hent("json")
             val jsonInput = objectMapper.readTree(objectMapper.readTree(input).path("text").asText())
 
@@ -64,7 +66,6 @@ internal fun Route.spout(
             val eventName = json.path("@event_name").asText()
             check(eventName.isNotBlank()) { "Må settes '@event_name' i meldingen" }
             json.replace("@avsender", avsender)
-            val id = UUID.randomUUID()
 
             val (metadata, melding) = sender.send(fødselsnummer, json, tidspunkt, id)
             AuditOgSikkerlogg.logg(
@@ -85,6 +86,7 @@ internal fun Route.spout(
         val html = KVITTERING
             .replace("{{json}}", melding.toPrettyString())
             .replace("{{metadata}}", metadata.toPrettyString())
+            .replace("{{kibana}}", "https://logs.adeo.no/app/kibana#/discover?_a=(index:'tjenestekall-*',query:(language:lucene,query:'%22${id}%22'))&_g=(time:(from:'$tidspunkt',mode:absolute,to:now))")
 
         call.respondText(html, ContentType.Text.Html)
     }
