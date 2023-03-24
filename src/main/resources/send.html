@@ -9,6 +9,26 @@
             fieldset {
                 background-color: aqua;
             }
+            .cool-button {
+                padding: 5px;
+                width: 55px;
+                background-color: lightgrey;
+                border-top-color: white;
+                border-left-color: white;
+                border-right-color: black;
+                border-bottom-color: black;
+            }
+
+            .cool-button:active {
+                border-top-color: black;
+                border-left-color: black;
+                border-right-color: white;
+                border-bottom-color: white;
+            }
+            .cool-button:focus {
+                outline-style: dotted;
+
+            }
         </style>
     </head>
     <body>
@@ -31,7 +51,7 @@
                 <textarea cols="100" rows="20" name="json"></textarea>
             </fieldset>
             <br/>
-            <button type="submit">Send</button>
+            <button class="cool-button" type="submit">Send</button>
         </form>
     </body>
 </html>
