@@ -17,10 +17,11 @@ internal class AuditloggTest {
             fødselsnummer = "12345678910",
             tidspunkt = tidspunkt,
             eventName = "et_kult_event",
-            id = id
+            id = id,
+            begrunnelse = "Skal bare gjøre noen greier"
         )
 
-        val expected = "CEF:0|Spout|auditLog|1.0|audit:update|Sporingslogg|INFO|end=1679608800 duid=12345678910 suid=X123456 request=et_kult_event sproc=5beb1241-d2db-436e-a5e5-8f7712bdeca3"
+        val expected = "CEF:0|Spout|auditLog|1.0|audit:update|Sporingslogg|INFO|end=1679608800 duid=12345678910 suid=X123456 request=et_kult_event sproc=5beb1241-d2db-436e-a5e5-8f7712bdeca3 msg=Skal bare gjøre noen greier"
 
         assertEquals(expected, melding)
     }

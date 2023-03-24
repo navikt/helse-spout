@@ -8,15 +8,15 @@ import java.util.UUID
 
 internal object AuditOgSikkerlogg {
 
-    internal fun logg(message: String, navIdent: String, fødselsnummer: String, tidspunkt: LocalDateTime, eventName: String, id: UUID) {
-        val auditMelding = auditMelding(navIdent, fødselsnummer, tidspunkt, eventName, id)
+    internal fun logg(message: String, navIdent: String, fødselsnummer: String, tidspunkt: LocalDateTime, eventName: String, id: UUID, begrunnelse: String) {
+        val auditMelding = auditMelding(navIdent, fødselsnummer, tidspunkt, eventName, id, begrunnelse)
         sikkerlogg.info("$message\nAudit:\n\t$auditMelding")
         auditlogg.info(auditMelding)
     }
 
-    internal fun auditMelding(navIdent: String, fødselsnummer: String, tidspunkt: LocalDateTime, eventName: String, id: UUID): String {
+    internal fun auditMelding(navIdent: String, fødselsnummer: String, tidspunkt: LocalDateTime, eventName: String, id: UUID, begrunnelse: String): String {
         val end = ZonedDateTime.of(tidspunkt, ZoneId.of("Europe/Oslo")).toEpochSecond()
-        return "CEF:0|Spout|auditLog|1.0|audit:update|Sporingslogg|INFO|end=$end duid=$fødselsnummer suid=$navIdent request=$eventName sproc=$id"
+        return "CEF:0|Spout|auditLog|1.0|audit:update|Sporingslogg|INFO|end=$end duid=$fødselsnummer suid=$navIdent request=$eventName sproc=$id msg=$begrunnelse"
     }
 
     private val auditlogg = LoggerFactory.getLogger("auditLogger")

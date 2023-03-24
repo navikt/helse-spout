@@ -17,6 +17,7 @@ private val SEND = object {}.javaClass.getResource("/send.html")?.readText(Chars
 private val KVITTERING = object {}.javaClass.getResource("/kvittering.html")?.readText(Charsets.UTF_8) ?: throw IllegalStateException("Fant ikke kvittering.html")
 private fun Parameters.hent(key: String) = checkNotNull(get(key)?.takeUnless { it.isBlank() }) { "Mangler $key" }
 private val objectMapper = jacksonObjectMapper()
+private val begrunnelseRegex = "[a-zæøåA-ZÆØÅ0-9 ]{15,100}".toRegex()
 
 internal fun Route.spout(
     sender: Sender,
@@ -53,6 +54,9 @@ internal fun Route.spout(
                 tidspunkt = tidspunkt
             )) as ObjectNode
 
+            val begrunnelse = parameters.hent("begrunnelse")
+            check(begrunnelse.matches(begrunnelseRegex)) { "Litt sprø/kort begrunnelse eller? 🤏" }
+
             val fødselsnummer = json.path("fødselsnummer").asText()
             check(fødselsnummer.matches("\\d{11}".toRegex())) { "Gyldig 'fødselsnummer' må settes i meldingen"}
             val eventName = json.path("@event_name").asText()
@@ -67,7 +71,8 @@ internal fun Route.spout(
                 fødselsnummer = fødselsnummer,
                 tidspunkt = tidspunkt,
                 eventName = eventName,
-                id = id
+                id = id,
+                begrunnelse = begrunnelse
             )
             metadata to melding
         } catch (ex: Exception) {

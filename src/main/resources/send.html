@@ -7,26 +7,35 @@
                 color: red;
             }
             fieldset {
-                background-color: aqua;
+                background-color: lightblue;
+            }
+            .ikkeProvDeg {
+                color: red;
+                font-weight: bold;
             }
         </style>
     </head>
     <body>
         <h1>Spout away {{innloggetbruker}}</h1>
-        <label for="events">Events:</label>
-
-        <select name="events" id="events">
-            <option value="blank">Blanke ark</option>
-            <option value="paminnelse">Påminn vedtaksperiode</option>
-            <option value="annullering">Annuller utbetaling</option>
-            <option value="forkast_sykmeldingsperioder">Forkast sykmeldingsperioder</option>
-        </select>
-        <br/><br/>
-        <form method="post" action="/melding", id="sendmelding">
-            <textarea hidden name="json" id="json"></textarea>
-            <button type="submit">Send</button>
-        </form>
-
+        <fieldset>
+            <legend>Event</legend>
+            <select name="events" id="events">
+                <option value="blank">Blanke ark</option>
+                <option value="paminnelse">Påminn vedtaksperiode</option>
+                <option value="annullering">Annuller utbetaling</option>
+                <option value="forkast_sykmeldingsperioder">Forkast sykmeldingsperioder</option>
+            </select>
+        </fieldset>
+        <fieldset>
+            <legend>Begrunnelse</legend>
+            <form method="post" action="/melding" id="sendmelding">
+                <input type="text" name="begrunnelse" size="100" required>
+                <textarea hidden name="json" id="json"></textarea>
+                <br/><br/>
+                <button type="submit">Send</button>
+                <p class="ikkeProvDeg">Merk: Meldingen blir markert med deg som avsender under @avsender & auditlogges med oppgitt begrunnelse</p>
+            </form>
+        </fieldset>
 
         <p>Kule templatevariabler du kan benytte deg av:</p>
         <ul>
