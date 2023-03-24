@@ -36,16 +36,37 @@
         <div id="jsoneditor"></div>
 
         <script type="module">
-            import { JSONEditor } from 'https://cdn.jsdelivr.net/npm/vanilla-jsoneditor@0.16.0/index.js'
+            import { JSONEditor, createAjvValidator } from 'https://cdn.jsdelivr.net/npm/vanilla-jsoneditor@0.16.0/index.js'
 
             const defaultJson = {
                 '@event_name': "<fyll_meg>",
-                fødselnummer: "<fyll_meg>",
+                fødselsnummer: "<fyll_meg>"
             }
+
+            const schema = {
+                properties: {
+                    '@event_name': {
+                        title: 'Eventnavn',
+                        examples: ['påminnelse'],
+                        type: 'string'
+                    },
+                    fødselsnummer: {
+                        title: 'Fødselsnummer',
+                        examples: ['12345678910'],
+                        type: 'string'
+                    }
+                },
+                required: ['@event_name', 'fødselsnummer']
+            }
+            const schemaDefinitions = {}
+
             // create the editor
             const editor = new JSONEditor({
                 target: document.getElementById('jsoneditor'),
-                mode: 'text'
+                mode: 'text',
+                props: {
+                    validator: createAjvValidator({ schema, schemaDefinitions })
+                }
             })
             editor.updateProps({
                 mode: 'text'
