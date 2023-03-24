@@ -23,7 +23,9 @@ internal fun Route.spout(
     epost: (call: ApplicationCall) -> String
 ) {
     get {
-        call.respondText(SEND, ContentType.Text.Html)
+        val mellomnavn = navn(call).split(" ").lastOrNull() ?: ""
+        val html = SEND.replace("{{navn}}", mellomnavn)
+        call.respondText(html, ContentType.Text.Html)
     }
 
     post("/melding") {

@@ -5,6 +5,7 @@ val logbackClassicVersion = "1.4.6"
 val logbackEncoderVersion = "7.3"
 val jacksonVersion = "2.14.2"
 val kafkaVersion = "3.4.0"
+val junitJupiterVersion = "5.9.2"
 
 plugins {
     kotlin("jvm") version "1.8.10"
@@ -31,8 +32,9 @@ dependencies {
 
     implementation("org.apache.kafka:kafka-clients:$kafkaVersion")
 
-    testImplementation("io.ktor:ktor-server-test-host:$ktorVersion")
-    testImplementation("org.jetbrains.kotlin:kotlin-test-junit:$kotlinVersion")
+    testImplementation("org.junit.jupiter:junit-jupiter-api:$junitJupiterVersion")
+    testImplementation("org.junit.jupiter:junit-jupiter-params:$junitJupiterVersion")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:$junitJupiterVersion")
 }
 
 tasks {
@@ -42,6 +44,13 @@ tasks {
 
     compileTestKotlin {
         kotlinOptions.jvmTarget = javaVersion
+    }
+
+    withType<Test> {
+        useJUnitPlatform()
+        testLogging {
+            events("passed", "skipped", "failed")
+        }
     }
 
     withType<Jar> {
