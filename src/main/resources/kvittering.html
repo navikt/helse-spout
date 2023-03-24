@@ -1,6 +1,7 @@
 <html lang="nb">
     <head>
         <title>Spout</title>
+        <meta charset="UTF-8">
         <style>
             h1 {
                 color: lawngreen;
@@ -15,11 +16,11 @@
         <h2>kvittering</h2>
         <fieldset>
             <legend>Kafka metadata</legend>
-            <textarea cols="150" rows="10" name="metadata">{{metadata}}</textarea>
+            <textarea readonly cols="150" rows="10" name="metadata">{{metadata}}</textarea>
         </fieldset>
         <fieldset>
             <legend>Sendt melding</legend>
-            <textarea cols="150" rows="30" name="json">{{json}}</textarea>
+            <textarea readonly cols="150" rows="30" name="json">{{json}}</textarea>
         </fieldset>
     </body>
 </html>

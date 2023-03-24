@@ -18,12 +18,16 @@
         <select name="events" id="events">
             <option value="blank">Blanke ark</option>
             <option value="paminnelse">Påminn vedtaksperiode</option>
+            <option value="annullering">Annuller utbetaling</option>
         </select>
         <br/><br/>
         <form method="post" action="/melding", id="sendmelding">
             <textarea hidden name="json" id="json"></textarea>
             <button type="submit">Send</button>
         </form>
+
+
+        <p>Kule templatevariabler du kan benytte deg av:</p>
         <ul>
             <li>{{uuidgen}}</li>
             <li>{{now}})</li>
@@ -33,6 +37,8 @@
             <li>{{navn}}</li>
             <li>{{epost}}</li>
         </ul>
+
+        <p>NB: @id og @opprettet blir generert automagisk av spout ;D</p>
         <div id="jsoneditor"></div>
 
         <script type="module">
@@ -69,7 +75,7 @@
                 }
             })
             editor.updateProps({
-                mode: 'text'
+                mode: 'text',
             })
             editor.set({json: defaultJson})
 
@@ -90,6 +96,21 @@
                     tilstandsendringstidspunkt: "{{now-1h}}",
                     antallGangerPåminnet: 1,
                     ønskerReberegning: false
+                }
+                else if (templates.value === 'annullering') json = {
+                    '@event_name': "annullering",
+                    fødselsnummer: "<fyll_meg>",
+                    aktørId: "<fyll_meg>",
+                    saksbehandler: {
+                        epostaddresse: "<fyll_meg>",
+                        oid: "<fyll_meg>",
+                        navn: "<fyll_meg>",
+                        ident: "<fyll_meg>"
+                    },
+                    fagsystemId: "<fyll_meg>",
+                    begrunnelser: [
+                        "<fyll_meg>"
+                    ]
                 }
                 else json = defaultJson
                 const content = { json }
