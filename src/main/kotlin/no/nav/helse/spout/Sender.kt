@@ -12,8 +12,7 @@ internal abstract class Sender(
 
     protected abstract fun send(fødselsnummer: String, melding: String): RecordMetadata
 
-    internal fun send(key: String, melding: ObjectNode, tidspunkt: LocalDateTime): Pair<ObjectNode, ObjectNode> {
-        val id = UUID.randomUUID()
+    internal fun send(key: String, melding: ObjectNode, tidspunkt: LocalDateTime, id: UUID): Pair<ObjectNode, ObjectNode> {
         melding.replace("system_participating_services", systemParticipatingServices(id, tidspunkt))
         melding.put("@id", "$id")
         melding.put("@opprettet", "$tidspunkt")

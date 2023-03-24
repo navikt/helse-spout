@@ -10,6 +10,7 @@ import io.ktor.server.routing.*
 import org.slf4j.LoggerFactory
 import java.lang.Exception
 import java.time.LocalDateTime
+import java.util.UUID
 
 private val sikkerlogg = LoggerFactory.getLogger("tjenestekall")
 private val SEND = object {}.javaClass.getResource("/send.html")?.readText(Charsets.UTF_8) ?: throw IllegalStateException("Fant ikke send.html")
@@ -57,14 +58,16 @@ internal fun Route.spout(
             val eventName = json.path("@event_name").asText()
             check(eventName.isNotBlank()) { "Må settes '@event_name' i meldingen" }
             json.replace("@avsender", avsender)
+            val id = UUID.randomUUID()
 
-            val (metadata, melding) = sender.send(fødselsnummer, json, tidspunkt)
+            val (metadata, melding) = sender.send(fødselsnummer, json, tidspunkt, id)
             AuditOgSikkerlogg.logg(
                 message = "Sendt melding fra Spout\nMelding:\n\t$melding\nMetadata:\n\t$metadata",
                 navIdent = navIdent,
                 fødselsnummer = fødselsnummer,
                 tidspunkt = tidspunkt,
-                eventName = eventName
+                eventName = eventName,
+                id = id
             )
             metadata to melding
         } catch (ex: Exception) {
