@@ -3,22 +3,43 @@
         <title>Spout</title>
         <meta charset="UTF-8">
         <style>
+            body {
+                font-family: Consolas,monaco,monospace;
+                font-size: 11px;
+            }
             h1 {
                 color: red;
             }
+            legend {
+                font-size: 14px;
+                font-weight: bold;
+            }
             fieldset {
                 background-color: lightblue;
+                border-style: solid;
+                border-width: 4px;
             }
-            .ikkeProvDeg {
-                color: red;
-                font-weight: bold;
+            fieldset.event {
+                border-color: red;
+            }
+            fieldset.begrunnelse {
+                border-color: orange;
+            }
+            fieldset.templates {
+                border-color: green;
+            }
+            fieldset.nicetoknow {
+                border-color: blue;
+            }
+            fieldset.melding {
+                border-color: blueviolet;
             }
         </style>
     </head>
     <body>
         <h1>Spout away {{innloggetbruker}}</h1>
-        <fieldset>
-            <legend>Event</legend>
+        <fieldset class="event">
+            <legend>Event xD</legend>
             <select name="events" id="events">
                 <option value="blank">Blanke ark</option>
                 <option value="paminnelse">Påminn vedtaksperiode</option>
@@ -26,30 +47,50 @@
                 <option value="forkast_sykmeldingsperioder">Forkast sykmeldingsperioder</option>
             </select>
         </fieldset>
-        <fieldset>
-            <legend>Begrunnelse</legend>
+        <fieldset class="begrunnelse">
+            <legend>Begrunnelse :S</legend>
             <form method="post" action="/melding" id="sendmelding">
                 <input type="text" name="begrunnelse" size="100" required>
                 <textarea hidden name="json" id="json"></textarea>
                 <br/><br/>
                 <button type="submit">Send</button>
-                <p class="ikkeProvDeg">Merk: Meldingen blir markert med deg som avsender under @avsender & auditlogges med oppgitt begrunnelse</p>
+                <p>Merk: Meldingen blir markert med deg som avsender under @avsender & auditlogges med oppgitt begrunnelse</p>
             </form>
         </fieldset>
 
-        <p>Kule templatevariabler du kan benytte deg av:</p>
-        <ul>
-            <li>{{uuidgen}}</li>
-            <li>{{now}})</li>
-            <li>{{now+5h}} (+/-, smhdwMy)</li>
-            <li>{{today-5d}} (+/-, dwMy)</li>
-            <li>{{NAVIdent}}</li>
-            <li>{{navn}}</li>
-            <li>{{epost}}</li>
-        </ul>
+        <fieldset class="templates">
+            <legend>Templates xP</legend>
+            <p>Kule templatevariabler du kan benytte deg av</p>
+            <ul>
+                <li>{{uuidgen}}</li>
+                <ul><li>en random UUID, f.eks. om du skal sende et behov med @behovId</li></ul>
+                <li>{{now}}</li>
+                <li>{{now+5h}} (+/-, smhdwMy) - </li>
+                <ul><li>timestamp i meldingen relativ til @opprettet</li></ul>
+                <li>{{today}}</li>
+                <li>{{today-5d}} (+/-, dwMy)</li>
+                <ul><li>dato i meldingen relativ til @opprettet</li></ul>
+                <li>{{NAVIdent}}</li>
+                <li>{{navn}}</li>
+                <li>{{epost}}</li>
+                <ul><li>DIN info som uansett legges i @avsender</li></ul>
+            </ul>
+        </fieldset>
 
-        <p>NB: @id og @opprettet blir generert automagisk av spout ;D</p>
-        <div id="jsoneditor"></div>
+        <fieldset class="nicetoknow">
+            <legend>Nice to know ;D</legend>
+            <ul>
+                <li>@id og @opprettet blir generert automagisk av spout</li>
+                <li>@avsender settes til deg</li>
+                <li>system_participating_services legges til slik at man ser at meldingen kommer fra spout</li>
+                <li>du får en kvittering av meldingen som ble sendt slik at du f.eks. kan søke på @id i loggene</li>
+            </ul>
+        </fieldset>
+
+        <fieldset class="melding">
+            <legend>Melding <3</legend>
+            <div id="jsoneditor"></div>
+        </fieldset>
 
         <script type="module">
             import { JSONEditor, createAjvValidator } from 'https://cdn.jsdelivr.net/npm/vanilla-jsoneditor@0.16.0/index.js'
