@@ -36,7 +36,7 @@ fun main() {
             get("/isready") { call.respondText("READY!") }
             authenticate {
                 spout(
-                    sender = Kafka,
+                    sender = Kafka(),
                     navIdent = { it.NAVident },
                     navn = { it.navn },
                     epost = { it.epost }

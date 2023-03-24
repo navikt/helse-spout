@@ -1,12 +1,14 @@
 package no.nav.helse.spout
 
 import com.fasterxml.jackson.databind.node.ObjectNode
+import com.fasterxml.jackson.module.kotlin.convertValue
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
+import no.nav.helse.rapids_rivers.JsonMessage
 import org.slf4j.LoggerFactory
 import java.time.LocalDateTime
 
@@ -44,16 +46,23 @@ internal fun Route.spout(
             tidspunkt = tidspunkt
         )) as ObjectNode
 
-        json.put("@event_name", parameters.hent("event_name"))
-        json.put("fødselsnummer", fødselsnummer)
-        json.put("aktørId", parameters.hent("aktorId"))
-        json.replace("@avsender", avsender)
-
-        val (metadata, melding) = sender.send(fødselsnummer, json, tidspunkt)
+        val inputData = objectMapper.convertValue<Map<String, Any>>(json)
+            .filterNot { (key, _) -> key in setOf("@event_name", "fødselsnummer", "aktørId", "@id", "@opprettet", "@avsender") }
+        val påkrevdData = mapOf(
+            "fødselsnummer" to fødselsnummer,
+            "aktørId" to parameters.hent("aktorId"),
+            "@avsender" to mapOf(
+                "NAVident" to navIdent(call),
+                "navn" to navn(call),
+                "epost" to epost(call)
+            )
+        )
+        val packet = JsonMessage.newMessage(parameters.hent("event_name"), inputData + påkrevdData)
+        val (metadata, melding) = sender.send(fødselsnummer, packet)
         sikkerlogg.info("Sendt melding fra Spout\nMelding:\n\t: $melding\nMetadata:\n\t $metadata")
 
         val html = KVITTERING
-            .replace("{{json}}", melding.toPrettyString())
+            .replace("{{json}}", objectMapper.readTree(melding.toJson()).toPrettyString())
             .replace("{{metadata}}", metadata.toPrettyString())
 
         call.respondText(html, ContentType.Text.Html)

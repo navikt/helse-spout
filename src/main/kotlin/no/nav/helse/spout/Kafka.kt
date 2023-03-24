@@ -11,10 +11,7 @@ import org.apache.kafka.common.serialization.StringSerializer
 import java.net.InetAddress
 import java.util.*
 
-internal object Kafka: Sender(
-    instance = InetAddress.getLocalHost().hostName,
-    image = "NAIS_APP_IMAGE".env
-) {
+internal class Kafka(private val instance: String = InetAddress.getLocalHost().hostName): Sender() {
 
     private val properties = Properties().apply {
         put(CommonClientConfigs.BOOTSTRAP_SERVERS_CONFIG, "KAFKA_BROKERS".env)
