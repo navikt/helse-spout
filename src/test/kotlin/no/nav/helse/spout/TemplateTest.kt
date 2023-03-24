@@ -64,6 +64,15 @@ internal class TemplateTest {
         assertEquals("Navn Navnesen", result.path("navn").asText())
         assertEquals("navn@epost.no", result.path("epost").asText())
     }
+    @Test
+    fun `resolver fødselsnummer`() {
+        @Language("JSON")
+        val input = """{ 
+            "fødselsnummer": "{{fødselsnummer}}"
+        }"""
+        val result = resolve(input)
+        assertEquals("12345678910", result.path("fødselsnummer").asText())
+    }
 
     private val tidspunkt = LocalDateTime.parse("2023-03-23T23:00:00.000000")
     private val objectMapper = jacksonObjectMapper()
@@ -72,6 +81,7 @@ internal class TemplateTest {
         navIdent = "NAV Ident",
         navn = "Navn Navnesen",
         epost = "navn@epost.no",
-        tidspunkt = tidspunkt
+        tidspunkt = tidspunkt,
+        fødselsnummer = "12345678910"
     ).let { objectMapper.readTree(it) as ObjectNode }
 }

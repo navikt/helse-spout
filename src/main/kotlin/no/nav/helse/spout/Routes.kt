@@ -45,13 +45,15 @@ internal fun Route.spout(
             val parameters = call.receiveParameters()
             val tidspunkt = LocalDateTime.now()
             val input = parameters.hent("json")
+            val jsonInput = objectMapper.readTree(objectMapper.readTree(input).path("text").asText())
 
             val json = objectMapper.readTree(Template.resolve(
-                input = objectMapper.readTree(input).path("text").asText(),
+                input = jsonInput.toString(),
                 navIdent = navIdent,
                 navn = navn,
                 epost = epost,
-                tidspunkt = tidspunkt
+                tidspunkt = tidspunkt,
+                fødselsnummer = jsonInput.path("fødselsnummer").asText()
             )) as ObjectNode
 
             val begrunnelse = parameters.hent("begrunnelse")

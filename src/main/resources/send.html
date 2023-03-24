@@ -45,6 +45,7 @@
                 <option value="paminnelse">Påminn vedtaksperiode</option>
                 <option value="annullering">Annuller utbetaling</option>
                 <option value="forkast_sykmeldingsperioder">Forkast sykmeldingsperioder</option>
+                <option value="HentPersoninfoV3">Send behov om personinfo</option>
             </select>
         </fieldset>
         <fieldset class="begrunnelse">
@@ -74,6 +75,8 @@
                 <li>{{navn}}</li>
                 <li>{{epost}}</li>
                 <ul><li>DIN info som uansett legges i @avsender</li></ul>
+                <li>{{fødselsnummer}}</li>
+                <ul><li>Samme verdi som feltet fødselsnummer om du skal ha det flere steder</li></ul>
             </ul>
         </fieldset>
 
@@ -170,6 +173,29 @@
                     fom: "<fyll_meg>",
                     tom: "<fyll_meg>",
                 }
+                else if (events.value === 'HentPersoninfoV3') json = {
+                    fødselsnummer: "<fyll_meg>",
+                    '@event_name': "behov",
+                    '@behovId': "{{uuidgen}}",
+                    '@behov': [
+                        "HentPersoninfoV3"
+                    ],
+                    HentPersoninfoV3: {
+                        ident: "{{fødselsnummer}}",
+                        attributter: [
+                            "aktørId",
+                            "folkeregisterident",
+                            "fødselsdato",
+                            "historiskeFolkeregisteridenter",
+                            "navn",
+                            "adressebeskyttelse",
+                            "støttes",
+                            "kjønn",
+                            "dødsdato"
+                        ]
+                    }
+                }
+
                 else json = defaultJson
 
                 const content = { json }
