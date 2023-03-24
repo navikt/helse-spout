@@ -9,9 +9,9 @@ fun main() {
         routing {
             spout(
                 sender = TestSender,
-                navIdent = { "localhost ident" },
-                navn = { "localhost navn" },
-                epost =  { "localhost@localhost.auu" }
+                resolveNavIdent = { "localhost ident" },
+                resolveNavn = { "localhost navn" },
+                resolveEpost =  { "localhost@localhost.auu" }
             )
         }
     }.start(wait = true)

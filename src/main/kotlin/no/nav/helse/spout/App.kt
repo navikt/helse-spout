@@ -37,9 +37,9 @@ fun main() {
             authenticate {
                 spout(
                     sender = Kafka,
-                    navIdent = { it.NAVident },
-                    navn = { it.navn },
-                    epost = { it.epost }
+                    resolveNavIdent = { it.NAVident },
+                    resolveNavn = { it.navn },
+                    resolveEpost = { it.epost }
                 )
             }
         }

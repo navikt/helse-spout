@@ -19,22 +19,26 @@ private val objectMapper = jacksonObjectMapper()
 
 internal fun Route.spout(
     sender: Sender,
-    navIdent: (call: ApplicationCall) -> String,
-    navn: (call: ApplicationCall) -> String,
-    epost: (call: ApplicationCall) -> String
+    resolveNavIdent: (call: ApplicationCall) -> String,
+    resolveNavn: (call: ApplicationCall) -> String,
+    resolveEpost: (call: ApplicationCall) -> String
 ) {
     get {
-        val mellomnavn = navn(call).split(" ").lastOrNull() ?: ""
+        val mellomnavn = resolveNavn(call).split(" ").lastOrNull() ?: ""
         val html = SEND.replace("{{innloggetbruker}}", mellomnavn)
         call.respondText(html, ContentType.Text.Html)
     }
 
     post("/melding") {
         val (metadata, melding) = try {
+            val navIdent = resolveNavIdent(call)
+            val navn = resolveNavn(call)
+            val epost = resolveEpost(call)
+
             val avsender = jacksonObjectMapper().createObjectNode()
-                .put("NAVIdent", navIdent(call))
-                .put("navn", navn(call))
-                .put("epost", epost(call))
+                .put("NAVIdent", navIdent)
+                .put("navn", navn)
+                .put("epost", epost)
 
             val parameters = call.receiveParameters()
             val tidspunkt = LocalDateTime.now()
@@ -42,9 +46,9 @@ internal fun Route.spout(
 
             val json = objectMapper.readTree(Template.resolve(
                 input = objectMapper.readTree(input).path("text").asText(),
-                navIdent = navIdent(call),
-                navn = navn(call),
-                epost = epost(call),
+                navIdent = navIdent,
+                navn = navn,
+                epost = epost,
                 tidspunkt = tidspunkt
             )) as ObjectNode
 
@@ -55,7 +59,13 @@ internal fun Route.spout(
             json.replace("@avsender", avsender)
 
             val (metadata, melding) = sender.send(fødselsnummer, json, tidspunkt)
-            sikkerlogg.info("Sendt melding fra Spout\nMelding:\n\t: $melding\nMetadata:\n\t $metadata")
+            AuditOgSikkerlogg.logg(
+                message = "Sendt melding fra Spout\nMelding:\n\t$melding\nMetadata:\n\t$metadata",
+                navIdent = navIdent,
+                fødselsnummer = fødselsnummer,
+                tidspunkt = tidspunkt,
+                eventName = eventName
+            )
             metadata to melding
         } catch (ex: Exception) {
             sikkerlogg.error("Feil ved sending av melding", ex)
