@@ -9,8 +9,8 @@ internal object Template {
     private val nowPlusRegex = "\\{\\{now\\+(\\d+)([smhdwMy])}}".toRegex()
     private val nowMinusRegex = "\\{\\{now-(\\d+)([smhdwMy])}}".toRegex()
 
-    private val todayPlusRegex = "\\{\\{today\\+(\\d+)(dwMy)}}".toRegex()
-    private val todayMinusRegex = "\\{\\{today-(\\d+)(dwMy)}}".toRegex()
+    private val todayPlusRegex = "\\{\\{today\\+(\\d+)([dwMy])}}".toRegex()
+    private val todayMinusRegex = "\\{\\{today-(\\d+)([dwMy])}}".toRegex()
 
     private val units = mapOf(
         "s" to ChronoUnit.SECONDS,

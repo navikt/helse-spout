@@ -12,26 +12,74 @@
         </style>
     </head>
     <body>
-        <h1>Spout away {{navn}}</h1>
-        <form method="post" action="/melding">
-            <fieldset>
-                <legend>Event</legend>
-                <input type="text" name="event_name"/>
-            </fieldset>
-            <fieldset>
-                <legend>Fødselsnumer</legend>
-                <input type="text" name="fodselsnummer"/>
-            </fieldset>
-            <fieldset>
-                <legend>AktørId</legend>
-                <input type="text" name="aktorId"/>
-            </fieldset>
-            <fieldset>
-                <legend>JSON</legend>
-                <textarea cols="100" rows="20" name="json"></textarea>
-            </fieldset>
-            <br/>
+        <h1>Spout away {{innloggetbruker}}</h1>
+        <label for="events">Events:</label>
+
+        <select name="events" id="events">
+            <option value="blank">Blanke ark</option>
+            <option value="paminnelse">Påminn vedtaksperiode</option>
+        </select>
+        <br/><br/>
+        <form method="post" action="/melding", id="sendmelding">
+            <textarea hidden name="json" id="json"></textarea>
             <button type="submit">Send</button>
         </form>
+        <ul>
+            <li>{{uuidgen}}</li>
+            <li>{{now}})</li>
+            <li>{{now+5h}} (+/-, smhdwMy)</li>
+            <li>{{today-5d}} (+/-, dwMy)</li>
+            <li>{{NAVIdent}}</li>
+            <li>{{navn}}</li>
+            <li>{{epost}}</li>
+        </ul>
+        <div id="jsoneditor"></div>
+
+        <script type="module">
+            import { JSONEditor } from 'https://cdn.jsdelivr.net/npm/vanilla-jsoneditor@0.16.0/index.js'
+
+            const defaultJson = {
+                '@event_name': "<fyll_meg>",
+                fødselnummer: "<fyll_meg>",
+            }
+            // create the editor
+            const editor = new JSONEditor({
+                target: document.getElementById('jsoneditor'),
+                mode: 'text'
+            })
+            editor.updateProps({
+                mode: 'text'
+            })
+            editor.set({json: defaultJson})
+
+            // set json
+            const templates =  document.getElementById('events')
+            templates.onchange = function () {
+                let json;
+
+                if (templates.value === 'paminnelse') json = {
+                    '@event_name': "paminnelse",
+                    fødselsnummer: "<fyll_meg>",
+                    aktørId: "<fyll_meg>",
+                    organisasjonsnummer: "<fyll_meg>",
+                    vedtaksperiodeId: "<fyll_meg>",
+                    tilstand: "<fyll_meg>",
+                    påminnelsestidspunkt: "{{now}}",
+                    nestePåminnelsestidspunkt: "{{now+1h}}",
+                    tilstandsendringstidspunkt: "{{now-1h}}",
+                    antallGangerPåminnet: 1,
+                    ønskerReberegning: false
+                }
+                else json = defaultJson
+                const content = { json }
+                editor.set(content)
+            }
+
+            // get json
+            const sendmelding = document.getElementById('sendmelding')
+            sendmelding.addEventListener("submit", (e) => {
+                document.getElementById('json').innerText=JSON.stringify(editor.get())
+            });
+        </script>
     </body>
 </html>

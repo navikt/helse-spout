@@ -25,7 +25,7 @@ internal fun Route.spout(
 ) {
     get {
         val mellomnavn = navn(call).split(" ").lastOrNull() ?: ""
-        val html = SEND.replace("{{navn}}", mellomnavn)
+        val html = SEND.replace("{{innloggetbruker}}", mellomnavn)
         call.respondText(html, ContentType.Text.Html)
     }
 
@@ -37,20 +37,21 @@ internal fun Route.spout(
                 .put("epost", epost(call))
 
             val parameters = call.receiveParameters()
-            val fødselsnummer = parameters.hent("fodselsnummer")
             val tidspunkt = LocalDateTime.now()
+            val input = parameters.hent("json")
 
             val json = objectMapper.readTree(Template.resolve(
-                input = parameters.hent("json"),
+                input = objectMapper.readTree(input).path("text").asText(),
                 navIdent = navIdent(call),
                 navn = navn(call),
                 epost = epost(call),
                 tidspunkt = tidspunkt
             )) as ObjectNode
 
-            json.put("@event_name", parameters.hent("event_name"))
-            json.put("fødselsnummer", fødselsnummer)
-            json.put("aktørId", parameters.hent("aktorId"))
+            val fødselsnummer = json.path("fødselsnummer").asText()
+            check(fødselsnummer.matches("\\d{11}".toRegex())) { "Gyldig 'fødselsnummer' må settes i meldingen"}
+            val eventName = json.path("@event_name").asText()
+            check(eventName.isNotBlank()) { "Må settes '@event_name' i meldingen" }
             json.replace("@avsender", avsender)
 
             val (metadata, melding) = sender.send(fødselsnummer, json, tidspunkt)
