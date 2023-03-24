@@ -19,6 +19,7 @@
             <option value="blank">Blanke ark</option>
             <option value="paminnelse">Påminn vedtaksperiode</option>
             <option value="annullering">Annuller utbetaling</option>
+            <option value="forkast_sykmeldingsperioder">Forkast sykmeldingsperioder</option>
         </select>
         <br/><br/>
         <form method="post" action="/melding", id="sendmelding">
@@ -66,7 +67,6 @@
             }
             const schemaDefinitions = {}
 
-            // create the editor
             const editor = new JSONEditor({
                 target: document.getElementById('jsoneditor'),
                 mode: 'text',
@@ -76,15 +76,15 @@
             })
             editor.updateProps({
                 mode: 'text',
+                mainMenuBar: false
             })
             editor.set({json: defaultJson})
 
-            // set json
-            const templates =  document.getElementById('events')
-            templates.onchange = function () {
+            const events =  document.getElementById('events')
+            events.onchange = function () {
                 let json;
 
-                if (templates.value === 'paminnelse') json = {
+                if (events.value === 'paminnelse') json = {
                     '@event_name': "paminnelse",
                     fødselsnummer: "<fyll_meg>",
                     aktørId: "<fyll_meg>",
@@ -97,7 +97,7 @@
                     antallGangerPåminnet: 1,
                     ønskerReberegning: false
                 }
-                else if (templates.value === 'annullering') json = {
+                else if (events.value === 'annullering') json = {
                     '@event_name': "annullering",
                     fødselsnummer: "<fyll_meg>",
                     aktørId: "<fyll_meg>",
@@ -112,14 +112,22 @@
                         "<fyll_meg>"
                     ]
                 }
+                else if (events.value === 'forkast_sykmeldingsperioder') json = {
+                    '@event_name': "forkast_sykmeldingsperioder",
+                    fødselsnummer: "<fyll_meg>",
+                    aktørId: "<fyll_meg>",
+                    organisasjonsnummer: "<fyll_meg>",
+                    fom: "<fyll_meg>",
+                    tom: "<fyll_meg>",
+                }
                 else json = defaultJson
+
                 const content = { json }
                 editor.set(content)
             }
 
-            // get json
             const sendmelding = document.getElementById('sendmelding')
-            sendmelding.addEventListener("submit", (e) => {
+            sendmelding.addEventListener("submit", (_) => {
                 document.getElementById('json').innerText=JSON.stringify(editor.get())
             });
         </script>
