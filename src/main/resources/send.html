@@ -35,26 +35,31 @@
                 border-color: blueviolet;
             }
 
+            .roggbif {
+                color: black;
+                text-shadow: -2px -2px 2px white;
+            }
+
             .roggbif-r{
-                color:red
+                background-color:red
             }
             .roggbif-o {
-                color:orange
+                background-color:orange
             }
             .roggbif-g1 {
-                color:yellow
+                background-color:yellow
             }
             .roggbif-g2 {
-                color:green
+                background-color:green
             }
             .roggbif-b {
-                color:blue
+                background-color:blue
             }
             .roggbif-i {
-                color:indigo
+                background-color:indigo
             }
             .roggbif-f {
-                color:violet
+                background-color:violet
             }
         </style>
     </head>
@@ -126,7 +131,7 @@
                 let counter = 0
                 let updatedText = text.map(function (c) {
                     let klass = classes[counter++ % classes.length]
-                    return '<span class="' + klass + '">' + c + '</span>'
+                    return '<span class="roggbif ' + klass + '">' + c + '</span>'
                 })
 
                 elem.innerHTML = updatedText.join('')
