@@ -34,10 +34,32 @@
             fieldset.melding {
                 border-color: blueviolet;
             }
+
+            .roggbif-r{
+                color:red
+            }
+            .roggbif-o {
+                color:orange
+            }
+            .roggbif-g1 {
+                color:yellow
+            }
+            .roggbif-g2 {
+                color:green
+            }
+            .roggbif-b {
+                color:blue
+            }
+            .roggbif-i {
+                color:indigo
+            }
+            .roggbif-f {
+                color:violet
+            }
         </style>
     </head>
     <body>
-        <h1>Spout away {{innloggetbruker}}</h1>
+        <h1 id="title">Spout away {{innloggetbruker}}</h1>
         <fieldset class="event">
             <legend>Event xD</legend>
             <select name="events" id="events">
@@ -97,6 +119,20 @@
 
         <script type="module">
             import { JSONEditor, createAjvValidator } from 'https://cdn.jsdelivr.net/npm/vanilla-jsoneditor@0.16.0/index.js'
+
+            function roggbifiser(elem) {
+                let classes = ['roggbif-r', 'roggbif-o', 'roggbif-g1', 'roggbif-g2', 'roggbif-b', 'roggbif-i', 'roggbif-f']
+                let text = elem.innerHTML.split("")
+                let counter = 0
+                let updatedText = text.map(function (c) {
+                    let klass = classes[counter++ % classes.length]
+                    return '<span class="' + klass + '">' + c + '</span>'
+                })
+
+                elem.innerHTML = updatedText.join('')
+            }
+
+            roggbifiser(document.getElementById("title"))
 
             const defaultJson = {
                 '@event_name': "<fyll_meg>",
