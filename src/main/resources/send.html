@@ -172,13 +172,20 @@
                 mode: 'text',
                 mainMenuBar: false
             })
-            editor.set({json: defaultJson})
-
-            const events =  document.getElementById('events')
+            const events = document.getElementById('events')
             events.onchange = function () {
-                let json;
+                oppdaterJson(events.value)
+            }
+            oppdaterJson(events.options[events.selectedIndex].value)
 
-                if (events.value === 'paminnelse') json = {
+            const sendmelding = document.getElementById('sendmelding')
+            sendmelding.addEventListener("submit", (_) => {
+                document.getElementById('json').innerText=JSON.stringify(editor.get())
+            });
+
+            function oppdaterJson(event) {
+                let json;
+                if (event === 'paminnelse') json = {
                     '@event_name': "paminnelse",
                     fødselsnummer: "<fyll_meg>",
                     aktørId: "<fyll_meg>",
@@ -191,7 +198,7 @@
                     antallGangerPåminnet: 1,
                     ønskerReberegning: false
                 }
-                else if (events.value === 'annullering') json = {
+                else if (event === 'annullering') json = {
                     '@event_name': "annullering",
                     fødselsnummer: "<fyll_meg>",
                     aktørId: "<fyll_meg>",
@@ -206,7 +213,7 @@
                         "<fyll_meg>"
                     ]
                 }
-                else if (events.value === 'forkast_sykmeldingsperioder') json = {
+                else if (event === 'forkast_sykmeldingsperioder') json = {
                     '@event_name': "forkast_sykmeldingsperioder",
                     fødselsnummer: "<fyll_meg>",
                     aktørId: "<fyll_meg>",
@@ -214,7 +221,7 @@
                     fom: "<fyll_meg>",
                     tom: "<fyll_meg>",
                 }
-                else if (events.value === 'HentPersoninfoV3') json = {
+                else if (event === 'HentPersoninfoV3') json = {
                     fødselsnummer: "<fyll_meg>",
                     '@event_name': "behov",
                     '@behovId': "{{uuidgen}}",
@@ -242,11 +249,6 @@
                 const content = { json }
                 editor.set(content)
             }
-
-            const sendmelding = document.getElementById('sendmelding')
-            sendmelding.addEventListener("submit", (_) => {
-                document.getElementById('json').innerText=JSON.stringify(editor.get())
-            });
         </script>
     </body>
 </html>
