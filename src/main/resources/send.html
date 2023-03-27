@@ -73,6 +73,7 @@
                 <option value="annullering">Annuller utbetaling</option>
                 <option value="forkast_sykmeldingsperioder">Forkast sykmeldingsperioder</option>
                 <option value="HentPersoninfoV3">Send behov om personinfo</option>
+                <option value="overstyr_tidslinje">Overstyr tidslinje</option>
             </select>
         </fieldset>
         <fieldset class="begrunnelse">
@@ -242,6 +243,19 @@
                             "dødsdato"
                         ]
                     }
+                }
+                else if (event === 'overstyr_tidslinje') json = {
+                    fødselsnummer: "<fyll_meg>",
+                    '@event_name': "overstyr_tidslinje",
+                    "aktørId": "<fyll_meg>",
+                    "organisasjonsnummer": "<fyll_meg>",
+                    "dager": [
+                        {
+                            "dato": "<fyll_meg>",
+                            "type": "<fyll_meg>",
+                            "grad": "<fyll_meg>"
+                        }
+                    ]
                 }
 
                 else json = defaultJson
