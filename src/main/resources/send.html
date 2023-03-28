@@ -10,6 +10,7 @@
             h1 {
                 color: red;
             }
+
             legend {
                 font-size: 14px;
                 font-weight: bold;
@@ -64,12 +65,12 @@
         </style>
     </head>
     <body>
-        <h1 id="title">Spout away {{innloggetbruker}}</h1>
+    <marquee style="width:300px"><h1 id="title">🚝Spout away {{innloggetbruker}}</h1></marquee>
         <fieldset class="event">
             <legend>Event xD</legend>
             <select name="events" id="events">
                 <option value="blank">Blanke ark</option>
-                <option value="paminnelse">Påminn vedtaksperiode</option>
+                <option value="påminnelse">Påminn vedtaksperiode</option>
                 <option value="annullering">Annuller utbetaling</option>
                 <option value="forkast_sykmeldingsperioder">Forkast sykmeldingsperioder</option>
                 <option value="HentPersoninfoV3">Send behov om personinfo</option>
@@ -186,8 +187,8 @@
 
             function oppdaterJson(event) {
                 let json;
-                if (event === 'paminnelse') json = {
-                    '@event_name': "paminnelse",
+                if (event === 'påminnelse') json = {
+                    '@event_name': "påminnelse",
                     fødselsnummer: "<fyll_meg>",
                     aktørId: "<fyll_meg>",
                     organisasjonsnummer: "<fyll_meg>",
