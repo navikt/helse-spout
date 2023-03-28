@@ -164,8 +164,8 @@
             roggbifiser(document.getElementById("title"))
 
             const defaultJson = {
-                '@event_name': "<fyll_meg>",
-                fødselsnummer: "<fyll_meg>"
+                '@event_name': "fyll_meg",
+                fødselsnummer: "fyll_meg"
             }
 
             const schema = {
@@ -211,11 +211,11 @@
                 let json;
                 if (event === 'påminnelse') json = {
                     '@event_name': "påminnelse",
-                    fødselsnummer: "<fyll_meg>",
-                    aktørId: "<fyll_meg>",
-                    organisasjonsnummer: "<fyll_meg>",
-                    vedtaksperiodeId: "<fyll_meg>",
-                    tilstand: "<fyll_meg>",
+                    fødselsnummer: "fyll_meg",
+                    aktørId: "fyll_meg",
+                    organisasjonsnummer: "fyll_meg",
+                    vedtaksperiodeId: "fyll_meg",
+                    tilstand: "fyll_meg",
                     påminnelsestidspunkt: "{{now}}",
                     nestePåminnelsestidspunkt: "{{now+1h}}",
                     tilstandsendringstidspunkt: "{{now-1h}}",
@@ -224,29 +224,29 @@
                 }
                 else if (event === 'annullering') json = {
                     '@event_name': "annullering",
-                    fødselsnummer: "<fyll_meg>",
-                    aktørId: "<fyll_meg>",
+                    fødselsnummer: "fyll_meg",
+                    aktørId: "fyll_meg",
                     saksbehandler: {
-                        epostaddresse: "<fyll_meg>",
-                        oid: "<fyll_meg>",
-                        navn: "<fyll_meg>",
-                        ident: "<fyll_meg>"
+                        epostaddresse: "fyll_meg",
+                        oid: "fyll_meg",
+                        navn: "fyll_meg",
+                        ident: "fyll_meg"
                     },
-                    fagsystemId: "<fyll_meg>",
+                    fagsystemId: "fyll_meg",
                     begrunnelser: [
-                        "<fyll_meg>"
+                        "fyll_meg"
                     ]
                 }
                 else if (event === 'forkast_sykmeldingsperioder') json = {
                     '@event_name': "forkast_sykmeldingsperioder",
-                    fødselsnummer: "<fyll_meg>",
-                    aktørId: "<fyll_meg>",
-                    organisasjonsnummer: "<fyll_meg>",
-                    fom: "<fyll_meg>",
-                    tom: "<fyll_meg>",
+                    fødselsnummer: "fyll_meg",
+                    aktørId: "fyll_meg",
+                    organisasjonsnummer: "fyll_meg",
+                    fom: "fyll_meg",
+                    tom: "fyll_meg",
                 }
                 else if (event === 'HentPersoninfoV3') json = {
-                    fødselsnummer: "<fyll_meg>",
+                    fødselsnummer: "fyll_meg",
                     '@event_name': "behov",
                     '@behovId': "{{uuidgen}}",
                     '@behov': [
@@ -268,15 +268,15 @@
                     }
                 }
                 else if (event === 'overstyr_tidslinje') json = {
-                    fødselsnummer: "<fyll_meg>",
+                    fødselsnummer: "fyll_meg",
                     '@event_name': "overstyr_tidslinje",
-                    "aktørId": "<fyll_meg>",
-                    "organisasjonsnummer": "<fyll_meg>",
+                    "aktørId": "fyll_meg",
+                    "organisasjonsnummer": "fyll_meg",
                     "dager": [
                         {
-                            "dato": "<fyll_meg>",
-                            "type": "<fyll_meg>",
-                            "grad": "<fyll_meg>"
+                            "dato": "fyll_meg",
+                            "type": "fyll_meg",
+                            "grad": "fyll_meg"
                         }
                     ]
                 }
