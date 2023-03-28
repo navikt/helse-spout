@@ -62,6 +62,17 @@
             .roggbif-f {
                 background-color:violet
             }
+
+            #rakett {
+                font-size:15em;
+                background-color: transparent;
+                border:0;
+                transition: transform 1s;
+            }
+            #rakett:focus,
+            .trykket {
+                transform: translateY(-500px) translateX(500px);
+            }
         </style>
     </head>
     <body>
@@ -83,7 +94,7 @@
                 <input type="text" name="begrunnelse" size="100" required>
                 <textarea hidden name="json" id="json"></textarea>
                 <br/><br/>
-                <button type="submit">Send</button>
+                <button type="submit" id="rakett">🚀</button>
                 <p>Merk: Meldingen blir markert med deg som avsender under @avsender & auditlogges med oppgitt begrunnelse</p>
             </form>
         </fieldset>
@@ -126,6 +137,17 @@
 
         <script type="module">
             import { JSONEditor, createAjvValidator } from 'https://cdn.jsdelivr.net/npm/vanilla-jsoneditor@0.16.0/index.js'
+
+            document.getElementById("sendmelding").onsubmit = function(e) {
+                e.preventDefault();
+                document.getElementById('rakett').classList.add('trykket')
+
+                console.log("stopper submit")
+                window.setTimeout(function() {
+                    console.log("submitter på ekte")
+                    document.getElementById('sendmelding').submit();
+                }, 1000);
+            }
 
             function roggbifiser(elem) {
                 let classes = ['roggbif-r', 'roggbif-o', 'roggbif-g1', 'roggbif-g2', 'roggbif-b', 'roggbif-i', 'roggbif-f']
