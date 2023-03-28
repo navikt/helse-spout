@@ -16,32 +16,34 @@ private val ApplicationCall.navn get() =  principal<JWTPrincipal>()!!["name"] ?:
 private val ApplicationCall.epost get() =  principal<JWTPrincipal>()!!["preferred_username"] ?: throw IllegalStateException("Fant ikke NAVident")
 
 fun main() {
-    embeddedServer(CIO, port = 8080) {
-        authentication {
-            jwt {
-                val jwkProvider = JwkProviderBuilder(URL("AZURE_OPENID_CONFIG_JWKS_URI".env)).build()
-                verifier(jwkProvider, "AZURE_OPENID_CONFIG_ISSUER".env) {
-                    withAudience("AZURE_APP_CLIENT_ID".env)
-                    withArrayClaim("groups", "TBD_GROUP_ID".env)
-                    withClaimPresence("NAVident")
-                    withClaimPresence("preferred_username")
-                    withClaimPresence("name")
-                }
-                validate { credentials -> JWTPrincipal(credentials.payload) }
-            }
-        }
+    embeddedServer(CIO, port = 8080, module = Application::spout).start(wait = true)
+}
 
-        routing {
-            get("/isalive") { call.respondText("ALIVE!") }
-            get("/isready") { call.respondText("READY!") }
-            authenticate {
-                spout(
-                    sender = Kafka,
-                    resolveNavIdent = { it.NAVident },
-                    resolveNavn = { it.navn },
-                    resolveEpost = { it.epost }
-                )
+private fun Application.spout() {
+    authentication {
+        jwt {
+            val jwkProvider = JwkProviderBuilder(URL("AZURE_OPENID_CONFIG_JWKS_URI".env)).build()
+            verifier(jwkProvider, "AZURE_OPENID_CONFIG_ISSUER".env) {
+                withAudience("AZURE_APP_CLIENT_ID".env)
+                withArrayClaim("groups", "TBD_GROUP_ID".env)
+                withClaimPresence("NAVident")
+                withClaimPresence("preferred_username")
+                withClaimPresence("name")
             }
+            validate { credentials -> JWTPrincipal(credentials.payload) }
         }
-    }.start(wait = true)
+    }
+
+    routing {
+        get("/isalive") { call.respondText("ALIVE!") }
+        get("/isready") { call.respondText("READY!") }
+        authenticate {
+            spout(
+                sender = Kafka,
+                resolveNavIdent = { it.NAVident },
+                resolveNavn = { it.navn },
+                resolveEpost = { it.epost }
+            )
+        }
+    }
 }
