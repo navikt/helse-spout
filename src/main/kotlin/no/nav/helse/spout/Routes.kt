@@ -3,6 +3,8 @@ package no.nav.helse.spout
 import com.fasterxml.jackson.databind.node.ObjectNode
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import io.ktor.http.*
+import io.ktor.http.ContentType.Text.CSS
+import io.ktor.http.ContentType.Text.JavaScript
 import io.ktor.server.application.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
@@ -29,6 +31,17 @@ internal fun Route.spout(
         val mellomnavn = resolveNavn(call).split(" ").lastOrNull() ?: ""
         val html = SEND.replace("{{innloggetbruker}}", mellomnavn)
         call.respondText(html, ContentType.Text.Html)
+    }
+
+    get("/vanlig.css") {
+        call.respondText(
+            object {}.javaClass.getResource("/vanlig.css")?.readText(Charsets.UTF_8) ?: throw IllegalStateException("Fant ikke vanlig.css"),
+            contentType = CSS)
+    }
+    get("/common.js") {
+        call.respondText(
+            object {}.javaClass.getResource("/common.js")?.readText(Charsets.UTF_8) ?: throw IllegalStateException("Fant ikke vanlig.css"),
+            contentType = JavaScript)
     }
 
     post("/melding") {

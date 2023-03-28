@@ -74,6 +74,8 @@
                 transform: translateY(-500px) translateX(500px);
             }
         </style>
+        <script src="common.js">
+        </script>
     </head>
     <body>
     <marquee style="width:300px"><h1 id="title">🚝Spout away {{innloggetbruker}}</h1></marquee>
@@ -91,7 +93,7 @@
         <fieldset class="begrunnelse">
             <legend>Begrunnelse :S</legend>
             <form method="post" action="/melding" id="sendmelding">
-                <input type="text" name="begrunnelse" size="100" required>
+                <input type="text" name="begrunnelse" size="100" required onchange="vanligFunksjon(this.value)">
                 <textarea hidden name="json" id="json"></textarea>
                 <br/><br/>
                 <button type="submit" id="rakett">🚀</button>
