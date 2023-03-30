@@ -88,6 +88,7 @@
                 <option value="forkast_sykmeldingsperioder">Forkast sykmeldingsperioder</option>
                 <option value="HentPersoninfoV3">Send behov om personinfo</option>
                 <option value="overstyr_tidslinje">Overstyr tidslinje</option>
+                <option value="anmodning_om_forkasting">Anmodning om forkasting</option>
             </select>
         </fieldset>
         <fieldset class="begrunnelse">
@@ -245,7 +246,7 @@
                     aktørId: "fyll_meg",
                     organisasjonsnummer: "fyll_meg",
                     fom: "fyll_meg",
-                    tom: "fyll_meg",
+                    tom: "fyll_meg"
                 }
                 else if (event === 'HentPersoninfoV3') json = {
                     fødselsnummer: "fyll_meg",
@@ -281,6 +282,13 @@
                             "grad": "fyll_meg"
                         }
                     ]
+                }
+                else if (event === 'anmodning_om_forkasting') json = {
+                    '@event_name': "anmodning_om_forkasting",
+                    fødselsnummer: "fyll_meg",
+                    aktørId: "fyll_meg",
+                    organisasjonsnummer: "fyll_meg",
+                    vedtaksperiodeId: "fyll_meg"
                 }
 
                 else json = defaultJson
