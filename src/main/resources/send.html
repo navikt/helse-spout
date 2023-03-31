@@ -89,6 +89,7 @@
                 <option value="HentPersoninfoV3">Send behov om personinfo</option>
                 <option value="overstyr_tidslinje">Overstyr tidslinje</option>
                 <option value="anmodning_om_forkasting">Anmodning om forkasting</option>
+                <option value="godkjenning">Godkjenning</option>
             </select>
         </fieldset>
         <fieldset class="begrunnelse">
@@ -285,10 +286,31 @@
                 }
                 else if (event === 'anmodning_om_forkasting') json = {
                     '@event_name': "anmodning_om_forkasting",
-                    fødselsnummer: "fyll_meg",
+                    fødselsnummer: " ",
                     aktørId: "fyll_meg",
                     organisasjonsnummer: "fyll_meg",
                     vedtaksperiodeId: "fyll_meg"
+                }
+                else if (event === 'godkjenning') json = {
+                    "@event_name": "behov",
+                    "@behov": ["Godkjenning"],
+                    "aktørId": "fyll_meg",
+                    "fødselsnummer": "fyll_meg",
+                    "organisasjonsnummer": "fyll_meg",
+                    "vedtaksperiodeId": "fyll_meg",
+                    "utbetalingId": "fyll_meg",
+                    "tilstand": "AVVENTER_GODKJENNING",
+                    "@løsning": {
+                        "Godkjenning": {
+                            "godkjent": true,
+                            "saksbehandlerIdent": "{{NAVIdent}}",
+                            "saksbehandlerEpost": "{{epost}}",
+                            "godkjenttidspunkt": "{{now}}",
+                            "automatiskBehandling": false
+                        }
+                    },
+                    "@final": true,
+                    "@besvart": "{{now}}"
                 }
 
                 else json = defaultJson
