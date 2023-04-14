@@ -1,18 +1,30 @@
-fieldset {
-    animation-duration: 5s;
+body {
+    background: linear-gradient(30deg, #50ffe5, #ffe469, #ff74fd);
+    background-size: 400% 400%;
+    animation-duration: 1s;
     animation-name: heltVanligAnimasjon;
     animation-iteration-count: infinite;
     animation-direction: alternate;
 }
 
-@keyframes heltVanligAnimasjon {
-    from {
-        background-color: lightblue;
-        transform: rotateZ(0deg) translateX(0) translateY(0);
-    }
+fieldset {
+    background-size: 200% 200%;
+}
+fieldset:nth-child(odd) {
+    background: linear-gradient(-45deg, #ffeb3b, #74efff, #9c27b0);
+}
+fieldset:nth-child(even) {
+    background: linear-gradient(66deg, #ff3b3b, #1035ff, #d500ff);
+}
 
-    to {
-        background-color: yellow;
-        transform: rotateZ(360deg) translateX(10%) translateY(-10%);
+@keyframes heltVanligAnimasjon {
+    0% {
+        background-position: 0 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0 50%;
     }
 }

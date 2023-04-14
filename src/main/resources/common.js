@@ -1,5 +1,5 @@
 function vanligFunksjon(verdi) {
-    if (verdi === "påske") {
+    if (verdi === "vårstemning") {
         let link = document.createElement("link");
         link.type = "text/css";
         link.rel = "stylesheet";
