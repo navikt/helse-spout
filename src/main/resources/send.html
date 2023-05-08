@@ -91,6 +91,8 @@
                 <option value="anmodning_om_forkasting">Anmodning om forkasting</option>
                 <option value="godkjenning">Godkjenning</option>
                 <option value="person_påminnelse">Påminn person</option>
+                <option value="gjenoppliv_vilkårsgrunnlag">Gjenoppliv vilkårsgrunnlag</option>
+                <option value="overstyr_inntekt_og_refusjon">Overstyr inntekt og refusjon</option>
             </select>
         </fieldset>
         <fieldset class="begrunnelse">
@@ -317,6 +319,33 @@
                     '@event_name': "person_påminnelse",
                     fødselsnummer: "fyll_meg",
                     aktørId: "fyll_meg"
+                }
+                else if (event === 'gjenoppliv_vilkårsgrunnlag') json = {
+                    '@event_name': "gjenoppliv_vilkårsgrunnlag",
+                    fødselsnummer: "fyll_meg",
+                    aktørId: "fyll_meg",
+                    vilkårsgrunnlagId: "fyll_meg"
+                }
+
+                else if (event === 'overstyr_inntekt_og_refusjon') json = {
+                    "@event_name": "overstyr_inntekt_og_refusjon",
+                    "aktørId": "fyll_meg",
+                    "fødselsnummer": "fyll_meg",
+                    "skjæringstidspunkt": "fyll_meg",
+                    "arbeidsgivere": [
+                        {
+                            "organisasjonsnummer": "fyll_meg",
+                            "månedligInntekt": 0.0,
+                            "refusjonsopplysninger": [
+                                {
+                                    "fom": "fyll_meg",
+                                    "tom": null,
+                                    "beløp": 0.0
+                                }
+                            ],
+                            "forklaring": "Manuell overstyring av inntekt og refusjon"
+                        }
+                    ]
                 }
 
                 else json = defaultJson
