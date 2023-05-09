@@ -30,7 +30,8 @@ internal object Template {
         navn: String,
         epost: String,
         tidspunkt: LocalDateTime,
-        fødselsnummer: String
+        fødselsnummer: String,
+        begrunnelse: String
     ): String {
         return input
             .replace("{{NAVIdent}}", navIdent)
@@ -40,6 +41,7 @@ internal object Template {
             .replace("{{now}}", "$tidspunkt")
             .replace("{{today}}", "${tidspunkt.toLocalDate()}")
             .replace("{{fødselsnummer}}", fødselsnummer)
+            .replace("{{begrunnelse}}", begrunnelse)
             .replace(nowPlusRegex) { "${tidspunkt.plus(it.antall, it.unit)}" }
             .replace(nowMinusRegex) { "${tidspunkt.minus(it.antall, it.unit)}" }
             .replace(todayPlusRegex) { "${tidspunkt.plus(it.antall, it.unit).toLocalDate()}" }

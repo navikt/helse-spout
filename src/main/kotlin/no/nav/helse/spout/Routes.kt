@@ -59,6 +59,10 @@ internal fun Route.spout(
                 .put("epost", epost)
 
             val parameters = call.receiveParameters()
+
+            val begrunnelse = parameters.hent("begrunnelse")
+            check(begrunnelse.matches(begrunnelseRegex)) { "Litt sprø/kort begrunnelse eller? 🤏" }
+
             val input = parameters.hent("json")
             val jsonInput = objectMapper.readTree(objectMapper.readTree(input).path("text").asText())
 
@@ -68,11 +72,9 @@ internal fun Route.spout(
                 navn = navn,
                 epost = epost,
                 tidspunkt = tidspunkt,
-                fødselsnummer = jsonInput.path("fødselsnummer").asText()
+                fødselsnummer = jsonInput.path("fødselsnummer").asText(),
+                begrunnelse = begrunnelse
             )) as ObjectNode
-
-            val begrunnelse = parameters.hent("begrunnelse")
-            check(begrunnelse.matches(begrunnelseRegex)) { "Litt sprø/kort begrunnelse eller? 🤏" }
 
             val fødselsnummer = json.path("fødselsnummer").asText()
             check(fødselsnummer.matches("\\d{11}".toRegex())) { "Gyldig 'fødselsnummer' må settes i meldingen"}
