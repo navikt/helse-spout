@@ -93,6 +93,7 @@
                 <option value="person_påminnelse">Påminn person</option>
                 <option value="gjenoppliv_vilkårsgrunnlag">Gjenoppliv vilkårsgrunnlag</option>
                 <option value="overstyr_inntekt_og_refusjon">Overstyr inntekt og refusjon</option>
+                <option value="infotrygdendring">Oppdater IT-historikk ved å simulere en infotrygdendring</option>
             </select>
         </fieldset>
         <fieldset class="begrunnelse">
@@ -253,6 +254,12 @@
                     organisasjonsnummer: "fyll_meg",
                     fom: "fyll_meg",
                     tom: "fyll_meg"
+                }
+                else if  (event === 'infotrygdendring') json = {
+                    "@event_name": "infotrygdendring",
+                    "fødselsnummer": "fyll_meg",
+                    "aktørId": "fyll_meg",
+                    "endringsmeldingId": "9223372036854775807"
                 }
                 else if (event === 'HentPersoninfoV3') json = {
                     fødselsnummer: "fyll_meg",
