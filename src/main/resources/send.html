@@ -94,6 +94,8 @@
                 <option value="gjenoppliv_vilkårsgrunnlag">Gjenoppliv vilkårsgrunnlag</option>
                 <option value="overstyr_inntekt_og_refusjon">Overstyr inntekt og refusjon</option>
                 <option value="infotrygdendring">Oppdater IT-historikk ved å simulere en infotrygdendring</option>
+                <option value="kjør_spock">Trigge påminnelser fra Spock</option>
+                <option value="kjør_spissnok">Trigge Spissnok</option>
             </select>
         </fieldset>
         <fieldset class="begrunnelse">
@@ -191,7 +193,7 @@
                         type: 'string'
                     }
                 },
-                required: ['@event_name', 'fødselsnummer']
+                required: ['@event_name']
             }
             const schemaDefinitions = {}
 
@@ -355,6 +357,12 @@
                             "forklaring": "{{begrunnelse}}"
                         }
                     ]
+                }
+                else if (event === 'kjør_spock') json = {
+                    "@event_name": "kjør_spock"
+                }
+                else if (event === 'kjør_spissnok') json = {
+                    "@event_name": "kjør_spissnok"
                 }
 
                 else json = defaultJson
