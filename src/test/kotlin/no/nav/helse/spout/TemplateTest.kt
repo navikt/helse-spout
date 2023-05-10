@@ -82,6 +82,7 @@ internal class TemplateTest {
         navn = "Navn Navnesen",
         epost = "navn@epost.no",
         tidspunkt = tidspunkt,
-        fødselsnummer = "12345678910"
+        fødselsnummer = "12345678910",
+        begrunnelse = "en lang begrunnelse her"
     ).let { objectMapper.readTree(it) as ObjectNode }
 }
