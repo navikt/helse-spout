@@ -1,5 +1,6 @@
 package no.nav.helse.spout
 
+import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.node.ObjectNode
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import io.ktor.http.*
@@ -20,6 +21,7 @@ private val KVITTERING = object {}.javaClass.getResource("/kvittering.html")?.re
 private fun Parameters.hent(key: String) = checkNotNull(get(key)?.takeUnless { it.isBlank() }) { "Mangler $key" }
 private val objectMapper = jacksonObjectMapper()
 private val begrunnelseRegex = "[a-zæøåA-ZÆØÅ0-9 ]{15,100}".toRegex()
+private val JsonNode.fødselsnummerOrNull get() = if (has("fødselsnummer")) get("fødselsnummer").asText() else null
 
 internal fun Route.spout(
     sender: Sender,
@@ -72,12 +74,13 @@ internal fun Route.spout(
                 navn = navn,
                 epost = epost,
                 tidspunkt = tidspunkt,
-                fødselsnummer = jsonInput.path("fødselsnummer").asText(),
+                fødselsnummer = jsonInput.fødselsnummerOrNull ?: "n/a",
                 begrunnelse = begrunnelse
             )) as ObjectNode
 
-            val fødselsnummer = json.path("fødselsnummer").asText()
-            check(fødselsnummer.matches("\\d{11}".toRegex())) { "Gyldig 'fødselsnummer' må settes i meldingen"}
+            val fødselsnummer = json.fødselsnummerOrNull?.also {
+                check(it.matches("\\d{11}".toRegex())) { "Gyldig 'fødselsnummer' må settes i meldingen"}
+            }
             val eventName = json.path("@event_name").asText()
             check(eventName.isNotBlank()) { "Må settes '@event_name' i meldingen" }
             json.replace("@avsender", avsender)

@@ -7,6 +7,6 @@ internal object TestSender: Sender(
     instance = "localhost_instance",
     image = "localhost_image"
 ) {
-    override fun send(fødselsnummer: String, melding: String) = RecordMetadata(
+    override fun send(fødselsnummer: String?, melding: String) = RecordMetadata(
         TopicPartition("tbd.localhost.v1", 1), 2L, 3,4,5,6)
 }

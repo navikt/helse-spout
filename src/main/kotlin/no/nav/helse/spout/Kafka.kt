@@ -32,6 +32,6 @@ internal object Kafka: Sender(
         put(ProducerConfig.MAX_IN_FLIGHT_REQUESTS_PER_CONNECTION, "1")
     }
     private val producer = KafkaProducer(properties, StringSerializer(), StringSerializer())
-    override fun send(fødselsnummer: String, melding: String): RecordMetadata =
+    override fun send(fødselsnummer: String?, melding: String): RecordMetadata =
         producer.send(ProducerRecord("tbd.rapid.v1", fødselsnummer, melding)).get()
 }

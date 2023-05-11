@@ -10,9 +10,9 @@ internal abstract class Sender(
     protected val instance: String,
     protected val image: String) {
 
-    protected abstract fun send(fødselsnummer: String, melding: String): RecordMetadata
+    protected abstract fun send(fødselsnummer: String?, melding: String): RecordMetadata
 
-    internal fun send(key: String, melding: ObjectNode, tidspunkt: LocalDateTime, id: UUID): Pair<ObjectNode, ObjectNode> {
+    internal fun send(key: String?, melding: ObjectNode, tidspunkt: LocalDateTime, id: UUID): Pair<ObjectNode, ObjectNode> {
         melding.replace("system_participating_services", systemParticipatingServices(id, tidspunkt))
         melding.put("@id", "$id")
         melding.put("@opprettet", "$tidspunkt")
