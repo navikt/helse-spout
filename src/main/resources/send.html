@@ -96,6 +96,7 @@
                 <option value="infotrygdendring">Oppdater IT-historikk ved å simulere en infotrygdendring</option>
                 <option value="kjør_spock">Trigge påminnelser fra Spock</option>
                 <option value="kjør_spissnok">Trigge Spissnok</option>
+                <option value="ident_opphørt">Ident opphørt</option>
             </select>
         </fieldset>
         <fieldset class="begrunnelse">
@@ -363,6 +364,22 @@
                 }
                 else if (event === 'kjør_spissnok') json = {
                     "@event_name": "kjør_spissnok"
+                }
+                else if (event === 'ident_opphørt') json = {
+                    "@event_name": "ident_opphørt",
+                    "fødselsnummer": "fyll_meg_med_gammelt_fnr",
+                    "aktørId": "fyll_meg_med_gammel_aktørId",
+                    "nye_identer": {
+                        "fødselsnummer": "fyll_meg_med_nytt_fnr",
+                        "aktørId": "fyll_meg_med_ny_aktørId",
+                        "npid": null
+                    },
+                    "gamle_identer": [
+                        {
+                            "type": "FØDSELSNUMMER",
+                            "ident": "fyll_meg_med_et_gammelt_fnr"
+                        }
+                    ]
                 }
 
                 else json = defaultJson
