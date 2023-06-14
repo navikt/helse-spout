@@ -7,3 +7,7 @@ function vanligFunksjon(verdi) {
         document.head.appendChild(link);
     }
 }
+
+function clicked(thing) {
+    console.log(thing)
+}

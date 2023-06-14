@@ -48,6 +48,10 @@
             .roggbif-o {
                 background-color:orange
             }
+            #s1:hover {
+                cursor: crosshair;
+                display: inline;
+            }
             .roggbif-g1 {
                 background-color:yellow
             }
@@ -112,7 +116,7 @@
 
         <fieldset class="templates">
             <legend>Templates xP</legend>
-            <p>Kule templatevariabler du kan benytte deg av</p>
+            <p>Kule templatevariabler <span id="s1" onclick="clicked(this.id)">du</span> kan benytte deg av</p>
             <ul>
                 <li>{{uuidgen}}</li>
                 <ul><li>en random UUID, f.eks. om du skal sende et behov med @behovId</li></ul>
