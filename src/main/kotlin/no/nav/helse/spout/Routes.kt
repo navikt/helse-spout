@@ -63,7 +63,7 @@ internal fun Route.spout(
             val parameters = call.receiveParameters()
 
             val begrunnelse = parameters.hent("begrunnelse")
-            check(begrunnelse.matches(begrunnelseRegex)) { "Litt sprø/kort begrunnelse eller? 🤏" }
+            check(begrunnelse.matches(begrunnelseRegex)) { "Litt sprø/kort begrunnelse eller? 🤏 Er du sikker på at det du skrev matcher med regex-en \"$begrunnelseRegex\"? 🥸" }
 
             val input = parameters.hent("json")
             val jsonInput = objectMapper.readTree(objectMapper.readTree(input).path("text").asText())
