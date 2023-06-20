@@ -62,8 +62,8 @@ internal fun Route.spout(
 
             val parameters = call.receiveParameters()
 
-            val begrunnelse = parameters.hent("begrunnelse")
-            check(begrunnelse.matches(begrunnelseRegex)) { "Litt sprø/kort begrunnelse eller? 🤏" }
+            val begrunnelse = parameters.hent("begrunnelse").replace("=", "\\=")
+            check(begrunnelse.length >= 15) { "Litt kort begrunnelse eller? 🤏 MÅ være minst 15 makreller lang!" }
 
             val input = parameters.hent("json")
             val jsonInput = objectMapper.readTree(objectMapper.readTree(input).path("text").asText())
