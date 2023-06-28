@@ -37,9 +37,17 @@ internal fun Route.spout(
 
     get("/vanlig.css") {
         call.respondText(
-            object {}.javaClass.getResource("/vanlig.css")?.readText(Charsets.UTF_8) ?: throw IllegalStateException("Fant ikke vanlig.css"),
+            object {}.javaClass.getResource("/vanlig.css")?.readText(Charsets.UTF_8)
+                ?: throw IllegalStateException("Fant ikke vanlig.css"),
             contentType = CSS)
     }
+
+    get("/helt_vanlig.css") {
+        call.respondText(
+            object {}.javaClass.getResource("/helt_vanlig.css")?.readText(Charsets.UTF_8) ?: throw IllegalStateException("Fant ikke vanlig.css"),
+            contentType = CSS)
+    }
+
     get("/common.js") {
         call.respondText(
             object {}.javaClass.getResource("/common.js")?.readText(Charsets.UTF_8) ?: throw IllegalStateException("Fant ikke vanlig.css"),
