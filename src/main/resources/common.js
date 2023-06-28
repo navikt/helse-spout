@@ -8,6 +8,10 @@ function vanligFunksjon(verdi) {
     }
 }
 
-function clicked(thing) {
-    console.log(thing)
+function clicked() {
+    let link = document.createElement("link");
+    link.type = "text/css";
+    link.rel = "stylesheet";
+    link.href = "helt_vanlig.css";
+    document.head.appendChild(link);
 }
