@@ -51,3 +51,7 @@ spec:
   env:
     - name: TBD_GROUP_ID
       value: {{group}}
+    - name: SUBTEAM
+      valueFrom:
+        fieldRef:
+          fieldPath: metadata.subteam
