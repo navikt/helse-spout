@@ -5,7 +5,6 @@ metadata:
   namespace: tbd
   labels:
     team: tbd
-    subteam: spleiselaget
 spec:
   image: {{image}}
   port: 8080
@@ -52,6 +51,4 @@ spec:
     - name: TBD_GROUP_ID
       value: {{group}}
     - name: SUBTEAM
-      valueFrom:
-        fieldRef:
-          fieldPath: metadata.labels.subteam
+      value: spleiselaget
