@@ -54,4 +54,4 @@ spec:
     - name: SUBTEAM
       valueFrom:
         fieldRef:
-          fieldPath: metadata.subteam
+          fieldPath: metadata.labels.subteam
