@@ -7,10 +7,12 @@ import io.ktor.http.*
 import io.ktor.http.ContentType.Text.CSS
 import io.ktor.http.ContentType.Text.JavaScript
 import io.ktor.server.application.*
+import io.ktor.server.http.content.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import org.slf4j.LoggerFactory
+import java.io.File
 import java.lang.Exception
 import java.time.LocalDateTime
 import java.util.UUID
@@ -29,29 +31,12 @@ internal fun Route.spout(
     resolveNavn: (call: ApplicationCall) -> String,
     resolveEpost: (call: ApplicationCall) -> String
 ) {
+    staticResources("/static", "static")
+
     get {
         val mellomnavn = resolveNavn(call).split(" ").lastOrNull() ?: ""
         val html = SEND.replace("{{innloggetbruker}}", mellomnavn)
         call.respondText(html, ContentType.Text.Html)
-    }
-
-    get("/static/vanlig.css") {
-        call.respondText(
-            object {}.javaClass.getResource("/static/vanlig.css")?.readText(Charsets.UTF_8)
-                ?: throw IllegalStateException("Fant ikke vanlig.css"),
-            contentType = CSS)
-    }
-
-    get("/static/helt_vanlig.css") {
-        call.respondText(
-            object {}.javaClass.getResource("/static/helt_vanlig.css")?.readText(Charsets.UTF_8) ?: throw IllegalStateException("Fant ikke vanlig.css"),
-            contentType = CSS)
-    }
-
-    get("/static/common.js") {
-        call.respondText(
-            object {}.javaClass.getResource("/static/common.js")?.readText(Charsets.UTF_8) ?: throw IllegalStateException("Fant ikke vanlig.css"),
-            contentType = JavaScript)
     }
 
     post("/melding") {
