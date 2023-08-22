@@ -17,7 +17,7 @@ internal object AuditOgSikkerlogg {
 
     internal fun auditMelding(navIdent: String, fødselsnummer: String, tidspunkt: LocalDateTime, eventName: String, id: UUID, begrunnelse: String): String {
         val end = ZonedDateTime.of(tidspunkt, ZoneId.of("Europe/Oslo")).toInstant().toEpochMilli()
-        return "CEF:0|Spout|auditLog|1.0|audit:update|Sporingslogg|INFO|end=$end duid=$fødselsnummer suid=$navIdent request=$eventName sproc=$id msg=$begrunnelse"
+        return "CEF:0|Vedtaksløsning for sykepenger|Spout|auditLog|1.0|audit:update|Sporingslogg|INFO|end=$end duid=$fødselsnummer suid=$navIdent request=$eventName sproc=$id msg=$begrunnelse"
     }
 
     private val auditlogg = LoggerFactory.getLogger("auditLogger")
