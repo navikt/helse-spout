@@ -59,7 +59,16 @@ internal fun Route.spout(
             check(begrunnelse.length >= 15) { "Litt kort begrunnelse eller? 🤏 MÅ være minst 15 makreller lang!" }
 
             val input = parameters.hent("json")
-            val jsonInput = objectMapper.readTree(objectMapper.readTree(input).path("text").asText())
+            val inputjson = objectMapper.readTree(input)
+
+            val jsonInput = when {
+                inputjson.hasNonNull("text") -> objectMapper.readTree(inputjson.path("text").asText())
+                inputjson.hasNonNull("json") -> inputjson.path("json")
+                else -> error("Ugyldig input: må enten sende json i form av at 'text' er en jsonstring, eller så må 'json' settes til et jsonobjekt")
+            }
+            check(jsonInput is ObjectNode) {
+                "Ugyldig input, jsoninput må sendes som tekst!"
+            }
 
             val json = objectMapper.readTree(Template.resolve(
                 input = jsonInput.toString(),
