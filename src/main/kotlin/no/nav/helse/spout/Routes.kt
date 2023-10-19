@@ -23,7 +23,7 @@ private val KVITTERING = object {}.javaClass.getResource("/kvittering.html")?.re
 private fun Parameters.hent(key: String) = checkNotNull(get(key)?.takeUnless { it.isBlank() }) { "Mangler $key" }
 private val objectMapper = jacksonObjectMapper()
 private val begrunnelseRegex = "[a-zæøåA-ZÆØÅ0-9 ]{15,100}".toRegex()
-private val JsonNode.fødselsnummerOrNull get() = if (has("fødselsnummer")) get("fødselsnummer").asText() else null
+private val JsonNode.fødselsnummerOrNull get() = if (hasNonNull("fødselsnummer")) get("fødselsnummer").asText() else null
 
 internal fun Route.spout(
     sender: Sender,
