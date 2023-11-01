@@ -11,6 +11,7 @@ import io.ktor.server.routing.*
 import java.net.URL
 
 internal val String.env get() = checkNotNull(System.getenv(this)) { "Fant ikke environment variable $this" }
+internal fun String.env(default: String) = System.getenv(this)?: default
 private val ApplicationCall.NAVident get() =  principal<JWTPrincipal>()!!["NAVident"] ?: throw IllegalStateException("Fant ikke NAVident")
 private val ApplicationCall.navn get() =  principal<JWTPrincipal>()!!["name"] ?: throw IllegalStateException("Fant ikke NAVident")
 private val ApplicationCall.epost get() =  principal<JWTPrincipal>()!!["preferred_username"] ?: throw IllegalStateException("Fant ikke NAVident")
