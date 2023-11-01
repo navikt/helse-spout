@@ -35,7 +35,7 @@ internal fun Route.spout(
 
     get {
         val mellomnavn = resolveNavn(call).split(" ").lastOrNull() ?: ""
-        val html = SEND.replace("{{innloggetbruker}}", mellomnavn).replace("{{environment}}", "kafkaPool".env("ingenting"))
+        val html = SEND.replace("{{innloggetbruker}}", mellomnavn).replace("{{environment}}", "NAIS_CLUSTER_NAME".env("ingenting"))
         call.respondText(html, ContentType.Text.Html)
     }
 
