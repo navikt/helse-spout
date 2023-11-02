@@ -93,10 +93,14 @@
                 background-image: url("static/bakrund3.final.v3.png");
                 background-position: 5%;
             }
+
+            #title:before {
+                content: var(--tog);
+            }
         </style>
     </head>
     <body class="{{environment}}">
-    <marquee style="width:300px"><h1 id="title">🚝Spout away {{innloggetbruker}}</h1></marquee>
+    <marquee style="width:300px"><h1 id="title">Spout away {{innloggetbruker}}</h1></marquee>
         <fieldset class="event">
             <legend>Event xD</legend>
             <select name="events" id="events">
