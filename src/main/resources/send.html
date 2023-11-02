@@ -3,13 +3,14 @@
     <head>
         <title>Spout</title>
         <meta charset="UTF-8">
+        <link rel="stylesheet" href="static/helt_vanlig.css">
+        <script src="static/common.js">
+        </script>
         <style>
             body {
                 font-family: Consolas,monaco,monospace;
                 font-size: 11px;
-            }
-            h1 {
-                color: red;
+                background-color: var(--bakgrunnsfarge);
             }
 
             legend {
@@ -17,29 +18,29 @@
                 font-weight: bold;
             }
             fieldset {
-                background-color: lightblue;
+                background-color: var(--main-background-color);
                 border-style: solid;
                 border-width: 4px;
             }
             fieldset.event {
-                border-color: red;
+                border-color: var(--event-border);
             }
             fieldset.begrunnelse {
-                border-color: orange;
+                border-color: var(--begrunnelse-border);
             }
             fieldset.templates {
-                border-color: green;
+                border-color: var(--templates-border);
             }
             fieldset.nicetoknow {
-                border-color: blue;
+                border-color: var(--nicetoknow-border);
             }
             fieldset.melding {
-                border-color: blueviolet;
+                border-color: var(--melding-border);
             }
 
             .roggbif {
-                color: black;
-                text-shadow: -2px -2px 2px white;
+                color: var(--main-text-color);
+                text-shadow: -2px -2px 2px var(--main-text-shadow);
             }
 
             .roggbif-r{
@@ -73,6 +74,14 @@
                 background-color: transparent;
                 border:0;
                 transition: transform 1s;
+                pointer-events: none;
+            }
+            #rakett:after {
+                pointer-events: all;
+                content: "🚀";
+            }
+            #rakett:after:hover {
+                cursor: crosshair;
             }
             .trykket {
                 transform: translateY(-500px) translateX(500px);
@@ -83,8 +92,6 @@
                 background-position: 5%;
             }
         </style>
-        <script src="static/common.js">
-        </script>
     </head>
     <body class="{{environment}}">
     <marquee style="width:300px"><h1 id="title">🚝Spout away {{innloggetbruker}}</h1></marquee>
@@ -114,7 +121,7 @@
                 <input type="text" name="begrunnelse" size="100" required onchange="vanligFunksjon(this.value)">
                 <textarea hidden name="json" id="json"></textarea>
                 <br/><br/>
-                <button type="submit" id="rakett">🎃</button>
+                <button type="submit" id="rakett"></button>
                 <p>Merk: Meldingen blir markert med deg som avsender under @avsender & auditlogges med oppgitt begrunnelse</p>
             </form>
         </fieldset>
@@ -156,7 +163,7 @@
             <legend>Melding <3</legend>
             <div id="jsoneditor"></div>
         </fieldset>
-
+    </div>
         <script type="module">
             import { JSONEditor, createAjvValidator } from 'https://cdn.jsdelivr.net/npm/vanilla-jsoneditor@0.16.0/index.js'
 

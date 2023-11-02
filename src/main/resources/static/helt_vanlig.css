@@ -1,34 +1,11 @@
-html {
-    background-color: #f5bbc5;
-}
-
-fieldset {
-    border-radius: 10px;
-}
-
-fieldset.event {
-    border-color: #ADC75B;
-    background-color: #E9F7BD;
-}
-fieldset.begrunnelse {
-    border-color: #3E8875;
-    background-color: #98C7BB;
-}
-fieldset.templates {
-    border-color: #ADC75B;
-    background-color: #E9F7BD;
-}
-fieldset.nicetoknow {
-    border-color: #3E8875;
-    background-color: #98C7BB;
-}
-fieldset.melding {
-    border-color: #C45A6D;
-    background-color: #FADBE1;
-}
-#title{
-    opacity: 0.75;
-}
-#rakett {
-    opacity: 0.75;
+:root {
+    --bakgrunnsfarge: white;
+    --main-text-color: black;
+    --main-text-shadow: white;
+    --event-border: red;
+    --begrunnelse-border: orange;
+    --templates-border: green;
+    --nicetoknow-border: blue;
+    --melding-border: blueviolet;
+    --main-background-color: lightblue;
 }
