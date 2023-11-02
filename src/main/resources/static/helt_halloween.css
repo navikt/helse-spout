@@ -1,0 +1,14 @@
+:root {
+    --bakgrunnsfarge: #63539c;
+    --main-text-color: #63539c;
+    --main-text-shadow: #45a8d0;
+    --event-border: #05091d;
+    --begrunnelse-border: #05091d;
+    --templates-border: #05091d;
+    --nicetoknow-border: #05091d;
+    --melding-border: #05091d;
+    --main-background-color: #ff9a24;
+    --alternate-background-color: #45a8d0;
+    --legend-background-color: #d14c85;
+    --rakett: "🎃";
+}

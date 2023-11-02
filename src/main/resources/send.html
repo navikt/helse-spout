@@ -3,7 +3,7 @@
     <head>
         <title>Spout</title>
         <meta charset="UTF-8">
-        <link rel="stylesheet" href="static/helt_vanlig.css">
+        <link rel="stylesheet" href="static/helt_halloween.css">
         <script src="static/common.js">
         </script>
         <style>
@@ -16,11 +16,15 @@
             legend {
                 font-size: 14px;
                 font-weight: bold;
+                background-color: var(--legend-background-color);
             }
             fieldset {
                 background-color: var(--main-background-color);
                 border-style: solid;
                 border-width: 4px;
+            }
+            fieldset:nth-child(even) {
+                background-color: var(--alternate-background-color);
             }
             fieldset.event {
                 border-color: var(--event-border);
@@ -78,11 +82,9 @@
             }
             #rakett:after {
                 pointer-events: all;
-                content: "🚀";
+                content: var(--rakett);
             }
-            #rakett:after:hover {
-                cursor: crosshair;
-            }
+
             .trykket {
                 transform: translateY(-500px) translateX(500px);
             }
