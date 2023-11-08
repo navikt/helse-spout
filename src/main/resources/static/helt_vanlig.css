@@ -9,6 +9,8 @@
     --melding-border: blueviolet;
     --main-background-color: lightblue;
     --alternate-background-color: lightblue;
+    --legend-background-color: #00000000;
+    --kvittering-tekst: red;
     --rakett: "🚀";
     --tog: "🚝";
 }

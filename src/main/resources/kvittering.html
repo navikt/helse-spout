@@ -2,6 +2,7 @@
     <head>
         <title>Spout</title>
         <meta charset="UTF-8">
+        <link rel="stylesheet" href="static/helt_vanlig.css">
         <style>
             body {
                 font-family: Consolas,monaco,monospace;
@@ -12,21 +13,22 @@
                 font-weight: bold;
             }
             fieldset {
-                background-color: lightblue;
+                background-color: var(--main-background-color);
                 border-style: solid;
                 border-width: 4px;
             }
             fieldset.nyttig {
-                border-color: red;
+                border-color: var(--event-border);
             }
             fieldset.metadata {
-                border-color: orange;
+                border-color: var(--begrunnelse-border);
             }
             fieldset.json {
-                border-color: green;
+                border-color: var(--templates-border);
             }
             h1 {
-                color: red;
+                font-size: 2.5em;
+                color: var(--kvittering-tekst);
             }
         </style>
     </head>
