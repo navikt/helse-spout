@@ -119,6 +119,7 @@
                 <option value="infotrygdendring">Oppdater IT-historikk ved å simulere en infotrygdendring</option>
                 <option value="kjør_spock">Trigge påminnelser fra Spock</option>
                 <option value="kjør_spissnok">Trigge Spissnok</option>
+                <option value="identifiser_stuck_vedtaksperioder">Identifiser stuck vedtaksperioder</option>
                 <option value="ident_opphørt">Ident opphørt</option>
             </select>
         </fieldset>
@@ -388,6 +389,9 @@
                 }
                 else if (event === 'kjør_spissnok') json = {
                     "@event_name": "kjør_spissnok"
+                }
+                else if (event === 'identifiser_stuck_vedtaksperioder') json = {
+                    "@event_name": "identifiser_stuck_vedtaksperioder"
                 }
                 else if (event === 'ident_opphørt') json = {
                     "@event_name": "ident_opphørt",
