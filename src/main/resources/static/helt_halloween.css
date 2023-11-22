@@ -1,6 +1,7 @@
 :root {
     --main-font-familie: Consolas,monaco,monospace;
     --bakgrunnsfarge: #63539c;
+    --bakgrunnsbilde: none;
     --main-text-color: #63539c;
     --main-text-shadow: #45a8d0;
     --event-border: #05091d;
