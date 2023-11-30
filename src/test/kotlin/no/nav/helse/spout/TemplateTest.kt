@@ -77,25 +77,23 @@ internal class TemplateTest {
 
     @Test
     fun `velger et bra tema`() {
-        1.januar blir "vanlig"
-        23.oktober blir "vanlig"
-        24.oktober blir "halloween"
-        31.oktober blir "halloween"
-        1.november blir "vanlig"
-
-        for(i in 1..31) {
-            i.desember blir "jul"
-        }
+        (1..31).januar blir "vanlig"
+        (1..23).oktober blir "vanlig"
+        (24..31).oktober blir "halloween"
+        (1..30).november blir "vanlig"
+        (1..31).desember blir "jul"
     }
 
+    private infix fun MonthDay.blir(theme: String) = assertEquals(theme, this.velgTema())
+    private infix fun List<MonthDay>.blir(tema: String) = forEach { temadag -> temadag blir tema }
     private val Int.januar get() = MonthDay.of(1, this)
+    private val IntRange.januar: List<MonthDay> get() = map { it.januar }
     private val Int.oktober get() = MonthDay.of(10, this)
+    private val IntRange.oktober: List<MonthDay> get() = map { it.oktober }
     private val Int.november get() = MonthDay.of(11, this)
+    private val IntRange.november: List<MonthDay> get() = map { it.november }
     private val Int.desember get() = MonthDay.of(12, this)
-
-    private infix fun MonthDay.blir(theme: String) {
-        assertEquals(theme, this.velgTema())
-    }
+    private val IntRange.desember: List<MonthDay> get() = map { it.desember }
 
     private val tidspunkt = LocalDateTime.parse("2023-03-23T23:00:00.000000")
     private val objectMapper = jacksonObjectMapper()
