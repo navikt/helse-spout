@@ -4,18 +4,18 @@ import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.node.ObjectNode
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import io.ktor.http.*
-import io.ktor.http.ContentType.Text.CSS
-import io.ktor.http.ContentType.Text.JavaScript
 import io.ktor.server.application.*
 import io.ktor.server.http.content.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import org.slf4j.LoggerFactory
-import java.io.File
-import java.lang.Exception
 import java.time.LocalDateTime
+import java.time.Month
+import java.time.MonthDay
+import java.time.format.DateTimeFormatter
 import java.util.UUID
+import kotlin.Exception
 
 private val sikkerlogg = LoggerFactory.getLogger("tjenestekall")
 private val SEND = object {}.javaClass.getResource("/send.html")?.readText(Charsets.UTF_8) ?: throw IllegalStateException("Fant ikke send.html")
@@ -35,7 +35,11 @@ internal fun Route.spout(
 
     get {
         val mellomnavn = resolveNavn(call).split(" ").lastOrNull() ?: ""
-        val html = SEND.replace("{{innloggetbruker}}", mellomnavn).replace("{{environment}}", "NAIS_CLUSTER_NAME".env("ingenting"))
+        val temadag = resolveTemadag(call)?: MonthDay.now()
+        val html = SEND
+            .replace("{{innloggetbruker}}", mellomnavn)
+            .replace("{{environment}}", "NAIS_CLUSTER_NAME".env("ingenting"))
+            .velgTema(temadag)
         call.respondText(html, ContentType.Text.Html)
     }
 
@@ -107,7 +111,24 @@ internal fun Route.spout(
             .replace("{{json}}", melding.toPrettyString())
             .replace("{{metadata}}", metadata.toPrettyString())
             .replace("{{kibana}}", "https://logs.adeo.no/app/kibana#/discover?_a=(index:'tjenestekall-*',query:(language:lucene,query:'%22${id}%22'))&_g=(time:(from:'$tidspunkt',mode:absolute,to:now))")
+            .velgTema(MonthDay.now())
 
         call.respondText(html, ContentType.Text.Html)
     }
 }
+
+private fun resolveTemadag(call: ApplicationCall): MonthDay? {
+    val kanskjeDatoString = call.parameters["temadag"] ?: return null
+    return try {
+        MonthDay.parse(kanskjeDatoString, DateTimeFormatter.ofPattern("MM-dd"))
+    } catch (e: Exception) {
+        null
+    }
+}
+
+fun MonthDay.velgTema(): String = when {
+    month == Month.DECEMBER -> "jul"
+    month == Month.OCTOBER && dayOfMonth > 23 -> "halloween"
+    else -> "vanlig"
+}
+private fun String.velgTema(temadag: MonthDay) = this.replace("helt_vanlig.css", "helt_${temadag.velgTema()}.css")

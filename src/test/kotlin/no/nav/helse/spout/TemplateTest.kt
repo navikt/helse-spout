@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertDoesNotThrow
 import java.time.LocalDate
 import java.time.LocalDateTime
+import java.time.MonthDay
 import java.util.UUID
 
 internal class TemplateTest {
@@ -72,6 +73,28 @@ internal class TemplateTest {
         }"""
         val result = resolve(input)
         assertEquals("12345678910", result.path("fødselsnummer").asText())
+    }
+
+    @Test
+    fun `velger et bra tema`() {
+        1.januar blir "vanlig"
+        23.oktober blir "vanlig"
+        24.oktober blir "halloween"
+        31.oktober blir "halloween"
+        1.november blir "vanlig"
+
+        for(i in 1..31) {
+            i.desember blir "jul"
+        }
+    }
+
+    private val Int.januar get() = MonthDay.of(1, this)
+    private val Int.oktober get() = MonthDay.of(10, this)
+    private val Int.november get() = MonthDay.of(11, this)
+    private val Int.desember get() = MonthDay.of(12, this)
+
+    private infix fun MonthDay.blir(theme: String) {
+        assertEquals(theme, this.velgTema())
     }
 
     private val tidspunkt = LocalDateTime.parse("2023-03-23T23:00:00.000000")
