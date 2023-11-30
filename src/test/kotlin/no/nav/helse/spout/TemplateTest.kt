@@ -8,7 +8,6 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertDoesNotThrow
 import java.time.LocalDate
 import java.time.LocalDateTime
-import java.time.MonthDay
 import java.util.UUID
 
 internal class TemplateTest {
@@ -74,26 +73,6 @@ internal class TemplateTest {
         val result = resolve(input)
         assertEquals("12345678910", result.path("fødselsnummer").asText())
     }
-
-    @Test
-    fun `velger et bra tema`() {
-        (1..31).januar blir "vanlig"
-        (1..23).oktober blir "vanlig"
-        (24..31).oktober blir "halloween"
-        (1..30).november blir "vanlig"
-        (1..31).desember blir "jul"
-    }
-
-    private infix fun MonthDay.blir(theme: String) = assertEquals(theme, this.velgTema())
-    private infix fun List<MonthDay>.blir(tema: String) = forEach { temadag -> temadag blir tema }
-    private val Int.januar get() = MonthDay.of(1, this)
-    private val IntRange.januar: List<MonthDay> get() = map { it.januar }
-    private val Int.oktober get() = MonthDay.of(10, this)
-    private val IntRange.oktober: List<MonthDay> get() = map { it.oktober }
-    private val Int.november get() = MonthDay.of(11, this)
-    private val IntRange.november: List<MonthDay> get() = map { it.november }
-    private val Int.desember get() = MonthDay.of(12, this)
-    private val IntRange.desember: List<MonthDay> get() = map { it.desember }
 
     private val tidspunkt = LocalDateTime.parse("2023-03-23T23:00:00.000000")
     private val objectMapper = jacksonObjectMapper()

@@ -11,9 +11,7 @@ import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import org.slf4j.LoggerFactory
 import java.time.LocalDateTime
-import java.time.Month
 import java.time.MonthDay
-import java.time.format.DateTimeFormatter
 import java.util.UUID
 import kotlin.Exception
 
@@ -116,19 +114,3 @@ internal fun Route.spout(
         call.respondText(html, ContentType.Text.Html)
     }
 }
-
-private fun resolveTemadag(call: ApplicationCall): MonthDay? {
-    val kanskjeDatoString = call.parameters["temadag"] ?: return null
-    return try {
-        MonthDay.parse(kanskjeDatoString, DateTimeFormatter.ofPattern("MM-dd"))
-    } catch (e: Exception) {
-        null
-    }
-}
-
-fun MonthDay.velgTema(): String = when {
-    month == Month.DECEMBER -> "jul"
-    month == Month.OCTOBER && dayOfMonth > 23 -> "halloween"
-    else -> "vanlig"
-}
-private fun String.velgTema(temadag: MonthDay) = this.replace("helt_vanlig.css", "helt_${temadag.velgTema()}.css")
