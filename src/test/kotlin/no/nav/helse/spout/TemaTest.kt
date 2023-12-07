@@ -7,11 +7,13 @@ import java.time.MonthDay
 class TemaTest {
     @Test
     fun `velg et bra tema`() {
-        (1..31).januar blir "vanlig"
+        (1..7).januar blir "nyttår"
+        (8..31).januar blir "vanlig"
         (1..23).oktober blir "vanlig"
         (24..31).oktober blir "halloween"
         (1..30).november blir "vanlig"
-        (1..31).desember blir "jul"
+        (1..30).desember blir "jul"
+        31.desember blir "nyttår"
     }
     private infix fun MonthDay.blir(theme: String) = Assertions.assertEquals(theme, this.velgTema())
     private infix fun List<MonthDay>.blir(tema: String) = forEach { temadag -> temadag blir tema }

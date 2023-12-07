@@ -2,6 +2,7 @@
     --main-font-familie: Consolas,monaco,monospace;
     --bakgrunnsfarge: #63539c;
     --bakgrunnsbilde: none;
+    --hele-bakgrunnen-i-en: #63539c;
     --main-text-color: #63539c;
     --main-text-shadow: #45a8d0;
     --event-border: #05091d;
@@ -9,10 +10,11 @@
     --templates-border: #05091d;
     --nicetoknow-border: #05091d;
     --melding-border: #05091d;
-    --main-background-color: #ff9a24;
-    --alternate-background-color: #45a8d0;
+    --fieldset-background: #ff9a24;
+    --alternate-fieldset-background: #45a8d0;
     --legend-background-color: #d14c85;
     --kvittering-tekst: #63539c;
+    --fieldset-box-shadow: ;
     --rakett: "🎃";
     --tog: "💀";
 }

@@ -1,7 +1,6 @@
 :root {
     --main-font-familie: Consolas,monaco,monospace;
-    --bakgrunnsfarge: white;
-    --bakgrunnsbilde: none;
+    --hele-bakgrunnen-i-en: white;
     --main-text-color: black;
     --main-text-shadow: white;
     --event-border: red;
@@ -9,10 +8,11 @@
     --templates-border: green;
     --nicetoknow-border: blue;
     --melding-border: blueviolet;
-    --main-background-color: lightblue;
-    --alternate-background-color: lightblue;
+    --fieldset-background: lightblue;
+    --alternate-fieldset-background: lightblue;
     --legend-background-color: #00000000;
     --kvittering-tekst: red;
+    --fieldset-box-shadow: ;
     --rakett: "🚀";
     --tog: "🚝";
 }
