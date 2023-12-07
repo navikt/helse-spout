@@ -12,7 +12,7 @@
     --alternate-fieldset-background: lightblue;
     --legend-background-color: #00000000;
     --kvittering-tekst: red;
-    --fieldset-box-shadow: ;
+    --fieldset-box-shadow: 0;
     --rakett: "🚀";
     --tog: "🚝";
 }

@@ -4,8 +4,8 @@
         <title>Spout</title>
         <meta charset="UTF-8">
         <link rel="stylesheet" href="static/helt_vanlig.css">
-        <script src="static/common.js">
-        </script>
+        <script src="static/common.js"></script>
+        <script src="static/konfetti.js"></script>
         <style>
             body {
                 font-family: var(--main-font-familie);
@@ -42,6 +42,15 @@
             }
             fieldset.melding {
                 border-color: var(--melding-border);
+            }
+            .konfetti {
+                overflow-y: hidden;
+                overflow-x: hidden;
+                width: 100%;
+                margin: 0;
+                height: 100%;
+                position: absolute;
+                top: 0;
             }
 
             .roggbif {
@@ -114,6 +123,7 @@
     </head>
     <body class="{{environment}}">
     <marquee style="width:300px"><h1 id="title">Spout away {{innloggetbruker}}</h1></marquee>
+        <canvas id="konfetti" class="konfetti"></canvas>
         <fieldset class="event">
             <legend>Event xD</legend>
             <select name="events" id="events">
@@ -187,6 +197,7 @@
         <script type="module">
             import { JSONEditor, createAjvValidator } from 'https://cdn.jsdelivr.net/npm/vanilla-jsoneditor@0.16.0/index.js'
 
+            lagKonfetti()
             document.getElementById("sendmelding").onsubmit = function(e) {
                 e.preventDefault();
                 document.getElementById('rakett').classList.add('trykket')
