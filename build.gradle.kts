@@ -1,4 +1,4 @@
-val javaVersion = "17"
+val javaVersion = "21"
 val kotlinVersion = "1.9.22"
 val ktorVersion = "2.3.7"
 val logbackClassicVersion = "1.4.14"
@@ -8,7 +8,7 @@ val kafkaVersion = "3.6.1"
 val junitJupiterVersion = "5.10.1"
 
 plugins {
-    kotlin("jvm") version "1.9.0"
+    kotlin("jvm") version "1.9.22"
 }
 
 repositories {
