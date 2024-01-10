@@ -1,11 +1,11 @@
 val javaVersion = "17"
-val kotlinVersion = "1.8.10"
-val ktorVersion = "2.3.3"
-val logbackClassicVersion = "1.4.6"
-val logbackEncoderVersion = "7.3"
-val jacksonVersion = "2.14.2"
-val kafkaVersion = "3.4.0"
-val junitJupiterVersion = "5.9.2"
+val kotlinVersion = "1.9.22"
+val ktorVersion = "2.3.7"
+val logbackClassicVersion = "1.4.14"
+val logbackEncoderVersion = "7.4"
+val jacksonVersion = "2.16.1"
+val kafkaVersion = "3.6.1"
+val junitJupiterVersion = "5.10.1"
 
 plugins {
     kotlin("jvm") version "1.9.0"
