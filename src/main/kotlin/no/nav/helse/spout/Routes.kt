@@ -129,7 +129,7 @@ private fun sendÉnMelding(sender: Sender, avsender: Avsender, begrunnelse: Stri
 
         val (metadata, sendtMelding) = sender.send(fødselsnummer, json, tidspunkt, id)
         AuditOgSikkerlogg.logg(
-            message = "Sendt melding fra Spout\nMelding:\n\t$melding\nMetadata:\n\t$metadata",
+            message = "Sendt melding fra Spout\nMelding:\n\t$sendtMelding\nMetadata:\n\t$metadata",
             navIdent = avsender.navIdent,
             fødselsnummer = fødselsnummer,
             tidspunkt = tidspunkt,
