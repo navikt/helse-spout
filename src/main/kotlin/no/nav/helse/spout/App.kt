@@ -26,7 +26,6 @@ private fun Application.spout() {
             val jwkProvider = JwkProviderBuilder(URL("AZURE_OPENID_CONFIG_JWKS_URI".env)).build()
             verifier(jwkProvider, "AZURE_OPENID_CONFIG_ISSUER".env) {
                 withAudience("AZURE_APP_CLIENT_ID".env)
-                withArrayClaim("groups", "TBD_GROUP_ID".env)
                 withClaimPresence("NAVident")
                 withClaimPresence("preferred_username")
                 withClaimPresence("name")
