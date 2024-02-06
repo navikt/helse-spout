@@ -1,5 +1,4 @@
 {
   "ingress": "https://spout.intern.dev.nav.no",
-  "group": "f787f900-6697-440d-a086-d5bb56e26a9c",
   "kafkaPool": "nav-dev"
 }
