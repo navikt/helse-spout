@@ -142,6 +142,7 @@
                 <option value="kjør_spock">Trigge påminnelser fra Spock</option>
                 <option value="kjør_spissnok">Trigge Spissnok</option>
                 <option value="identifiser_stuck_vedtaksperioder">Identifiser stuck vedtaksperioder</option>
+                <option value="vedtaksperiode_venter_ikke">Fjern vedtaksperiode som stuck</option>
                 <option value="identifiser_overlappende_perioder">Identifiser overlappende vedtaksperioder mot Infotrygd</option>
                 <option value="ident_opphørt">Ident opphørt</option>
             </select>
@@ -417,6 +418,12 @@
                 }
                 else if (event === 'identifiser_stuck_vedtaksperioder') json = {
                     "@event_name": "identifiser_stuck_vedtaksperioder"
+                }
+                else if (event === 'vedtaksperiode_venter_ikke') json = {
+                    "@event_name": "vedtaksperiode_venter_ikke",
+                    fødselsnummer: "fyll_meg",
+                    aktørId: "fyll_meg",
+                    vedtaksperiodeId: "fyll_meg"
                 }
                 else if (event === 'identifiser_overlappende_perioder') json = {
                     "@event_name": "identifiser_overlappende_perioder"
