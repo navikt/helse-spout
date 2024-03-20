@@ -1,4 +1,4 @@
-val javaVersion = "21"
+val javaVersion = 21
 val kotlinVersion = "1.9.22"
 val ktorVersion = "2.3.7"
 val logbackClassicVersion = "1.4.14"
@@ -39,12 +39,8 @@ dependencies {
 }
 
 tasks {
-    compileKotlin {
-        kotlinOptions.jvmTarget = javaVersion
-    }
-
-    compileTestKotlin {
-        kotlinOptions.jvmTarget = javaVersion
+    kotlin {
+        jvmToolchain(javaVersion)
     }
 
     withType<Test> {
@@ -66,7 +62,7 @@ tasks {
 
         doLast {
             configurations.runtimeClasspath.get().forEach {
-                val file = File("$buildDir/libs/${it.name}")
+                val file = File("${layout.buildDirectory.get()}/libs/${it.name}")
                 if (!file.exists())
                     it.copyTo(file)
             }
