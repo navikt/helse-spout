@@ -43,6 +43,10 @@
             fieldset.melding {
                 border-color: var(--melding-border);
             }
+            marquee {
+                width: 300px;
+                display: block;
+            }
             .konfetti {
                 overflow-y: hidden;
                 overflow-x: hidden;
@@ -123,7 +127,7 @@
         </style>
     </head>
     <body class="{{environment}}">
-    <marquee style="width:300px"><h1 id="title">Spout away {{innloggetbruker}}</h1></marquee>
+    <marquee><h1 id="title">Spout away {{innloggetbruker}}</h1></marquee>
         <canvas id="konfetti" class="konfetti"></canvas>
         <fieldset class="event">
             <legend>Event xD</legend>

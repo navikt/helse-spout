@@ -12,6 +12,6 @@ function clicked() {
     let link = document.createElement("link");
     link.type = "text/css";
     link.rel = "stylesheet";
-    link.href = "helt_vanlig.css";
+    link.href = "static/helt_vanlig.css";
     document.head.appendChild(link);
 }
