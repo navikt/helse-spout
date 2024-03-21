@@ -106,15 +106,20 @@
             }
 
             .trykket {
-                animation: fly 1s;
+                animation: fly 1s forwards;
             }
             @keyframes fly {
-                0% {
-                    transform: translateY(0px) translateX(0px);
-                }
-                100% {
-                    transform: translateY(-500px) translateX(500px);
-                }
+                0% { transform: rotate(0deg) translateY(0px) translateX(0px); }
+                10% { transform: rotate(0deg); }
+                20% { transform: rotate(5deg); }
+                30% { transform: rotate(-5deg); }
+                40% { transform: rotate(0deg); }
+                50% { transform: rotate(5deg); }
+                60% { transform: rotate(-5deg); }
+                70% { transform: rotate(0deg) translateY(-200px) translateX(200px); }
+                80% { transform: rotate(5deg) translateY(-300px) translateX(300px) }
+                90% { transform: rotate(-5deg) translateY(-400px) translateX(400px) }
+                100% { transform: rotate(0deg) translateY(-500px) translateX(500px); }
             }
             body.dev-gcp {
                 background-image: url("static/bakrund3.final.v3.png");
