@@ -10,7 +10,6 @@ import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import java.net.URL
 
-
 internal val String.env get() = checkNotNull(System.getenv(this)) { "Fant ikke environment variable $this" }
 internal fun String.env(default: String) = System.getenv(this)?: default
 private val ApplicationCall.NAVident get() =  principal<JWTPrincipal>()!!["NAVident"] ?: throw IllegalStateException("Fant ikke NAVident")
