@@ -1,14 +1,13 @@
 val javaVersion = 21
-val kotlinVersion = "1.9.22"
-val ktorVersion = "2.3.7"
-val logbackClassicVersion = "1.4.14"
+val ktorVersion = "2.3.11"
+val logbackClassicVersion = "1.5.6"
 val logbackEncoderVersion = "7.4"
-val jacksonVersion = "2.16.1"
-val kafkaVersion = "3.6.1"
+val jacksonVersion = "2.17.1"
+val kafkaVersion = "3.7.0"
 val junitJupiterVersion = "5.10.2"
 
 plugins {
-    kotlin("jvm") version "1.9.22"
+    kotlin("jvm") version "2.0.0"
 }
 
 repositories {
@@ -26,9 +25,6 @@ dependencies {
     implementation("io.ktor:ktor-server-auth-jwt:$ktorVersion") {
         exclude(group = "junit")
     }
-    implementation("io.ktor:ktor-server-auth-jvm:2.2.4")
-    implementation("io.ktor:ktor-server-core-jvm:2.2.4")
-    implementation("io.ktor:ktor-server-auth-jwt-jvm:2.2.4")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin:$jacksonVersion")
 
     implementation("org.apache.kafka:kafka-clients:$kafkaVersion")
