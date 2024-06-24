@@ -153,6 +153,7 @@
                 <option value="kjør_spissnok">Trigge Spissnok</option>
                 <option value="identifiser_stuck_vedtaksperioder">Identifiser stuck vedtaksperioder</option>
                 <option value="vedtaksperiode_venter_ikke">Fjern vedtaksperiode som stuck</option>
+                <option value="g_reguler">Reguler G</option>
                 <option value="identifiser_overlappende_perioder">Identifiser overlappende vedtaksperioder mot Infotrygd</option>
                 <option value="ident_opphørt">Ident opphørt</option>
             </select>
@@ -453,6 +454,12 @@
                             "ident": "fyll_meg_med_et_gammelt_fnr"
                         }
                     ]
+                }
+                else if (event === "g_reguler") json = {
+                    "@event_name": "grunnbeløpsregulering",
+                    "fødselsnummer": "fyll_meg",
+                    "aktørId": "fyll_meg",
+                    "skjæringstidspunkt": "fyll_meg"
                 }
 
                 else json = defaultJson
