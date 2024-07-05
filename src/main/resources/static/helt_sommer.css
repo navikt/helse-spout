@@ -1,0 +1,19 @@
+:root {
+    --main-font-familie: Consolas,monaco,monospace;
+    --hele-bakgrunnen-i-en: url("static/sommer.jpg");
+    --main-text-color: black;
+    --main-text-shadow: white;
+    --event-border: #9DD017;
+    --begrunnelse-border: #9DD017;
+    --templates-border: #9DD017;
+    --nicetoknow-border: #9DD017;
+    --melding-border: 	#9DD017;
+    --fieldset-background: #FFA50060;
+    --alternate-fieldset-background: #FF240060;
+    --legend-background-color: #9DD01790;
+    --kvittering-tekst: red;
+    --fieldset-box-shadow: 0;
+    --rakett: "🍹";
+    --tog: "✈️";
+    --animasjon: drink;
+}

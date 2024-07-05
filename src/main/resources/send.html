@@ -3,7 +3,7 @@
     <head>
         <title>Spout</title>
         <meta charset="UTF-8">
-        <link rel="stylesheet" href="static/helt_vanlig.css">
+        <link rel="stylesheet" href="static/helt_sommer.css">
         <script src="static/common.js"></script>
         <script src="static/konfetti.js"></script>
         <style>
@@ -106,7 +106,7 @@
             }
 
             .trykket {
-                animation: fly 1s forwards;
+                animation: var(--animasjon) 1s forwards;
             }
             @keyframes fly {
                 0% { transform: rotate(0deg) translateY(0px) translateX(0px); }
@@ -120,6 +120,14 @@
                 80% { transform: rotate(5deg) translateY(-300px) translateX(300px) }
                 90% { transform: rotate(-5deg) translateY(-400px) translateX(400px) }
                 100% { transform: rotate(0deg) translateY(-500px) translateX(500px); }
+            }
+            @keyframes drink {
+                0% { transform: rotate(0deg) translateY(0px) translateX(0px) }
+                69% { transform: rotate(60deg) }
+                70% { transform: rotate(60deg) translateY(200px) translateX(400px); }
+                80% { transform: rotate(60deg) translateY(300px) translateX(600px) }
+                90% { transform: rotate(60deg) translateY(400px) translateX(800px) }
+                100% { transform: rotate(60deg) translateY(500px) translateX(700px); }
             }
             body.dev-gcp {
                 background-image: url("static/bakrund3.final.v3.png");

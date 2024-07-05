@@ -19,6 +19,8 @@ internal fun MonthDay.velgTema(): String = when {
     month == Month.DECEMBER && dayOfMonth == 31 -> "nyttår"
     month == Month.OCTOBER && dayOfMonth > 23-> "halloween"
     month == Month.JANUARY && dayOfMonth < 8 -> "nyttår"
+    month in setOf(Month.APRIL, Month.MAY) -> "vår"
+    month in setOf(Month.JUNE, Month.JULY, Month.AUGUST) -> "sommer"
     else -> "vanlig"
 }
 internal fun String.velgTema(temadag: MonthDay) = this.replace("helt_vanlig.css", "helt_${temadag.velgTema()}.css")
