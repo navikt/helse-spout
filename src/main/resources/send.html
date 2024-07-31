@@ -163,6 +163,7 @@
                 <option value="person_påminnelse">Påminn person</option>
                 <option value="påminnelse">Påminn vedtaksperiode</option>
                 <option value="vedtaksperiode_venter_ikke">Fjern vedtaksperiode som stuck</option>
+                <option value="kjør_grunnbeløpsregulering">Kjør G-regulering</option>
             </select>
         </fieldset>
         <fieldset class="begrunnelse">
@@ -439,6 +440,12 @@
                     fødselsnummer: "fyll_meg",
                     aktørId: "fyll_meg",
                     vedtaksperiodeId: "fyll_meg"
+                }
+                else if (event === 'kjør_grunnbeløpsregulering') json = {
+                    "@event_name": "kjør_grunnbeløpsregulering",
+                    "grunnbeløpGjelderFra": "fyll_meg",
+                    "grunnbeløpGjelderTil": "fyll_meg_eller_fjern_meg",
+                    "riktigGrunnbeløp": 0.0,
                 }
                 else if (event === 'identifiser_overlappende_perioder') json = {
                     "@event_name": "identifiser_overlappende_perioder"
