@@ -9,8 +9,8 @@ spec:
   image: {{image}}
   port: 8080
   ingresses:
-    {{# each ingresses as |ingress| }}
-    - {{ingress}}
+    {{#each ingresses }}
+    - "{{this}}"
     {{/each~}}
   liveness:
     path: /isalive
