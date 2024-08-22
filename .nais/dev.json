@@ -1,4 +1,4 @@
 {
-  "ingress": "https://spout.ansatt.dev.nav.no",
+  "ingresses": ["https://spout.ansatt.dev.nav.no"],
   "kafkaPool": "nav-dev"
 }

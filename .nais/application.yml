@@ -9,7 +9,9 @@ spec:
   image: {{image}}
   port: 8080
   ingresses:
+    {{# each ingresses as |ingress| }}
     - {{ingress}}
+    {{/each~}}
   liveness:
     path: /isalive
     initialDelay: 5
