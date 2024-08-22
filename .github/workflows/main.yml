@@ -58,6 +58,7 @@ jobs:
           RESOURCE: .nais/application.yml
           VARS: .nais/dev.json
           IMAGE: ${{ needs.build.outputs.image }}
+          PRINT_PAYLOAD: true
 
   deployProd:
     name: deploy to prod
@@ -72,3 +73,4 @@ jobs:
           RESOURCE: .nais/application.yml
           VARS: .nais/prod.json
           IMAGE: ${{ needs.build.outputs.image }}
+          PRINT_PAYLOAD: true
