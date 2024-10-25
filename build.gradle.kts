@@ -1,5 +1,5 @@
 val javaVersion = 21
-val ktorVersion = "2.3.11"
+val ktorVersion = "2.3.12"
 val logbackClassicVersion = "1.5.6"
 val logbackEncoderVersion = "7.4"
 val jacksonVersion = "2.17.1"
