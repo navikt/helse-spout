@@ -295,7 +295,6 @@
                 if (event === 'påminnelse') json = {
                     '@event_name': "påminnelse",
                     fødselsnummer: "fyll_meg",
-                    aktørId: "fyll_meg",
                     organisasjonsnummer: "fyll_meg",
                     vedtaksperiodeId: "fyll_meg",
                     tilstand: "fyll_meg",
@@ -308,7 +307,6 @@
                 else if (event === 'annullering') json = {
                     '@event_name': "annullering",
                     fødselsnummer: "fyll_meg",
-                    aktørId: "fyll_meg",
                     organisasjonsnummer: "fyll_meg",
                     saksbehandler: {
                         epostaddresse: "fyll_meg",
@@ -324,7 +322,6 @@
                 else if (event === 'forkast_sykmeldingsperioder') json = {
                     '@event_name': "forkast_sykmeldingsperioder",
                     fødselsnummer: "fyll_meg",
-                    aktørId: "fyll_meg",
                     organisasjonsnummer: "fyll_meg",
                     fom: "fyll_meg",
                     tom: "fyll_meg"
@@ -332,35 +329,11 @@
                 else if  (event === 'infotrygdendring') json = {
                     "@event_name": "infotrygdendring",
                     "fødselsnummer": "fyll_meg",
-                    "aktørId": "fyll_meg",
                     "endringsmeldingId": "9223372036854775807"
-                }
-                else if (event === 'HentPersoninfoV3') json = {
-                    fødselsnummer: "fyll_meg",
-                    '@event_name': "behov",
-                    '@behovId': "{{uuidgen}}",
-                    '@behov': [
-                        "HentPersoninfoV3"
-                    ],
-                    HentPersoninfoV3: {
-                        ident: "{{fødselsnummer}}",
-                        attributter: [
-                            "aktørId",
-                            "folkeregisterident",
-                            "fødselsdato",
-                            "historiskeFolkeregisteridenter",
-                            "navn",
-                            "adressebeskyttelse",
-                            "støttes",
-                            "kjønn",
-                            "dødsdato"
-                        ]
-                    }
                 }
                 else if (event === 'overstyr_tidslinje') json = {
                     fødselsnummer: "fyll_meg",
                     '@event_name': "overstyr_tidslinje",
-                    "aktørId": "fyll_meg",
                     "organisasjonsnummer": "fyll_meg",
                     "dager": [
                         {
@@ -374,14 +347,12 @@
                 else if (event === 'anmodning_om_forkasting') json = {
                     '@event_name': "anmodning_om_forkasting",
                     fødselsnummer: "fyll_meg",
-                    aktørId: "fyll_meg",
                     organisasjonsnummer: "fyll_meg",
                     vedtaksperiodeId: "fyll_meg"
                 }
                 else if (event === 'godkjenning') json = {
                     "@event_name": "behov",
                     "@behov": ["Godkjenning"],
-                    "aktørId": "fyll_meg",
                     "fødselsnummer": "fyll_meg",
                     "organisasjonsnummer": "fyll_meg",
                     "vedtaksperiodeId": "fyll_meg",
@@ -401,20 +372,17 @@
                 }
                 else if (event === 'person_påminnelse') json = {
                     '@event_name': "person_påminnelse",
-                    fødselsnummer: "fyll_meg",
-                    aktørId: "fyll_meg"
+                    fødselsnummer: "fyll_meg"
                 }
                 else if (event === 'gjenoppliv_vilkårsgrunnlag') json = {
                     '@event_name': "gjenoppliv_vilkårsgrunnlag",
                     fødselsnummer: "fyll_meg",
-                    aktørId: "fyll_meg",
                     nyttSkjæringstidspunkt: "fyll_meg_eller_fjern_meg",
                     vilkårsgrunnlagId: "fyll_meg"
                 }
 
                 else if (event === 'overstyr_inntekt_og_refusjon') json = {
                     "@event_name": "overstyr_inntekt_og_refusjon",
-                    "aktørId": "fyll_meg",
                     "fødselsnummer": "fyll_meg",
                     "skjæringstidspunkt": "fyll_meg",
                     "arbeidsgivere": [
@@ -443,7 +411,6 @@
                 else if (event === 'vedtaksperiode_venter_ikke') json = {
                     "@event_name": "vedtaksperiode_venter_ikke",
                     fødselsnummer: "fyll_meg",
-                    aktørId: "fyll_meg",
                     vedtaksperiodeId: "fyll_meg"
                 }
                 else if (event === 'kjør_grunnbeløpsregulering') json = {
@@ -458,7 +425,6 @@
                 else if (event === 'ident_opphørt') json = {
                     "@event_name": "ident_opphørt",
                     "fødselsnummer": "fyll_meg_med_gammelt_fnr",
-                    "aktørId": "fyll_meg_med_gammel_aktørId",
                     "nye_identer": {
                         "fødselsnummer": "fyll_meg_med_nytt_fnr",
                         "aktørId": "fyll_meg_med_ny_aktørId",
@@ -474,7 +440,6 @@
                 else if (event === "g_reguler") json = {
                     "@event_name": "grunnbeløpsregulering",
                     "fødselsnummer": "fyll_meg",
-                    "aktørId": "fyll_meg",
                     "skjæringstidspunkt": "fyll_meg"
                 }
 
