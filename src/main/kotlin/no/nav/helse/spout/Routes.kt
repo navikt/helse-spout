@@ -10,7 +10,6 @@ import io.ktor.server.http.content.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
-import io.ktor.util.pipeline.*
 import no.nav.helse.spout.SendtMelding.Companion.kvittering
 import no.nav.helse.spout.SendtMelding.Companion.somSendtMelding
 import org.slf4j.LoggerFactory
@@ -62,7 +61,7 @@ internal fun Route.spout(
     }
 }
 
-private suspend fun PipelineContext<Unit, ApplicationCall>.spoutRequest(resolveNavIdent: (call: ApplicationCall) -> String, resolveNavn: (call: ApplicationCall) -> String, resolveEpost: (call: ApplicationCall) -> String): SpoutRequest{
+private suspend fun RoutingContext.spoutRequest(resolveNavIdent: (call: ApplicationCall) -> String, resolveNavn: (call: ApplicationCall) -> String, resolveEpost: (call: ApplicationCall) -> String): SpoutRequest{
     val navIdent = resolveNavIdent(call)
     val navn = resolveNavn(call)
     val epost = resolveEpost(call)
@@ -89,7 +88,7 @@ private suspend fun PipelineContext<Unit, ApplicationCall>.spoutRequest(resolveN
     return SpoutRequest(avsender, begrunnelse, jsonInput)
 }
 
-private suspend fun PipelineContext<Unit, ApplicationCall>.spoutResponse(sendteMeldinger: List<SendtMelding>) {
+private suspend fun RoutingContext.spoutResponse(sendteMeldinger: List<SendtMelding>) {
     val from = sendteMeldinger.minOf { it.tidspunkt }
     val query = sendteMeldinger.joinToString("%20OR%20") { "%22${it.id}%22"}
     val json = sendteMeldinger.kvittering { it.melding }
