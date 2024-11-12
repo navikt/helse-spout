@@ -1,9 +1,8 @@
-val javaVersion = 21
 val ktorVersion = "3.0.1"
-val logbackClassicVersion = "1.5.6"
-val logbackEncoderVersion = "7.4"
-val jacksonVersion = "2.17.1"
-val kafkaVersion = "3.7.0"
+val logbackClassicVersion = "1.5.12"
+val logbackEncoderVersion = "8.0"
+val jacksonVersion = "2.18.1"
+val kafkaVersion = "3.9.0"
 val junitJupiterVersion = "5.11.3"
 
 plugins {
@@ -33,10 +32,13 @@ dependencies {
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
 
-tasks {
-    kotlin {
-        jvmToolchain(javaVersion)
+kotlin {
+    jvmToolchain {
+        languageVersion.set(JavaLanguageVersion.of("21"))
     }
+}
+
+tasks {
 
     withType<Test> {
         useJUnitPlatform()
