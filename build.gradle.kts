@@ -4,7 +4,7 @@ val logbackClassicVersion = "1.5.6"
 val logbackEncoderVersion = "7.4"
 val jacksonVersion = "2.17.1"
 val kafkaVersion = "3.7.0"
-val junitJupiterVersion = "5.10.2"
+val junitJupiterVersion = "5.11.3"
 
 plugins {
     kotlin("jvm") version "2.0.21"
@@ -29,9 +29,8 @@ dependencies {
 
     implementation("org.apache.kafka:kafka-clients:$kafkaVersion")
 
-    testImplementation("org.junit.jupiter:junit-jupiter-api:$junitJupiterVersion")
-    testImplementation("org.junit.jupiter:junit-jupiter-params:$junitJupiterVersion")
-    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:$junitJupiterVersion")
+    testImplementation("org.junit.jupiter:junit-jupiter:$junitJupiterVersion")
+    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
 
 tasks {
