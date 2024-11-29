@@ -448,6 +448,18 @@
                 const content = { json }
                 editor.set(content)
             }
+
+            function kanskjeOverstyrJsonFraLocalStorage() {
+                let localOverstyringPath = new URLSearchParams(new URLSearchParams(window.location).get("search")).get("kjeksnavn");
+                if (localOverstyringPath === undefined) return;
+                if (localOverstyringPath === null) return;
+                let rawson = window.localStorage.getItem(localOverstyringPath);
+                if (rawson === undefined) return;
+                if (rawson === null) return;
+                const json =  JSON.parse(rawson) ;
+                editor.set({json});
+            }
+            kanskjeOverstyrJsonFraLocalStorage();
         </script>
     </body>
 </html>
