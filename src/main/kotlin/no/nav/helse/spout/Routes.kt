@@ -44,11 +44,6 @@ internal fun Route.spout(
         call.respondText(html, ContentType.Text.Html)
     }
 
-    get("/testtema") {
-        testAlleTema(environment.classLoader)
-        call.respondText { "fint, det" }
-    }
-
     get("/tema") {
         call.respondText("""{
             "tema": [${alleTema(environment.classLoader).joinToString(",") { tema -> "\"$tema\"" }}]

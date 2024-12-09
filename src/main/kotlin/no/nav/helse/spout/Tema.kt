@@ -1,7 +1,6 @@
 package no.nav.helse.spout
 
 import io.ktor.server.application.*
-import org.slf4j.LoggerFactory
 import java.io.File
 import java.time.Month
 import java.time.MonthDay
@@ -27,21 +26,6 @@ internal fun MonthDay.velgTema(): String = when {
 }
 internal fun String.velgTema(temadag: MonthDay) = this.replace("tema.css", "helt_${temadag.velgTema()}.css")
 
-internal fun testAlleTema(classLoader: ClassLoader) {
-    val log = LoggerFactory.getLogger("tema")
-    val staticResource = classLoader.getResource("static")
-    log.info("staticResource=$staticResource")
-    val staticResourceFile = staticResource?.file
-    log.info("staticResourceFile=$staticResourceFile")
-    if (staticResourceFile == null) return
-    val file = File(staticResourceFile)
-    val files = file.listFiles()
-    if (files == null) {
-        log.info("lista med filer var null")
-        return
-    }
-    log.info("lista med filer var ${files.joinToString { it.name }}")
-}
 internal fun alleTema(classLoader: ClassLoader): Set<String> = classLoader.getResource("static")?.path?.let { statiskRessurs ->
     File(statiskRessurs).listFiles()
         ?.filter { fil -> fil.name.endsWith(".css") && fil.name.startsWith("helt_") }
