@@ -12,7 +12,7 @@
     --alternate-fieldset-background: rgba(241, 91, 87, 0.88);
     --legend-background-color: #f5624d;
     --kvittering-tekst: #cc231e;
-    --fieldset-box-shadow: ;
+    --fieldset-box-shadow: 0;
     --rakett: "🎅";
     --tog: "🛷";
     --animasjon: fly;
