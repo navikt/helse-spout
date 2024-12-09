@@ -13,6 +13,7 @@ import io.ktor.server.routing.*
 import no.nav.helse.spout.SendtMelding.Companion.kvittering
 import no.nav.helse.spout.SendtMelding.Companion.somSendtMelding
 import org.slf4j.LoggerFactory
+import java.io.File
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.MonthDay
@@ -42,6 +43,12 @@ internal fun Route.spout(
             .replace("{{environment}}", "NAIS_CLUSTER_NAME".env("ingenting"))
             .velgTema(temadag)
         call.respondText(html, ContentType.Text.Html)
+    }
+
+    get("/tema") {
+        call.respondText("""{
+            "tema": [${alleTema(environment.classLoader).joinToString(",") { tema -> "\"$tema\"" }}]
+        }""".trimMargin(), ContentType.Application.Json)
     }
 
     post("/melding") {

@@ -1,9 +1,13 @@
 package no.nav.helse.spout
 
 import io.ktor.server.application.*
+import java.io.File
 import java.time.Month
 import java.time.MonthDay
 import java.time.format.DateTimeFormatter
+import kotlin.io.path.Path
+import kotlin.io.path.listDirectoryEntries
+import kotlin.io.path.name
 
 internal fun resolveTemadag(call: ApplicationCall): MonthDay? {
     val kanskjeDatoString = call.parameters["temadag"] ?: return null
@@ -24,3 +28,9 @@ internal fun MonthDay.velgTema(): String = when {
     else -> "vanlig"
 }
 internal fun String.velgTema(temadag: MonthDay) = this.replace("tema.css", "helt_${temadag.velgTema()}.css")
+internal fun alleTema(classLoader: ClassLoader): Set<String> = classLoader.getResource("static")?.path?.let { statiskRessurs ->
+    File(statiskRessurs).listFiles()
+        ?.filter { fil -> fil.name.endsWith(".css") && fil.name.startsWith("helt_") }
+        ?.map { temaFil -> temaFil.name.substring(5).dropLast(4) }
+        ?.toSet()
+}?: emptySet()
