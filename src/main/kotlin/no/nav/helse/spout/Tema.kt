@@ -1,13 +1,11 @@
 package no.nav.helse.spout
 
 import io.ktor.server.application.*
+import org.slf4j.LoggerFactory
 import java.io.File
 import java.time.Month
 import java.time.MonthDay
 import java.time.format.DateTimeFormatter
-import kotlin.io.path.Path
-import kotlin.io.path.listDirectoryEntries
-import kotlin.io.path.name
 
 internal fun resolveTemadag(call: ApplicationCall): MonthDay? {
     val kanskjeDatoString = call.parameters["temadag"] ?: return null
@@ -28,6 +26,22 @@ internal fun MonthDay.velgTema(): String = when {
     else -> "vanlig"
 }
 internal fun String.velgTema(temadag: MonthDay) = this.replace("tema.css", "helt_${temadag.velgTema()}.css")
+
+internal fun testAlleTema(classLoader: ClassLoader) {
+    val log = LoggerFactory.getLogger("tema")
+    val staticResource = classLoader.getResource("static")
+    log.info("staticResource=$staticResource")
+    val staticResourcePath = staticResource?.path
+    log.info("staticResourcePath=$staticResourcePath")
+    if (staticResourcePath == null) return
+    val file = File(staticResourcePath)
+    val files = file.listFiles()
+    if (files == null) {
+        log.info("lista med filer var null")
+        return
+    }
+    log.info("lista med filer var ${files.joinToString { it.name }}")
+}
 internal fun alleTema(classLoader: ClassLoader): Set<String> = classLoader.getResource("static")?.path?.let { statiskRessurs ->
     File(statiskRessurs).listFiles()
         ?.filter { fil -> fil.name.endsWith(".css") && fil.name.startsWith("helt_") }
