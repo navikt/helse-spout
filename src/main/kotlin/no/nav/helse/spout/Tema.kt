@@ -31,10 +31,10 @@ internal fun testAlleTema(classLoader: ClassLoader) {
     val log = LoggerFactory.getLogger("tema")
     val staticResource = classLoader.getResource("static")
     log.info("staticResource=$staticResource")
-    val staticResourcePath = staticResource?.path
-    log.info("staticResourcePath=$staticResourcePath")
-    if (staticResourcePath == null) return
-    val file = File(staticResourcePath)
+    val staticResourceFile = staticResource?.file
+    log.info("staticResourceFile=$staticResourceFile")
+    if (staticResourceFile == null) return
+    val file = File(staticResourceFile)
     val files = file.listFiles()
     if (files == null) {
         log.info("lista med filer var null")
