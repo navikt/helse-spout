@@ -23,4 +23,4 @@ internal fun MonthDay.velgTema(): String = when {
     month in setOf(Month.JUNE, Month.JULY, Month.AUGUST) -> "sommer"
     else -> "vanlig"
 }
-internal fun String.velgTema(temadag: MonthDay) = this.replace("helt_vanlig.css", "helt_${temadag.velgTema()}.css")
+internal fun String.velgTema(temadag: MonthDay) = this.replace("tema.css", "helt_${temadag.velgTema()}.css")
