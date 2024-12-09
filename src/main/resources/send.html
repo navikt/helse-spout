@@ -4,7 +4,6 @@
         <title>Spout</title>
         <meta charset="UTF-8">
         <link rel="stylesheet" href="static/tema.css">
-        <script src="static/common.js"></script>
         <script src="static/konfetti.js"></script>
         <style>
             body {
@@ -169,7 +168,7 @@
         <fieldset class="begrunnelse">
             <legend>Begrunnelse :S</legend>
             <form method="post" action="/melding" id="sendmelding">
-                <input type="text" name="begrunnelse" size="100" required onchange="vanligFunksjon(this.value)">
+                <input type="text" name="begrunnelse" size="100" required>
                 <textarea hidden name="json" id="json"></textarea>
                 <br/><br/>
                 <button type="submit" id="rakett"></button>
@@ -179,7 +178,7 @@
 
         <fieldset class="templates">
             <legend>Templates xP</legend>
-            <p>Kule templatevariabler <span id="s1" onclick="clicked(this.id)">du</span> kan benytte deg av</p>
+            <p>Kule templatevariabler du kan benytte deg av</p>
             <ul>
                 <li>{{uuidgen}}</li>
                 <ul><li>en random UUID, f.eks. om du skal sende et behov med @behovId</li></ul>
