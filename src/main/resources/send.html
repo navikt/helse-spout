@@ -495,9 +495,9 @@
                     throw new Error(`Response status: ${response.status}`);
                 }
                 const json = await response.json();
-                callback(json)
+                callback({"tema": ["halloween", "høst", "jul", "nyttår", "sommer", "vanlig", "vår"]}); // FIXME: klarer visst ikke hente ut temaer i prod...
             } catch (error) {
-                callback({"tema": ["jul", "høst", "fake", "make", "lake", "cake", "hate"]});
+                callback({"tema": ["halloween", "høst", "jul", "nyttår", "sommer", "vanlig", "vår"]});
             }
         }
 
