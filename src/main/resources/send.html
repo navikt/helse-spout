@@ -42,6 +42,9 @@
             fieldset.melding {
                 border-color: var(--melding-border);
             }
+            fieldset.temaui {
+                border-color: var(--temaui-border);
+            }
             marquee {
                 width: 300px;
                 display: block;
@@ -136,6 +139,19 @@
             #title:before {
                 content: var(--tog);
             }
+
+            #temavelger {
+                display: grid;
+                grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+            }
+            .temavalg {
+                display: grid;
+                grid-template-columns: 1fr 2fr 2fr;
+            }
+            .temavalgnavn {
+                padding-left: 4em;
+                padding-top: 0.5em;
+            }
         </style>
     </head>
     <body class="{{environment}}">
@@ -213,6 +229,10 @@
             <legend>Melding <3</legend>
             <div id="jsoneditor"></div>
         </fieldset>
+    <fieldset class="temaui">
+        <legend>Tema</legend>
+        <div id="temavelger">Hei. Her burde det komme en temavelger</div>
+    </fieldset>
     </div>
         <script type="module">
             import { JSONEditor, createAjvValidator } from 'https://cdn.jsdelivr.net/npm/vanilla-jsoneditor@0.16.0/index.js'
@@ -448,6 +468,7 @@
         </script>
     <script defer>
         function setTema(temaNavn) {
+            console.log("setter tema til " + temaNavn);
             fjernTema();
             leggTilTema(temaNavn);
         }
@@ -466,12 +487,64 @@
             document.head.appendChild(temaElement);
         }
 
-        let favoritt = window.localStorage.getItem("mitt_favoritttema");
-        if (favoritt === undefined) {} else if (favoritt === null) {}
-        else {
-            console.log("setter favoritt-tema " + favoritt);
-            setTema(favoritt);
+        async function hentTemaer(callback) {
+            const url = "tema";
+            try {
+                const response = await fetch(url);
+                if (!response.ok) {
+                    throw new Error(`Response status: ${response.status}`);
+                }
+                const json = await response.json();
+                callback(json)
+            } catch (error) {
+                callback({"tema": ["jul", "høst", "fake", "make", "lake", "cake", "hate"]});
+            }
         }
+
+        function setSomFavorittTema(tema) {
+            window.localStorage.setItem("mitt_favoritttema", tema);
+        }
+
+        function setFavorittTema() {
+            let favoritt = window.localStorage.getItem("mitt_favoritttema");
+            if (favoritt === undefined) {} else if (favoritt === null) {}
+            else {
+                console.log("setter favoritt-tema " + favoritt);
+                setTema(favoritt);
+            }
+        }
+
+        function byggTemaliste(jsonMedTemaer) {
+            console.log("dette er payloaden jeg skal jobbe med:");
+            console.log(jsonMedTemaer);
+            let temavelger = document.getElementById("temavelger");
+            temavelger.childNodes.forEach((child) => { temavelger.removeChild(child); });
+            jsonMedTemaer.tema.forEach((tema) => {
+                let temavalg = document.createElement("div");
+                temavalg.classList.add("temavalg")
+
+                let temavalgNavn = document.createElement("span")
+                temavalgNavn.innerText = tema;
+                temavalgNavn.classList.add("temavalgnavn")
+                temavalgNavn.innerText = tema;
+                temavalg.appendChild(temavalgNavn);
+
+                let settNuKnapp = document.createElement("button");
+                settNuKnapp.innerText = "sett nå"
+                settNuKnapp.addEventListener("click", (x, ev) => { setTema(tema); })
+                temavalg.appendChild(settNuKnapp)
+
+                let settFavorittKnapp = document.createElement("button");
+                settFavorittKnapp.innerText = "du er min favoritt"
+                settFavorittKnapp.addEventListener("click", (x, ev) => { setSomFavorittTema(tema); })
+                temavalg.appendChild(settFavorittKnapp)
+
+                temavelger.appendChild(temavalg);
+            });
+        }
+
+        hentTemaer(byggTemaliste);
+        setFavorittTema();
     </script>
     </body>
 </html>
