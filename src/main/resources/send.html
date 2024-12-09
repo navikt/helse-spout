@@ -458,11 +458,19 @@
         }
 
         function leggTilTema(temaNavn) {
-            temaElement = document.createElement("link");
+            let temaElement = document.createElement("link");
             temaElement.rel = "stylesheet";
             temaElement.type = "text/css";
             temaElement.href = "/static/helt_" + temaNavn + ".css";
+            temaElement.id = "temalenke";
             document.head.appendChild(temaElement);
+        }
+
+        let favoritt = window.localStorage.getItem("mitt_favoritttema");
+        if (favoritt === undefined) {} else if (favoritt === null) {}
+        else {
+            console.log("setter favoritt-tema " + favoritt);
+            setTema(favoritt);
         }
     </script>
     </body>
