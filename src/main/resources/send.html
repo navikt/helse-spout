@@ -152,6 +152,9 @@
                 padding-left: 4em;
                 padding-top: 0.5em;
             }
+            .resetFavorittKnapp{
+                margin-left: 2em;
+            }
         </style>
     </head>
     <body class="{{environment}}">
@@ -232,6 +235,8 @@
     <fieldset class="temaui">
         <legend>Tema</legend>
         <div id="temavelger">Hei. Her burde det komme en temavelger</div>
+        <hr>
+        <div>Ditt favoritt-tema er <span id="favoritttema">ikke satt</span></div>
     </fieldset>
     </div>
         <script type="module">
@@ -503,12 +508,21 @@
 
         function setTemaSomFavoritt(tema) {
             window.localStorage.setItem("mitt_favoritttema", tema);
+            oppdaterFavorittTemaTekst();
         }
 
         function brukFavorittTema() {
-            let favoritt = window.localStorage.getItem("mitt_favoritttema");
-            if (favoritt === undefined) {} else if (favoritt === null) return
-            setTema(favoritt);
+            if (!favorittTemaErSatt()) return
+            setTema(hentFavorittTema());
+        }
+
+        function favorittTemaErSatt() {
+            let favoritt = hentFavorittTema()
+            return !(favoritt === undefined || favoritt === null);
+        }
+
+        function hentFavorittTema() {
+            return window.localStorage.getItem("mitt_favoritttema");
         }
 
         function byggTemaliste(jsonMedTemaer) {
@@ -538,7 +552,22 @@
             });
         }
 
+        function oppdaterFavorittTemaTekst() {
+            let tematekst = document.getElementById("favoritttema");
+            if (favorittTemaErSatt()) {
+                tematekst.innerText = hentFavorittTema();
+                let resetKnapp = document.createElement("button");
+                resetKnapp.innerText = "fjern favoritt"
+                resetKnapp.classList.add("resetFavorittKnapp");
+                resetKnapp.addEventListener("click", (x, ev) => { window.localStorage.removeItem("mitt_favoritttema"); location.reload(); });
+                tematekst.appendChild(resetKnapp);
+            } else {
+                tematekst.innerText = "ikke satt";
+            }
+        }
+
         hentTemaer(byggTemaliste);
+        oppdaterFavorittTemaTekst();
         brukFavorittTema();
     </script>
     </body>
