@@ -468,7 +468,6 @@
         </script>
     <script defer>
         function setTema(temaNavn) {
-            console.log("setter tema til " + temaNavn);
             fjernTema();
             leggTilTema(temaNavn);
         }
@@ -488,35 +487,31 @@
         }
 
         async function hentTemaer(callback) {
-            const url = "tema";
+            callback({"tema": ["halloween", "høst", "jul", "nyttår", "sommer", "vanlig", "vår"]}); // FIXME: klarer visst ikke hente ut temaer i prod...
+            /*const url = "tema";
             try {
                 const response = await fetch(url);
                 if (!response.ok) {
                     throw new Error(`Response status: ${response.status}`);
                 }
                 const json = await response.json();
-                callback({"tema": ["halloween", "høst", "jul", "nyttår", "sommer", "vanlig", "vår"]}); // FIXME: klarer visst ikke hente ut temaer i prod...
+
             } catch (error) {
                 callback({"tema": ["halloween", "høst", "jul", "nyttår", "sommer", "vanlig", "vår"]});
-            }
+            }*/
         }
 
-        function setSomFavorittTema(tema) {
+        function setTemaSomFavoritt(tema) {
             window.localStorage.setItem("mitt_favoritttema", tema);
         }
 
-        function setFavorittTema() {
+        function brukFavorittTema() {
             let favoritt = window.localStorage.getItem("mitt_favoritttema");
-            if (favoritt === undefined) {} else if (favoritt === null) {}
-            else {
-                console.log("setter favoritt-tema " + favoritt);
-                setTema(favoritt);
-            }
+            if (favoritt === undefined) {} else if (favoritt === null) return
+            setTema(favoritt);
         }
 
         function byggTemaliste(jsonMedTemaer) {
-            console.log("dette er payloaden jeg skal jobbe med:");
-            console.log(jsonMedTemaer);
             let temavelger = document.getElementById("temavelger");
             temavelger.childNodes.forEach((child) => { temavelger.removeChild(child); });
             jsonMedTemaer.tema.forEach((tema) => {
@@ -536,7 +531,7 @@
 
                 let settFavorittKnapp = document.createElement("button");
                 settFavorittKnapp.innerText = "du er min favoritt"
-                settFavorittKnapp.addEventListener("click", (x, ev) => { setSomFavorittTema(tema); })
+                settFavorittKnapp.addEventListener("click", (x, ev) => { setTemaSomFavoritt(tema); })
                 temavalg.appendChild(settFavorittKnapp)
 
                 temavelger.appendChild(temavalg);
@@ -544,7 +539,7 @@
         }
 
         hentTemaer(byggTemaliste);
-        setFavorittTema();
+        brukFavorittTema();
     </script>
     </body>
 </html>
