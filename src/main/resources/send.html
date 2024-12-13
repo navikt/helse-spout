@@ -45,6 +45,9 @@
             fieldset.temaui {
                 border-color: var(--temaui-border);
             }
+            fieldset.gone {
+                display: none;
+            }
             marquee {
                 width: 300px;
                 display: block;
@@ -232,7 +235,7 @@
             <legend>Melding <3</legend>
             <div id="jsoneditor"></div>
         </fieldset>
-    <fieldset class="temaui">
+    <fieldset class="temaui gone" id="temaui">
         <legend>Tema</legend>
         <div id="temavelger">Hei. Her burde det komme en temavelger</div>
         <hr>
@@ -564,6 +567,10 @@
             } else {
                 tematekst.innerText = "ikke satt";
             }
+        }
+
+        function activateThemes() {
+            document.getElementById("temaui").classList.toggle("gone", false);
         }
 
         hentTemaer(byggTemaliste);
