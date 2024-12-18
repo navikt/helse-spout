@@ -110,7 +110,6 @@ private suspend fun RoutingContext.spoutResponse(sendteMeldinger: List<SendtMeld
 }
 private fun sendÉnMelding(sender: Sender, avsender: Avsender, begrunnelse: String, melding: ObjectNode): SendtMelding {
     return try {
-        val id = UUID.randomUUID()
         val tidspunkt = LocalDateTime.now()
 
         val json = objectMapper.readTree(
@@ -125,10 +124,12 @@ private fun sendÉnMelding(sender: Sender, avsender: Avsender, begrunnelse: Stri
             )
         ) as ObjectNode
 
+        val id = json.alfakrøllId
+        val eventName = json.eventName
+
         val fødselsnummer = json.fødselsnummerOrNull?.also {
             check(it.matches("\\d{11}".toRegex())) { "Gyldig 'fødselsnummer' må settes i meldingen" }
         }
-        val eventName = json.path("@event_name").asText()
         check(eventName.isNotBlank()) { "Må settes '@event_name' i meldingen" }
         json.replace("@avsender", avsender.json)
 
@@ -192,3 +193,12 @@ private data class SpoutRequest(val avsender: Avsender, val begrunnelse: String,
         }
     }
 }
+
+private val ObjectNode.eventName get() = path("@event_name").asText()
+
+private val ObjectNode.alfakrøllId get() = eventName.let { event -> when {
+    event == "inntektsmelding" || event.startsWith("sendt_søknad") || event.startsWith("ny_søknad") -> try { UUID.fromString(path("@id").asText()) } catch (_: Exception) {
+        error("Du må sette den opprinnelige @id når de spouter $event, ellers blir det krøll i Spedisjon med mapping mellom intern og ekstern id!!")
+    }
+    else -> UUID.randomUUID()
+}}
