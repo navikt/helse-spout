@@ -573,6 +573,10 @@
             document.getElementById("temaui").classList.toggle("gone", false);
         }
 
+        function deactivateThemes() {
+            document.getElementById("temaui").classList.toggle("gone", true);
+        }
+
         hentTemaer(byggTemaliste);
         oppdaterFavorittTemaTekst();
         brukFavorittTema();
