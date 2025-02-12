@@ -182,7 +182,6 @@
                 <option value="overstyr_tidslinje">Overstyr tidslinje</option>
                 <option value="person_påminnelse">Påminn person</option>
                 <option value="påminnelse">Påminn vedtaksperiode</option>
-                <option value="vedtaksperiode_venter_ikke">Fjern vedtaksperiode som stuck</option>
                 <option value="g_reguler">Reguler G for én person</option>
                 <option value="kjør_grunnbeløpsregulering">Reguler G for alle som trenger</option>
             </select>
@@ -327,7 +326,7 @@
                     nestePåminnelsestidspunkt: "{{now+1h}}",
                     tilstandsendringstidspunkt: "{{now-1h}}",
                     antallGangerPåminnet: 1,
-                    ønskerReberegning: false
+                    flagg: ["!ønskerReberegning"]
                 }
                 else if (event === 'annullering') json = {
                     '@event_name': "annullering",
@@ -432,11 +431,6 @@
                 }
                 else if (event === 'identifiser_stuck_vedtaksperioder') json = {
                     "@event_name": "identifiser_stuck_vedtaksperioder"
-                }
-                else if (event === 'vedtaksperiode_venter_ikke') json = {
-                    "@event_name": "vedtaksperiode_venter_ikke",
-                    fødselsnummer: "fyll_meg",
-                    vedtaksperiodeId: "fyll_meg"
                 }
                 else if (event === 'kjør_grunnbeløpsregulering') json = {
                     "@event_name": "kjør_grunnbeløpsregulering",
