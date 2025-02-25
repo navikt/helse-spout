@@ -170,9 +170,7 @@
                 <option value="anmodning_om_forkasting">Anmodning om forkasting</option>
                 <option value="annullering">Annuller utbetaling</option>
                 <option value="forkast_sykmeldingsperioder">Forkast sykmeldingsperioder</option>
-                <option value="gjenoppliv_vilkårsgrunnlag">Gjenoppliv vilkårsgrunnlag</option>
                 <option value="godkjenning">Godkjenning</option>
-                <option value="HentPersoninfoV3">Send behov om personinfo</option>
                 <option value="ident_opphørt">Ident opphørt</option>
                 <option value="identifiser_overlappende_perioder">Identifiser overlappende vedtaksperioder mot Infotrygd</option>
                 <option value="identifiser_stuck_vedtaksperioder">Identifiser stuck vedtaksperioder</option>
@@ -182,7 +180,7 @@
                 <option value="overstyr_tidslinje">Overstyr tidslinje</option>
                 <option value="person_påminnelse">Påminn person</option>
                 <option value="påminnelse">Påminn vedtaksperiode</option>
-                <option value="g_reguler">Reguler G for én person</option>
+                <option value="grunnbeløpsregulering">Reguler G for én person</option>
                 <option value="kjør_grunnbeløpsregulering">Reguler G for alle som trenger</option>
             </select>
         </fieldset>
@@ -398,13 +396,6 @@
                     '@event_name': "person_påminnelse",
                     fødselsnummer: "fyll_meg"
                 }
-                else if (event === 'gjenoppliv_vilkårsgrunnlag') json = {
-                    '@event_name': "gjenoppliv_vilkårsgrunnlag",
-                    fødselsnummer: "fyll_meg",
-                    nyttSkjæringstidspunkt: "fyll_meg_eller_fjern_meg",
-                    vilkårsgrunnlagId: "fyll_meg"
-                }
-
                 else if (event === 'overstyr_inntekt_og_refusjon') json = {
                     "@event_name": "overstyr_inntekt_og_refusjon",
                     "fødselsnummer": "fyll_meg",
@@ -456,7 +447,7 @@
                         }
                     ]
                 }
-                else if (event === "g_reguler") json = {
+                else if (event === "grunnbeløpsregulering") json = {
                     "@event_name": "grunnbeløpsregulering",
                     "fødselsnummer": "fyll_meg",
                     "skjæringstidspunkt": "fyll_meg"
