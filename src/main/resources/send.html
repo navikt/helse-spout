@@ -324,7 +324,12 @@
                     nestePåminnelsestidspunkt: "{{now+1h}}",
                     tilstandsendringstidspunkt: "{{now-1h}}",
                     antallGangerPåminnet: 1,
-                    flagg: ["!ønskerReberegning"]
+                    flagg: [
+                        "!ønskerReberegning",
+                        "!ønskerInntektFraAOrdningen",
+                        "!trengerReplay",
+                        "!forkastOverlappendeSykmeldingsperioderAndreArbeidsgivere"
+                    ]
                 }
                 else if (event === 'annullering') json = {
                     '@event_name': "annullering",
