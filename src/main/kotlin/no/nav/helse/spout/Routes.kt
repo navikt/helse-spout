@@ -196,8 +196,17 @@ private data class SpoutRequest(val avsender: Avsender, val begrunnelse: String,
 
 private val ObjectNode.eventName get() = path("@event_name").asText()
 
+private val DissaMåDuSetteAlfakrøllIdPå = setOf(
+    "inntektsmelding",
+    "arbeidsgiveropplysninger",
+    "korrigerte_arbeidsgiveropplysninger",
+    "selvbestemte_korrigerte_arbeidsgiveropplysninger",
+    "sendt_søknad",
+    "ny_søknad"
+)
+
 private val ObjectNode.alfakrøllId get() = eventName.let { event -> when {
-    event == "inntektsmelding" || event.startsWith("sendt_søknad") || event.startsWith("ny_søknad") -> try { UUID.fromString(path("@id").asText()) } catch (_: Exception) {
+    DissaMåDuSetteAlfakrøllIdPå.any { event.startsWith(it) } -> try { UUID.fromString(path("@id").asText()) } catch (_: Exception) {
         error("Du må sette den opprinnelige @id når de spouter $event, ellers blir det krøll i Spedisjon med mapping mellom intern og ekstern id!!")
     }
     else -> UUID.randomUUID()
