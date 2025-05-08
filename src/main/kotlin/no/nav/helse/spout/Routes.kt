@@ -71,13 +71,12 @@ private suspend fun RoutingContext.spoutRequest(resolveNavIdent: (call: Applicat
     val navIdent = resolveNavIdent(call)
     val navn = resolveNavn(call)
     val epost = resolveEpost(call)
-
-    val avsender = Avsender(navIdent, navn, epost)
-
     val parameters = call.receiveParameters()
 
     val begrunnelse = parameters.hent("begrunnelse").replace("=", "\\=")
     check(begrunnelse.length >= 15) { "Litt kort begrunnelse eller? 🤏 MÅ være minst 15 makreller lang!" }
+
+    val avsender = Avsender(navIdent, navn, epost, begrunnelse)
 
     val input = parameters.hent("json")
     val inputjson = objectMapper.readTree(input)
@@ -169,11 +168,12 @@ private data class SendtMelding(val metadata: ObjectNode, val melding: ObjectNod
     }
 }
 
-private data class Avsender(val navIdent: String, val navn: String, val epost: String) {
+private data class Avsender(val navIdent: String, val navn: String, val epost: String, val begrunnelse: String) {
     val json = objectMapper.createObjectNode()
         .put("NAVIdent", navIdent)
         .put("navn", navn)
         .put("epost", epost)
+        .put("begrunnelse", begrunnelse)
 }
 
 private data class SpoutRequest(val avsender: Avsender, val begrunnelse: String, private val json: ObjectNode): Iterable<ObjectNode> {
