@@ -178,6 +178,7 @@
                 <option value="kjør_spock">Trigge påminnelser fra Spock</option>
                 <option value="overstyr_inntekt_og_refusjon">Overstyr inntekt og refusjon</option>
                 <option value="overstyr_tidslinje">Overstyr tidslinje</option>
+                <option value="gjenoppta_behandling">Gjenoppta behandling</option>
                 <option value="person_påminnelse">Påminn person</option>
                 <option value="påminnelse">Påminn vedtaksperiode</option>
                 <option value="grunnbeløpsregulering">Reguler G for én person</option>
@@ -397,6 +398,10 @@
                     },
                     "@final": true,
                     "@besvart": "{{now}}"
+                }
+                else if (event === 'gjenoppta_behandling') json = {
+                    '@event_name': "gjenoppta_behandling",
+                    fødselsnummer: "fyll_meg"
                 }
                 else if (event === 'person_påminnelse') json = {
                     '@event_name': "person_påminnelse",
