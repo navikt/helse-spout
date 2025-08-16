@@ -6,7 +6,7 @@ val kafkaVersion = "3.9.0"
 val junitJupiterVersion = "5.12.1"
 
 plugins {
-    kotlin("jvm") version "2.2.0"
+    kotlin("jvm") version "2.2.10"
 }
 
 repositories {
