@@ -10,6 +10,7 @@ import io.ktor.server.http.content.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
+import io.ktor.server.util.url
 import no.nav.helse.spout.SendtMelding.Companion.kvittering
 import no.nav.helse.spout.SendtMelding.Companion.somSendtMelding
 import org.slf4j.LoggerFactory
@@ -98,11 +99,14 @@ private suspend fun RoutingContext.spoutResponse(sendteMeldinger: List<SendtMeld
     val query = sendteMeldinger.joinToString("%20OR%20") { "%22${it.id}%22"}
     val json = sendteMeldinger.kvittering { it.melding }
     val metadata = sendteMeldinger.kvittering { it.metadata }
+    val currentUrl = call.url()
+    val projectId = if(currentUrl.contains("dev")) "tbd-dev-7ff9" else "tbd-prod-eacd"
 
     val html = KVITTERING
         .replace("{{json}}", json.toPrettyString())
         .replace("{{metadata}}", metadata.toPrettyString())
         .replace("{{kibana}}", "https://logs.adeo.no/app/kibana#/discover?_a=(index:'tjenestekall-*',query:(language:lucene,query:'$query'))&_g=(time:(from:'${from}',mode:absolute,to:now))")
+        .replace("{{consoleCloudGoogle}}", "https://console.cloud.google.com/logs/query;query=jsonPayload.message:${query};customDuration=today?project=${projectId}")
         .velgTema(MonthDay.now())
 
     call.respondText(html, ContentType.Text.Html)
