@@ -10,15 +10,13 @@ import io.ktor.server.http.content.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
-import io.ktor.server.util.url
-import no.nav.helse.spout.SendtMelding.Companion.kvittering
-import no.nav.helse.spout.SendtMelding.Companion.somSendtMelding
-import org.slf4j.LoggerFactory
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.MonthDay
-import java.util.UUID
-import kotlin.Exception
+import java.util.*
+import no.nav.helse.spout.SendtMelding.Companion.kvittering
+import no.nav.helse.spout.SendtMelding.Companion.somSendtMelding
+import org.slf4j.LoggerFactory
 
 private val sikkerlogg = LoggerFactory.getLogger("tjenestekall")
 private val SEND = object {}.javaClass.getResource("/send.html")?.readText(Charsets.UTF_8) ?: throw IllegalStateException("Fant ikke send.html")
@@ -37,7 +35,7 @@ internal fun Route.spout(
 
     get {
         val mellomnavn = resolveNavn(call).split(" ").lastOrNull() ?: ""
-        val temadag = resolveTemadag(call)?: MonthDay.now()
+        val temadag = resolveTemadag(call) ?: MonthDay.now()
         val html = SEND
             .replace("{{innloggetbruker}}", mellomnavn)
             .replace("{{environment}}", "NAIS_CLUSTER_NAME".env("ingenting"))
@@ -96,11 +94,10 @@ private suspend fun RoutingContext.spoutRequest(resolveNavIdent: (call: Applicat
 
 private suspend fun RoutingContext.spoutResponse(sendteMeldinger: List<SendtMelding>) {
     val from = sendteMeldinger.minOf { it.tidspunkt }
-    val query = sendteMeldinger.joinToString("%20OR%20") { "%22${it.id}%22"}
+    val query = sendteMeldinger.joinToString("%20OR%20") { "%22${it.id}%22" }
     val json = sendteMeldinger.kvittering { it.melding }
     val metadata = sendteMeldinger.kvittering { it.metadata }
-    val currentUrl = call.url()
-    val projectId = if(currentUrl.contains("dev")) "tbd-dev-7ff9" else "tbd-prod-eacd"
+    val projectId = "GOOGLE_CLOUD_PROJECT".env("ingenting")
 
     val html = KVITTERING
         .replace("{{json}}", json.toPrettyString())
@@ -111,6 +108,7 @@ private suspend fun RoutingContext.spoutResponse(sendteMeldinger: List<SendtMeld
 
     call.respondText(html, ContentType.Text.Html)
 }
+
 private fun sendÉnMelding(sender: Sender, avsender: Avsender, begrunnelse: String, melding: ObjectNode): SendtMelding {
     return try {
         val tidspunkt = LocalDateTime.now()
@@ -180,7 +178,7 @@ private data class Avsender(val navIdent: String, val navn: String, val epost: S
         .put("begrunnelse", begrunnelse)
 }
 
-private data class SpoutRequest(val avsender: Avsender, val begrunnelse: String, private val json: ObjectNode): Iterable<ObjectNode> {
+private data class SpoutRequest(val avsender: Avsender, val begrunnelse: String, private val json: ObjectNode) : Iterable<ObjectNode> {
     override operator fun iterator() = object : Iterator<ObjectNode> {
         private var jsonArray = when (json.has("bulk")) {
             true -> (json.path("bulk") as ArrayNode).map { it as ObjectNode }
