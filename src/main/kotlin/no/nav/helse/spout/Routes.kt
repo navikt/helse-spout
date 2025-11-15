@@ -72,7 +72,7 @@ private suspend fun RoutingContext.spoutRequest(resolveNavIdent: (call: Applicat
     val epost = resolveEpost(call)
     val parameters = call.receiveParameters()
 
-    val begrunnelse = parameters.hent("begrunnelse").replace("=", "\\=")
+    val begrunnelse = settSammenEnBegrunnelse(parameters.hent("begrunnelse").replace("=", "\\="), parameters["issueLink"]?.replace("=", "\\="))
     check(begrunnelse.length >= 15) { "Litt kort begrunnelse eller? 🤏 MÅ være minst 15 makreller lang!" }
 
     val avsender = Avsender(navIdent, navn, epost, begrunnelse)
@@ -91,6 +91,10 @@ private suspend fun RoutingContext.spoutRequest(resolveNavIdent: (call: Applicat
 
     return SpoutRequest(avsender, begrunnelse, jsonInput)
 }
+
+fun settSammenEnBegrunnelse(begrunnelse: String, issueLink: String?) =
+    if (issueLink == null || issueLink.isBlank()) begrunnelse
+    else "$begrunnelse - se $issueLink"
 
 private suspend fun RoutingContext.spoutResponse(sendteMeldinger: List<SendtMelding>) {
     val from = sendteMeldinger.minOf { it.tidspunkt }

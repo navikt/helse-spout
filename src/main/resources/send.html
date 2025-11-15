@@ -189,6 +189,8 @@
             <legend>Begrunnelse :S</legend>
             <form method="post" action="/melding" id="sendmelding">
                 <input type="text" name="begrunnelse" size="100" required>
+                <label for="issueLink">slack-lenke?</label>
+                <input type="text" id="issueLink" name="issueLink" size="10">
                 <textarea hidden name="json" id="json"></textarea>
                 <br/><br/>
                 <button type="submit" id="rakett"></button>
