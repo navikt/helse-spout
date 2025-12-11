@@ -183,6 +183,7 @@
                 <option value="påminnelse">Påminn vedtaksperiode</option>
                 <option value="grunnbeløpsregulering">Reguler G for én person</option>
                 <option value="kjør_grunnbeløpsregulering">Reguler G for alle som trenger</option>
+                <option value="inntektsopplysninger_fra_lagret_inntektsmelding">Bruk inntektsopplysninger fra en lagret inntektsmelding i Spleis</option>
             </select>
         </fieldset>
         <fieldset class="begrunnelse">
@@ -466,6 +467,15 @@
                     "@event_name": "grunnbeløpsregulering",
                     "fødselsnummer": "fyll_meg",
                     "skjæringstidspunkt": "fyll_meg"
+                }
+                else if (event === "inntektsopplysninger_fra_lagret_inntektsmelding") json = {
+                    "@event_name": "inntektsopplysninger_fra_lagret_inntektsmelding",
+                    "yrkesaktivitetstype": "ARBEIDSTAKER",
+                    "fødselsnummer": "fyll_meg",
+                    "vedtaksperiodeId": "fyll_meg",
+                    "organisasjonsnummer": "fyll_meg",
+                    "inntektsmeldingMeldingsreferanseId": "fyll_meg",
+                    "inntektsmeldingOrganisasjonsnummer": null
                 }
 
                 else json = defaultJson
