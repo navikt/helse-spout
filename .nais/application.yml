@@ -55,8 +55,6 @@ spec:
     path: /metrics
   kafka:
     pool: {{kafkaPool}}
-  secureLogs:
-    enabled: true
   env:
     - name: SUBTEAM
       value: spleiselaget
