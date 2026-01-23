@@ -3,7 +3,7 @@ val logbackClassicVersion = "1.5.18"
 val logbackEncoderVersion = "8.0"
 val jacksonVersion = "2.18.3"
 val kafkaVersion = "4.1.0"
-val junitJupiterVersion = "5.12.1"
+val junitJupiterVersion = "6.0.2"
 
 plugins {
     kotlin("jvm") version "2.2.21"
