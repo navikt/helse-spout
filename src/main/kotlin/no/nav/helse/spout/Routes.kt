@@ -107,7 +107,7 @@ private suspend fun RoutingContext.spoutResponse(sendteMeldinger: List<SendtMeld
         .replace("{{json}}", json.toPrettyString())
         .replace("{{metadata}}", metadata.toPrettyString())
         .replace("{{kibana}}", "https://logs.adeo.no/app/kibana#/discover?_a=(index:'tjenestekall-*',query:(language:lucene,query:'$query'))&_g=(time:(from:'${from}',mode:absolute,to:now))")
-        .replace("{{consoleCloudGoogle}}", "https://console.cloud.google.com/logs/query;query=resource.type%3D%22k8s_container%22%0Aresource.labels.container_name%3D~%22%2528%3Fi%2529%2528spleis%7Cspenn%7Cspesialder%7Cspedisjon-async%7Csparkel-%5B%5E%5C%5Cs%5D*%7Cspre-styringsinfo*%7Cspiskammerset%5B%5E%5C%5Cs%5D*%2529%22;?project=${projectId}")
+        .replace("{{consoleCloudGoogle}}", "https://console.cloud.google.com/logs/query;query=jsonPayload.message:${query};customDuration=today?project=${projectId}")
         .velgTema(MonthDay.now())
 
     call.respondText(html, ContentType.Text.Html)
