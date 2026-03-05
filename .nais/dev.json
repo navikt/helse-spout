@@ -1,5 +1,6 @@
 {
   "ingresses": ["https://spout.ansatt.dev.nav.no"],
   "kafkaPool": "nav-dev",
-  "tenant" : "trygdeetaten.no"
+  "tenant" : "trygdeetaten.no",
+  "group" : "9046ac9d-bb00-47dc-bcfb-e5221bf8d7f9"
 }
