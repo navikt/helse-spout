@@ -1,4 +1,5 @@
 {
   "ingresses": ["https://spout.ansatt.dev.nav.no"],
-  "kafkaPool": "nav-dev"
+  "kafkaPool": "nav-dev",
+  "tenant" : "trygdeetaten.no"
 }

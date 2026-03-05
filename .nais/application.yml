@@ -41,7 +41,7 @@ spec:
       enabled: true
       autoLogin: true
     application:
-      tenant: nav.no
+      tenant: {{ tenant }}
       enabled: true
       claims:
         extra:

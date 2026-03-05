@@ -1,4 +1,5 @@
 {
   "ingresses": ["https://spout.ansatt.nav.no","https://spout.intern.nav.no"],
-  "kafkaPool": "nav-prod"
+  "kafkaPool": "nav-prod",
+  "tenant" : "nav.no"
 }
