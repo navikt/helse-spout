@@ -169,7 +169,6 @@
                 <option value="blank">Blanke ark</option>
                 <option value="anmodning_om_forkasting">Anmodning om forkasting</option>
                 <option value="annullering">Annuller utbetaling</option>
-                <option value="forkast_sykmeldingsperioder">Forkast sykmeldingsperioder</option>
                 <option value="godkjenning">Godkjenning</option>
                 <option value="ident_opphørt">Ident opphørt</option>
                 <option value="identifiser_overlappende_perioder">Identifiser overlappende vedtaksperioder mot Infotrygd</option>
@@ -353,13 +352,6 @@
                     begrunnelser: [
                         "Annet"
                     ]
-                }
-                else if (event === 'forkast_sykmeldingsperioder') json = {
-                    '@event_name': "forkast_sykmeldingsperioder",
-                    fødselsnummer: "fyll_meg",
-                    organisasjonsnummer: "fyll_meg",
-                    fom: "fyll_meg",
-                    tom: "fyll_meg"
                 }
                 else if  (event === 'infotrygdendring') json = {
                     "@event_name": "infotrygdendring",
