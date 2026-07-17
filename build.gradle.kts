@@ -1,12 +1,5 @@
-val ktorVersion = "3.2.3"
-val logbackClassicVersion = "1.5.25"
-val logbackEncoderVersion = "8.0"
-val jacksonVersion = "2.18.3"
-val kafkaVersion = "4.1.0"
-val junitJupiterVersion = "6.0.2"
-
 plugins {
-    kotlin("jvm") version "2.3.0"
+    kotlin("jvm") version "2.4.0"
 }
 
 repositories {
@@ -14,22 +7,24 @@ repositories {
 }
 
 dependencies {
-    implementation("ch.qos.logback:logback-classic:$logbackClassicVersion")
-    implementation("net.logstash.logback:logstash-logback-encoder:$logbackEncoderVersion")
+    implementation("ch.qos.logback:logback-classic:1.5.38")
+    implementation("net.logstash.logback:logstash-logback-encoder:9.0")
     implementation("com.papertrailapp:logback-syslog4j:1.0.0")
 
-    implementation("io.ktor:ktor-server-core:$ktorVersion")
-    implementation("io.ktor:ktor-server-cio:$ktorVersion")
-    implementation("io.ktor:ktor-server-auth:$ktorVersion")
-    implementation("io.ktor:ktor-server-auth-jwt:$ktorVersion") {
-        exclude(group = "junit")
-    }
-    implementation("com.fasterxml.jackson.module:jackson-module-kotlin:$jacksonVersion")
+    implementation(platform("io.ktor:ktor-bom:3.5.1"))
+    implementation("io.ktor:ktor-server-core")
+    implementation("io.ktor:ktor-server-cio")
+    implementation("io.ktor:ktor-server-auth")
+    implementation("io.ktor:ktor-server-auth-jwt")
 
-    implementation("org.apache.kafka:kafka-clients:$kafkaVersion")
+    implementation(platform("com.fasterxml.jackson:jackson-bom:2.22.1"))
+    implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 
-    testImplementation("org.junit.jupiter:junit-jupiter:$junitJupiterVersion")
-    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+    implementation("org.apache.kafka:kafka-clients:4.3.1")
+
+    testImplementation(platform("org.junit:junit-bom:6.1.1"))
+    testImplementation("org.junit.jupiter:junit-jupiter")
+    testImplementation(kotlin("test"))
 }
 
 kotlin {
