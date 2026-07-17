@@ -18,6 +18,7 @@ dependencies {
     implementation("io.ktor:ktor-server-auth-jwt")
 
     implementation(platform("com.fasterxml.jackson:jackson-bom:2.22.1"))
+    implementation(platform("tools.jackson:jackson-bom:3.2.1"))
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 
     implementation("org.apache.kafka:kafka-clients:4.3.1")
