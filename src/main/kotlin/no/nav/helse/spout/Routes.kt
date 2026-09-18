@@ -16,9 +16,9 @@ import java.time.MonthDay
 import java.util.*
 import no.nav.helse.spout.SendtMelding.Companion.kvittering
 import no.nav.helse.spout.SendtMelding.Companion.somSendtMelding
-import org.slf4j.LoggerFactory
+import no.nav.sykepenger.libs.logging.navngittLogger
 
-private val sikkerlogg = LoggerFactory.getLogger("tjenestekall")
+private val logger = navngittLogger("no.nav.helse.spout.Routes")
 private val SEND = object {}.javaClass.getResource("/send.html")?.readText(Charsets.UTF_8) ?: throw IllegalStateException("Fant ikke send.html")
 private val KVITTERING = object {}.javaClass.getResource("/kvittering.html")?.readText(Charsets.UTF_8) ?: throw IllegalStateException("Fant ikke kvittering.html")
 private fun Parameters.hent(key: String) = checkNotNull(get(key)?.takeUnless { it.isBlank() }) { "Mangler $key" }
@@ -52,7 +52,7 @@ internal fun Route.spout(
     post("/melding") {
         val spoutRequest = try { spoutRequest(resolveNavIdent, resolveNavn, resolveEpost) } catch (ex: Exception) {
             spoutResponse(listOf(ex.somSendtMelding))
-            sikkerlogg.error("Feil i request til Spout", ex)
+            logger.error("Feil i request til Spout", ex)
             return@post
         }
 
@@ -60,7 +60,7 @@ internal fun Route.spout(
             sendÉnMelding(sender, spoutRequest.avsender, spoutRequest.begrunnelse, melding)
         }
 
-        sikkerlogg.info("Behandlet ${sendtMeldinger.size} meldinger")
+        logger.info("Behandlet meldinger", "antall" to sendtMeldinger.size.toString())
 
         spoutResponse(sendtMeldinger)
     }
@@ -150,7 +150,7 @@ private fun sendÉnMelding(sender: Sender, avsender: Avsender, begrunnelse: Stri
         )
         return SendtMelding(metadata, sendtMelding, id, tidspunkt)
     } catch (ex: Exception) {
-        sikkerlogg.error("Feil ved sending av melding", ex)
+        logger.error("Feil ved sending av melding", ex)
         ex.somSendtMelding
     }
 }

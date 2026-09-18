@@ -1,11 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
-    <appender name="STDOUT_JSON" class="ch.qos.logback.core.ConsoleAppender">
-        <encoder class="net.logstash.logback.encoder.LogstashEncoder">
-            <customFields>{"subteam":"${SUBTEAM}"}</customFields>
-        </encoder>
-    </appender>
-
+    <!-- Audit-loggen er en egen compliance-kanal (CEF-format til syslog), ikke vanlig applikasjonslogging,
+         og skal derfor fortsatt gå utenom sykepenger-libs/logging sitt oppsett. -->
     <appender name="auditLogger" class="com.papertrailapp.logback.Syslog4jAppender">
         <layout class="ch.qos.logback.classic.PatternLayout">
             <pattern>%m%n%xEx</pattern>
@@ -23,21 +19,5 @@
         <appender-ref ref="auditLogger" />
     </logger>
 
-    <appender name="team-logs" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
-        <destination>team-logs.nais-system:5170</destination>
-        <encoder class="net.logstash.logback.encoder.LogstashEncoder">
-            <customFields>{"google_cloud_project":"${GOOGLE_CLOUD_PROJECT}","nais_namespace_name":"${NAIS_NAMESPACE}","nais_pod_name":"${HOSTNAME}","nais_container_name":"${NAIS_APP_NAME}"}</customFields>
-            <includeContext>false</includeContext>
-        </encoder>
-    </appender>
-
-    <logger name="no.nav.helse.rapids_rivers" level="DEBUG" />
-
-    <logger name="tjenestekall" level="DEBUG" additivity="false">
-        <appender-ref ref="team-logs"/>
-    </logger>
-
-    <root level="INFO">
-        <appender-ref ref="STDOUT_JSON"/>
-    </root>
+    <include resource="no/nav/sykepenger/libs/logging/logback-base.xml"/>
 </configuration>

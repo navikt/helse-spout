@@ -4,11 +4,11 @@ plugins {
 
 repositories {
     mavenCentral()
+    maven("https://github-package-registry-mirror.gc.nav.no/cached/maven-release")
 }
 
 dependencies {
-    implementation("ch.qos.logback:logback-classic:1.5.38")
-    implementation("net.logstash.logback:logstash-logback-encoder:9.0")
+    implementation("no.nav.sykepenger.libs:logging:20260829.1737")
     implementation("com.papertrailapp:logback-syslog4j:1.0.0")
 
     implementation(platform("io.ktor:ktor-bom:3.5.1"))
@@ -30,7 +30,7 @@ dependencies {
 
 kotlin {
     jvmToolchain {
-        languageVersion.set(JavaLanguageVersion.of("21"))
+        languageVersion.set(JavaLanguageVersion.of("25"))
     }
 }
 
