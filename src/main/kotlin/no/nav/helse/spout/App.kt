@@ -8,8 +8,7 @@ import io.ktor.server.cio.*
 import io.ktor.server.engine.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
-import java.net.URL
-
+import java.net.URI
 
 internal val String.env get() = checkNotNull(System.getenv(this)) { "Fant ikke environment variable $this" }
 internal fun String.env(default: String) = System.getenv(this)?: default
@@ -24,7 +23,7 @@ fun main() {
 private fun Application.spout() {
     authentication {
         jwt {
-            val jwkProvider = JwkProviderBuilder(URL("AZURE_OPENID_CONFIG_JWKS_URI".env)).build()
+            val jwkProvider = JwkProviderBuilder(URI("AZURE_OPENID_CONFIG_JWKS_URI".env).toURL()).build()
             verifier(jwkProvider, "AZURE_OPENID_CONFIG_ISSUER".env) {
                 withAudience("AZURE_APP_CLIENT_ID".env)
                 withClaimPresence("NAVident")
