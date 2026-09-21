@@ -248,6 +248,12 @@
             import { JSONEditor, createAjvValidator } from 'https://cdn.jsdelivr.net/npm/vanilla-jsoneditor@0.16.0/index.js'
 
             lagKonfetti()
+
+            // Sørg for at submit-bildet vises igjen når man kommer tilbake fra kvittering-siden
+            window.addEventListener("pageshow", function () {
+                document.getElementById("rakett").classList.remove("trykket")
+            })
+
             document.getElementById("sendmelding").onsubmit = function(e) {
                 e.preventDefault();
                 document.getElementById('rakett').classList.add('trykket')
