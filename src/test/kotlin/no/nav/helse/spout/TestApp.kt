@@ -11,7 +11,7 @@ fun main() {
                 sender = TestSender,
                 resolveNavIdent = { "localhost ident" },
                 resolveNavn = { "localhost navn" },
-                resolveEpost =  { "localhost@localhost.auu" }
+                resolveEpost = { "localhost@localhost.auu" },
             )
         }
     }.start(wait = true)

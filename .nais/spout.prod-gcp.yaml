@@ -1,0 +1,12 @@
+spec:
+  ingresses:
+    - "https://spout.ansatt.nav.no"
+    - "https://spout.intern.nav.no"
+  azure:
+    application:
+      tenant: nav.no
+      claims:
+        groups:
+          - id: c0227409-2085-4eb2-b487-c4ba270986a3
+  kafka:
+    pool: nav-prod

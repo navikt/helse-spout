@@ -1,0 +1,11 @@
+spec:
+  ingresses:
+    - "https://spout.ansatt.dev.nav.no"
+  azure:
+    application:
+      tenant: trygdeetaten.no
+      claims:
+        groups:
+          - id: 9046ac9d-bb00-47dc-bcfb-e5221bf8d7f9
+  kafka:
+    pool: nav-dev

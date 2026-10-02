@@ -15,8 +15,11 @@ class TemaTest {
         (1..30).desember blir "jul"
         31.desember blir "nyttår"
     }
+
     private infix fun MonthDay.blir(theme: String) = Assertions.assertEquals(theme, this.velgTema())
+
     private infix fun List<MonthDay>.blir(tema: String) = forEach { temadag -> temadag blir tema }
+
     private val Int.januar get() = MonthDay.of(1, this)
     private val IntRange.januar: List<MonthDay> get() = map { it.januar }
     private val Int.oktober get() = MonthDay.of(10, this)

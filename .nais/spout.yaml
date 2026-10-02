@@ -9,12 +9,7 @@ metadata:
     nginx.ingress.kubernetes.io/proxy-body-size: "4m"
     nginx.ingress.kubernetes.io/proxy-read-timeout: "300"
 spec:
-  image: {{image}}
   port: 8080
-  ingresses:
-    {{#each ingresses }}
-    - "{{this}}"
-    {{/each}}
   liveness:
     path: /isalive
     initialDelay: 5
@@ -41,19 +36,14 @@ spec:
       enabled: true
       autoLogin: true
     application:
-      tenant: {{ tenant }}
       enabled: true
       claims:
         extra:
           - "NAVident"
-        groups:
-          - id: {{group}}
       allowAllUsers: false
   prometheus:
     enabled: false
     path: /metrics
-  kafka:
-    pool: {{kafkaPool}}
   env:
     - name: SUBTEAM
       value: spleiselaget

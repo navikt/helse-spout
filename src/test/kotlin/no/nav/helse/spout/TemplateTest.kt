@@ -11,7 +11,6 @@ import java.time.LocalDateTime
 import java.util.UUID
 
 internal class TemplateTest {
-
     @Test
     fun `resolver ut uuider`() {
         val input = """{ "uuid": "{{uuidgen}}"}"""
@@ -64,6 +63,7 @@ internal class TemplateTest {
         assertEquals("Navn Navnesen", result.path("navn").asText())
         assertEquals("navn@epost.no", result.path("epost").asText())
     }
+
     @Test
     fun `resolver fødselsnummer`() {
         @Language("JSON")
@@ -76,13 +76,16 @@ internal class TemplateTest {
 
     private val tidspunkt = LocalDateTime.parse("2023-03-23T23:00:00.000000")
     private val objectMapper = jacksonObjectMapper()
-    private fun resolve(input: String) = Template.resolve(
-        input = input,
-        navIdent = "NAV Ident",
-        navn = "Navn Navnesen",
-        epost = "navn@epost.no",
-        tidspunkt = tidspunkt,
-        fødselsnummer = "12345678910",
-        begrunnelse = "en lang begrunnelse her"
-    ).let { objectMapper.readTree(it) as ObjectNode }
+
+    private fun resolve(input: String) =
+        Template
+            .resolve(
+                input = input,
+                navIdent = "NAV Ident",
+                navn = "Navn Navnesen",
+                epost = "navn@epost.no",
+                tidspunkt = tidspunkt,
+                fødselsnummer = "12345678910",
+                begrunnelse = "en lang begrunnelse her",
+            ).let { objectMapper.readTree(it) as ObjectNode }
 }

@@ -15,20 +15,24 @@ internal fun resolveTemadag(call: ApplicationCall): MonthDay? {
     }
 }
 
-internal fun MonthDay.velgTema(): String = when {
-    month == Month.DECEMBER && dayOfMonth != 31 -> "jul"
-    month == Month.DECEMBER && dayOfMonth == 31 -> "nyttår"
-    month == Month.OCTOBER && dayOfMonth > 23-> "halloween"
-    month == Month.JANUARY && dayOfMonth < 8 -> "nyttår"
-    month in setOf(Month.APRIL, Month.MAY) -> "vår"
-    month in setOf(Month.JUNE, Month.JULY, Month.AUGUST) -> "sommer"
-    else -> "vanlig"
-}
+internal fun MonthDay.velgTema(): String =
+    when {
+        month == Month.DECEMBER && dayOfMonth != 31 -> "jul"
+        month == Month.DECEMBER && dayOfMonth == 31 -> "nyttår"
+        month == Month.OCTOBER && dayOfMonth > 23 -> "halloween"
+        month == Month.JANUARY && dayOfMonth < 8 -> "nyttår"
+        month in setOf(Month.APRIL, Month.MAY) -> "vår"
+        month in setOf(Month.JUNE, Month.JULY, Month.AUGUST) -> "sommer"
+        else -> "vanlig"
+    }
+
 internal fun String.velgTema(temadag: MonthDay) = this.replace("tema.css", "helt_${temadag.velgTema()}.css")
 
-internal fun alleTema(classLoader: ClassLoader): Set<String> = classLoader.getResource("static")?.path?.let { statiskRessurs ->
-    File(statiskRessurs).listFiles()
-        ?.filter { fil -> fil.name.endsWith(".css") && fil.name.startsWith("helt_") }
-        ?.map { temaFil -> temaFil.name.substring(5).dropLast(4) }
-        ?.toSet()
-}?: emptySet()
+internal fun alleTema(classLoader: ClassLoader): Set<String> =
+    classLoader.getResource("static")?.path?.let { statiskRessurs ->
+        File(statiskRessurs)
+            .listFiles()
+            ?.filter { fil -> fil.name.endsWith(".css") && fil.name.startsWith("helt_") }
+            ?.map { temaFil -> temaFil.name.substring(5).dropLast(4) }
+            ?.toSet()
+    } ?: emptySet()

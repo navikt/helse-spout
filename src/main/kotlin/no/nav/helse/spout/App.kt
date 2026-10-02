@@ -11,10 +11,12 @@ import io.ktor.server.routing.*
 import java.net.URI
 
 internal val String.env get() = checkNotNull(System.getenv(this)) { "Fant ikke environment variable $this" }
-internal fun String.env(default: String) = System.getenv(this)?: default
-private val ApplicationCall.NAVident get() =  principal<JWTPrincipal>()!!["NAVident"] ?: throw IllegalStateException("Fant ikke NAVident")
-private val ApplicationCall.navn get() =  principal<JWTPrincipal>()!!["name"] ?: throw IllegalStateException("Fant ikke NAVident")
-private val ApplicationCall.epost get() =  principal<JWTPrincipal>()!!["preferred_username"] ?: throw IllegalStateException("Fant ikke NAVident")
+
+internal fun String.env(default: String) = System.getenv(this) ?: default
+
+private val ApplicationCall.NAVident get() = principal<JWTPrincipal>()!!["NAVident"] ?: throw IllegalStateException("Fant ikke NAVident")
+private val ApplicationCall.navn get() = principal<JWTPrincipal>()!!["name"] ?: throw IllegalStateException("Fant ikke NAVident")
+private val ApplicationCall.epost get() = principal<JWTPrincipal>()!!["preferred_username"] ?: throw IllegalStateException("Fant ikke NAVident")
 
 fun main() {
     embeddedServer(CIO, port = 8080, module = Application::spout).start(wait = true)
@@ -42,7 +44,7 @@ private fun Application.spout() {
                 sender = Kafka,
                 resolveNavIdent = { it.NAVident },
                 resolveNavn = { it.navn },
-                resolveEpost = { it.epost }
+                resolveEpost = { it.epost },
             )
         }
     }
