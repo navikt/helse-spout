@@ -12,7 +12,7 @@ jackson-module-kotlin = { module = "com.fasterxml.jackson.module:jackson-module-
 kafka-clients = "org.apache.kafka:kafka-clients:4.3.1"
 logback-syslog4j = "com.papertrailapp:logback-syslog4j:1.0.0"
 
-sykepengerLibs-logging = "no.nav.sykepenger.libs:logging:20260829.1737"
+sykepengerLibs-logging = "no.nav.sykepenger.libs:logging:20261001.1823"
 
 [bundles]
 ktor-server = [
