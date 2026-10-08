@@ -48,6 +48,9 @@ spec:
     - name: SUBTEAM
       value: spleiselaget
   observability:
+    autoInstrumentation:
+      enabled: true
+      runtime: java
     logging:
       destinations:
         - id: elastic
