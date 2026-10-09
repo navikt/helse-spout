@@ -27,6 +27,9 @@ spec:
     max: 2
     cpuThresholdPercentage: 90
   accessPolicy:
+    inbound:
+      rules:
+        - application: speil
     outbound:
       rules:
         - application: logging
