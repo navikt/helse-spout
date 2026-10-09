@@ -12,10 +12,13 @@ import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import no.nav.helse.spout.SendtMelding.Companion.kvittering
 import no.nav.helse.spout.SendtMelding.Companion.somSendtMelding
+import io.opentelemetry.api.trace.Span
 import no.nav.sykepenger.libs.logging.navngittLogger
+import java.time.Instant
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.MonthDay
+import java.time.temporal.ChronoUnit
 import java.util.*
 
 private val logger = navngittLogger("no.nav.helse.spout.Routes")
@@ -117,22 +120,81 @@ fun settSammenEnBegrunnelse(
     "$begrunnelse - se $issueLink"
 }
 
+private val ApplicationCall.vilHaJson get() =
+    request.acceptItems().any { ContentType.parse(it.value).match(ContentType.Application.Json) }
+
 private suspend fun RoutingContext.spoutResponse(sendteMeldinger: List<SendtMelding>) {
-    val from = sendteMeldinger.minOf { it.tidspunkt }
-    val query = sendteMeldinger.joinToString("%20OR%20") { "%22${it.id}%22" }
+    if (call.vilHaJson) return spoutJsonResponse(sendteMeldinger)
+
     val json = sendteMeldinger.kvittering { it.melding }
     val metadata = sendteMeldinger.kvittering { it.metadata }
-    val projectId = "GOOGLE_CLOUD_PROJECT".env("ingenting")
 
     val html =
         KVITTERING
             .replace("{{json}}", json.toPrettyString())
             .replace("{{metadata}}", metadata.toPrettyString())
-            .replace("{{kibana}}", "https://logs.adeo.no/app/kibana#/discover?_a=(index:'tjenestekall-*',query:(language:lucene,query:'$query'))&_g=(time:(from:'$from',mode:absolute,to:now))")
-            .replace("{{consoleCloudGoogle}}", "https://console.cloud.google.com/logs/query;query=jsonPayload.message:$query;customDuration=today?project=$projectId")
+            .replace("{{kibana}}", sendteMeldinger.kibanaUrl)
+            .replace("{{consoleCloudGoogle}}", sendteMeldinger.consoleCloudGoogleUrl)
+            .replace("{{trace}}", gjeldendeTraceUrl()?.let { """<a href="$it" target="_blank">Link til console.cloud.google for tracen</a><br/><br/>""" } ?: "")
             .velgTema(MonthDay.now())
 
     call.respondText(html, ContentType.Text.Html)
+}
+
+private suspend fun RoutingContext.spoutJsonResponse(sendteMeldinger: List<SendtMelding>) {
+    val meldinger =
+        objectMapper.createArrayNode().apply {
+            sendteMeldinger.forEach { sendtMelding ->
+                add(
+                    sendtMelding.feil?.let { objectMapper.createObjectNode().put("feil", it) }
+                        ?: objectMapper
+                            .createObjectNode()
+                            .put("id", "${sendtMelding.id}")
+                            .put("tidspunkt", "${sendtMelding.tidspunkt}")
+                            .setAll<ObjectNode>(mapOf("melding" to sendtMelding.melding, "metadata" to sendtMelding.metadata)),
+                )
+            }
+        }
+    val vellykkede = sendteMeldinger.filter { it.feil == null }
+    val body =
+        objectMapper.createObjectNode().apply {
+            replace("meldinger", meldinger)
+            val lenker = objectMapper.createObjectNode()
+            if (vellykkede.isNotEmpty()) {
+                lenker
+                    .put("kibana", vellykkede.kibanaUrl)
+                    .put("consoleCloudGoogle", vellykkede.consoleCloudGoogleUrl)
+            }
+            gjeldendeTraceUrl()?.let { lenker.put("trace", it) }
+            if (!lenker.isEmpty) replace("lenker", lenker)
+        }
+    val status = if (vellykkede.isEmpty()) HttpStatusCode.BadRequest else HttpStatusCode.OK
+    call.respondText(body.toString(), ContentType.Application.Json, status)
+}
+
+private val List<SendtMelding>.loggQuery get() = joinToString("%20OR%20") { "%22${it.id}%22" }
+
+private val List<SendtMelding>.kibanaUrl get() =
+    "https://logs.adeo.no/app/kibana#/discover?_a=(index:'tjenestekall-*',query:(language:lucene,query:'$loggQuery'))&_g=(time:(from:'${minOf { it.tidspunkt }}',mode:absolute,to:now))"
+
+private val List<SendtMelding>.consoleCloudGoogleUrl get() =
+    "https://console.cloud.google.com/logs/query;query=jsonPayload.message:$loggQuery;customDuration=today?project=${"GOOGLE_CLOUD_PROJECT".env("ingenting")}"
+
+private fun gjeldendeTraceUrl() =
+    Span
+        .current()
+        .spanContext
+        .takeIf { it.isValid }
+        ?.let { traceUrl(it.traceId, Instant.now(), "GOOGLE_CLOUD_PROJECT".env("ingenting")) }
+
+internal fun traceUrl(
+    traceId: String,
+    tidspunkt: Instant,
+    projectId: String,
+): String {
+    val start = tidspunkt.minus(1, ChronoUnit.HOURS).truncatedTo(ChronoUnit.MINUTES)
+    val slutt = tidspunkt.plus(1, ChronoUnit.HOURS).truncatedTo(ChronoUnit.MINUTES)
+    return "https://console.cloud.google.com/logs/query;query=jsonPayload.trace_id%3D%22$traceId%22;cursorTimestamp=$tidspunkt;startTime=$start;endTime=$slutt?project=$projectId"
 }
 
 private fun sendÉnMelding(
@@ -189,6 +251,7 @@ private data class SendtMelding(
     val melding: ObjectNode,
     val id: UUID,
     val tidspunkt: LocalDateTime,
+    val feil: String? = null,
 ) {
     companion object {
         private val epoch = LocalDate.EPOCH.atStartOfDay()
@@ -199,6 +262,7 @@ private data class SendtMelding(
                 melding = objectMapper.createObjectNode(),
                 tidspunkt = epoch,
                 id = nullId,
+                feil = "${this.message}",
             )
 
         fun List<SendtMelding>.kvittering(selector: (sendtMelding: SendtMelding) -> ObjectNode): JsonNode {

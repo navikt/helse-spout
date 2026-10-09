@@ -15,4 +15,7 @@ dependencies {
     implementation(libs.jackson.module.kotlin)
 
     implementation(libs.kafka.clients)
+    implementation(libs.opentelemetry.api)
+
+    testImplementation(libs.ktor.server.test.host)
 }
