@@ -38,6 +38,8 @@ spec:
     sidecar:
       enabled: true
       autoLogin: true
+      autoLoginIgnorePaths:
+        - /melding
     application:
       enabled: true
       claims:
