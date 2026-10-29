@@ -1,6 +1,6 @@
 [versions]
 ktor = "3.6.0"
-sykepengerGradlePlugins = "20261028.1441"
+sykepengerGradlePlugins = "20261029.1945"
 
 [libraries]
 ktor-server-auth = { module = "io.ktor:ktor-server-auth", version.ref = "ktor" }
@@ -14,7 +14,7 @@ kafka-clients = "org.apache.kafka:kafka-clients:4.4.0"
 opentelemetry-api = "io.opentelemetry:opentelemetry-api:1.67.0"
 logback-syslog4j = "com.papertrailapp:logback-syslog4j:1.0.0"
 
-sykepengerLibs-logging = "no.nav.sykepenger.libs:logging:20261013.1719"
+sykepengerLibs-logging = "no.nav.sykepenger.libs:logging:20261029.1851"
 
 [bundles]
 ktor-server = [
