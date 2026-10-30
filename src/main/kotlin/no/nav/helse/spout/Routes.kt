@@ -1,19 +1,19 @@
 package no.nav.helse.spout
 
-import com.fasterxml.jackson.databind.JsonNode
-import com.fasterxml.jackson.databind.node.ArrayNode
-import com.fasterxml.jackson.databind.node.ObjectNode
-import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.http.content.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
+import io.opentelemetry.api.trace.Span
 import no.nav.helse.spout.SendtMelding.Companion.kvittering
 import no.nav.helse.spout.SendtMelding.Companion.somSendtMelding
-import io.opentelemetry.api.trace.Span
 import no.nav.sykepenger.libs.logging.navngittLogger
+import tools.jackson.databind.JsonNode
+import tools.jackson.databind.node.ArrayNode
+import tools.jackson.databind.node.ObjectNode
+import tools.jackson.module.kotlin.jacksonObjectMapper
 import java.time.Instant
 import java.time.LocalDate
 import java.time.LocalDateTime
@@ -28,7 +28,7 @@ private val KVITTERING = object {}.javaClass.getResource("/kvittering.html")?.re
 private fun Parameters.hent(key: String) = checkNotNull(get(key)?.takeUnless { it.isBlank() }) { "Mangler $key" }
 
 private val objectMapper = jacksonObjectMapper()
-private val JsonNode.fødselsnummerOrNull get() = if (hasNonNull("fødselsnummer")) get("fødselsnummer").asText() else null
+private val JsonNode.fødselsnummerOrNull get() = if (hasNonNull("fødselsnummer")) get("fødselsnummer").asString() else null
 
 internal fun Route.spout(
     sender: Sender,
@@ -100,7 +100,7 @@ private suspend fun RoutingContext.spoutRequest(
 
     val jsonInput =
         when {
-            inputjson.hasNonNull("text") -> objectMapper.readTree(inputjson.path("text").asText())
+            inputjson.hasNonNull("text") -> objectMapper.readTree(inputjson.path("text").asString())
             inputjson.hasNonNull("json") -> inputjson.path("json")
             else -> error("Ugyldig input: må enten sende json i form av at 'text' er en jsonstring, eller så må 'json' settes til et jsonobjekt")
         }
@@ -151,7 +151,7 @@ private suspend fun RoutingContext.spoutJsonResponse(sendteMeldinger: List<Sendt
                             .createObjectNode()
                             .put("id", "${sendtMelding.id}")
                             .put("tidspunkt", "${sendtMelding.tidspunkt}")
-                            .setAll<ObjectNode>(mapOf("melding" to sendtMelding.melding, "metadata" to sendtMelding.metadata)),
+                            .setAll(mapOf("melding" to sendtMelding.melding, "metadata" to sendtMelding.metadata)),
                 )
             }
         }
@@ -298,7 +298,7 @@ private data class SpoutRequest(
         object : Iterator<ObjectNode> {
             private var jsonArray =
                 when (json.has("bulk")) {
-                    true -> (json.path("bulk") as ArrayNode).map { it as ObjectNode }
+                    true -> (json.path("bulk") as ArrayNode).values().map { it as ObjectNode }
                     else -> listOf(json)
                 }
 
@@ -313,7 +313,7 @@ private data class SpoutRequest(
         }
 }
 
-private val ObjectNode.eventName get() = path("@event_name").asText()
+private val ObjectNode.eventName get() = path("@event_name").asString()
 
 private val DissaMåDuSetteAlfakrøllIdPå =
     setOf(
@@ -330,7 +330,7 @@ private val ObjectNode.alfakrøllId get() =
         when {
             DissaMåDuSetteAlfakrøllIdPå.any { event.startsWith(it) } ->
                 try {
-                    UUID.fromString(path("@id").asText())
+                    UUID.fromString(path("@id").asString())
                 } catch (_: Exception) {
                     error("Du må sette den opprinnelige @id når de spouter $event, ellers blir det krøll i Spedisjon med mapping mellom intern og ekstern id!!")
                 }

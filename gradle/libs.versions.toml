@@ -9,7 +9,7 @@ ktor-server-cio = { module = "io.ktor:ktor-server-cio", version.ref = "ktor" }
 ktor-server-core = { module = "io.ktor:ktor-server-core", version.ref = "ktor" }
 ktor-server-test-host = { module = "io.ktor:ktor-server-test-host", version.ref = "ktor" }
 
-jackson-module-kotlin = { module = "com.fasterxml.jackson.module:jackson-module-kotlin" }
+jackson-module-kotlin = { module = "tools.jackson.module:jackson-module-kotlin" }
 kafka-clients = "org.apache.kafka:kafka-clients:4.4.0"
 opentelemetry-api = "io.opentelemetry:opentelemetry-api:1.67.0"
 logback-syslog4j = "com.papertrailapp:logback-syslog4j:1.0.0"

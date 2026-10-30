@@ -1,11 +1,11 @@
 package no.nav.helse.spout
 
-import com.fasterxml.jackson.databind.node.ObjectNode
-import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import org.intellij.lang.annotations.Language
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertDoesNotThrow
+import tools.jackson.databind.node.ObjectNode
+import tools.jackson.module.kotlin.jacksonObjectMapper
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.util.UUID
@@ -15,7 +15,7 @@ internal class TemplateTest {
     fun `resolver ut uuider`() {
         val input = """{ "uuid": "{{uuidgen}}"}"""
         val result = resolve(input)
-        assertDoesNotThrow { UUID.fromString(result.path("uuid").asText()) }
+        assertDoesNotThrow { UUID.fromString(result.path("uuid").asString()) }
     }
 
     @Test
@@ -29,11 +29,11 @@ internal class TemplateTest {
             "tidspunktMinus4d": "{{now-4d}}"
         }"""
         val result = resolve(input)
-        assertEquals(tidspunkt, LocalDateTime.parse(result.path("tidspunkt").asText()))
-        assertEquals(tidspunkt.plusHours(1), LocalDateTime.parse(result.path("tidspunktPlus1h").asText()))
-        assertEquals(tidspunkt.plusDays(2), LocalDateTime.parse(result.path("tidspunktPlus2d").asText()))
-        assertEquals(tidspunkt.minusHours(3), LocalDateTime.parse(result.path("tidspunktMinus3h").asText()))
-        assertEquals(tidspunkt.minusDays(4), LocalDateTime.parse(result.path("tidspunktMinus4d").asText()))
+        assertEquals(tidspunkt, LocalDateTime.parse(result.path("tidspunkt").asString()))
+        assertEquals(tidspunkt.plusHours(1), LocalDateTime.parse(result.path("tidspunktPlus1h").asString()))
+        assertEquals(tidspunkt.plusDays(2), LocalDateTime.parse(result.path("tidspunktPlus2d").asString()))
+        assertEquals(tidspunkt.minusHours(3), LocalDateTime.parse(result.path("tidspunktMinus3h").asString()))
+        assertEquals(tidspunkt.minusDays(4), LocalDateTime.parse(result.path("tidspunktMinus4d").asString()))
     }
 
     @Test
@@ -45,9 +45,9 @@ internal class TemplateTest {
             "datoMinus1d": "{{today-1d}}"
         }"""
         val result = resolve(input)
-        assertEquals(tidspunkt.toLocalDate(), LocalDate.parse(result.path("dato").asText()))
-        assertEquals(tidspunkt.toLocalDate().plusDays(1), LocalDate.parse(result.path("datoPlus1d").asText()))
-        assertEquals(tidspunkt.toLocalDate().minusDays(1), LocalDate.parse(result.path("datoMinus1d").asText()))
+        assertEquals(tidspunkt.toLocalDate(), LocalDate.parse(result.path("dato").asString()))
+        assertEquals(tidspunkt.toLocalDate().plusDays(1), LocalDate.parse(result.path("datoPlus1d").asString()))
+        assertEquals(tidspunkt.toLocalDate().minusDays(1), LocalDate.parse(result.path("datoMinus1d").asString()))
     }
 
     @Test
@@ -59,9 +59,9 @@ internal class TemplateTest {
             "epost": "{{epost}}"
         }"""
         val result = resolve(input)
-        assertEquals("NAV Ident", result.path("navIdent").asText())
-        assertEquals("Navn Navnesen", result.path("navn").asText())
-        assertEquals("navn@epost.no", result.path("epost").asText())
+        assertEquals("NAV Ident", result.path("navIdent").asString())
+        assertEquals("Navn Navnesen", result.path("navn").asString())
+        assertEquals("navn@epost.no", result.path("epost").asString())
     }
 
     @Test
@@ -71,7 +71,7 @@ internal class TemplateTest {
             "fødselsnummer": "{{fødselsnummer}}"
         }"""
         val result = resolve(input)
-        assertEquals("12345678910", result.path("fødselsnummer").asText())
+        assertEquals("12345678910", result.path("fødselsnummer").asString())
     }
 
     private val tidspunkt = LocalDateTime.parse("2023-03-23T23:00:00.000000")
