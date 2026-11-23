@@ -14,7 +14,7 @@ kafka-clients = "org.apache.kafka:kafka-clients:4.4.0"
 opentelemetry-api = "io.opentelemetry:opentelemetry-api:1.68.0"
 logback-syslog4j = "com.papertrailapp:logback-syslog4j:1.0.0"
 
-sykepengerLibs-logging = "no.nav.sykepenger.libs:logging:20261116.0849"
+sykepengerLibs-logging = "no.nav.sykepenger.libs:logging:20261120.1340"
 
 [bundles]
 ktor-server = [
