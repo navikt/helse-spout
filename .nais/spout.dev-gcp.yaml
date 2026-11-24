@@ -1,5 +1,6 @@
 spec:
   ingresses:
+    - "https://spout.intern.dev.nav.no"
     - "https://spout.ansatt.dev.nav.no"
   azure:
     application:
